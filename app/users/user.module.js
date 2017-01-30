@@ -10,29 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 // Modules
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
-var user_module_1 = require('./users/user.module');
-var app_routing_module_1 = require('./app-routing.module');
-var core_module_1 = require('./core/core.module');
-//Components
-var app_component_1 = require('./app.component');
-var AppModule = (function () {
-    function AppModule() {
+var user_routing_module_1 = require('./user-routing.module');
+// Components
+var user_login_component_1 = require('./user-login/user-login.component');
+var UserModule = (function () {
+    function UserModule() {
     }
-    AppModule = __decorate([
+    UserModule = __decorate([
         core_1.NgModule({
             imports: [
-                platform_browser_1.BrowserModule,
-                user_module_1.UserModule,
-                app_routing_module_1.AppRoutingModule,
-                core_module_1.CoreModule.forRoot()
+                user_routing_module_1.UserRoutingModule
             ],
-            declarations: [app_component_1.AppComponent],
-            bootstrap: [app_component_1.AppComponent]
+            declarations: [
+                user_login_component_1.UserLoginComponent
+            ],
+            exports: [],
+            providers: []
         }), 
         __metadata('design:paramtypes', [])
-    ], AppModule);
-    return AppModule;
+    ], UserModule);
+    return UserModule;
 }());
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+exports.UserModule = UserModule;
+//# sourceMappingURL=user.module.js.map

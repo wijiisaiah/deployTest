@@ -9,18 +9,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var AppComponent = (function () {
-    function AppComponent() {
+var UserLoginService = (function () {
+    function UserLoginService() {
     }
-    AppComponent = __decorate([
-        core_1.Component({
-            selector: 'my-app',
-            template: " <div class=\"container\">\n        <router-outlet></router-outlet>\n    </div>\n    ",
-            styles: ["\n        .container {\n            margin-top: 5rem;\n        }\n    "]
-        }), 
+    UserLoginService = __decorate([
+        core_1.Injectable(), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], UserLoginService);
+    return UserLoginService;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.UserLoginService = UserLoginService;
+//# sourceMappingURL=user-login.service.js.map

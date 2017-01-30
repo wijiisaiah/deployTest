@@ -8,31 +8,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-// Modules
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
-var user_module_1 = require('./users/user.module');
-var app_routing_module_1 = require('./app-routing.module');
-var core_module_1 = require('./core/core.module');
-//Components
-var app_component_1 = require('./app.component');
-var AppModule = (function () {
-    function AppModule() {
+var router_1 = require('@angular/router');
+var user_login_component_1 = require('./user-login/user-login.component');
+var UserRoutingModule = (function () {
+    function UserRoutingModule() {
     }
-    AppModule = __decorate([
+    UserRoutingModule = __decorate([
         core_1.NgModule({
             imports: [
-                platform_browser_1.BrowserModule,
-                user_module_1.UserModule,
-                app_routing_module_1.AppRoutingModule,
-                core_module_1.CoreModule.forRoot()
+                router_1.RouterModule.forChild([
+                    { path: '', redirectTo: 'login', pathMatch: 'prefix' },
+                    { path: 'login', component: user_login_component_1.UserLoginComponent },
+                    { path: '**', redirectTo: 'login' }
+                ])
             ],
-            declarations: [app_component_1.AppComponent],
-            bootstrap: [app_component_1.AppComponent]
+            exports: [router_1.RouterModule]
         }), 
         __metadata('design:paramtypes', [])
-    ], AppModule);
-    return AppModule;
+    ], UserRoutingModule);
+    return UserRoutingModule;
 }());
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+exports.UserRoutingModule = UserRoutingModule;
+//# sourceMappingURL=user-routing.module.js.map

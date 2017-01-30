@@ -11,11 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var firebase = require('firebase');
 require('firebase/database');
+// require('firebase/authentication');
 var constants_1 = require('../constant/constants');
 var FirebaseConfigService = (function () {
+    // private _auth: firebase.auth.Auth;
     function FirebaseConfigService() {
         this.configureApp();
         this.configureDatabase();
+        // this.configureAuth();
     }
     Object.defineProperty(FirebaseConfigService.prototype, "database", {
         get: function () {
@@ -24,6 +27,9 @@ var FirebaseConfigService = (function () {
         enumerable: true,
         configurable: true
     });
+    // public get auth() {
+    //     return this._auth;
+    // }
     FirebaseConfigService.prototype.configureApp = function () {
         firebase.initializeApp(constants_1.FIREBASE_CONFIG);
     };

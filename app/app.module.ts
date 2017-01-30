@@ -2,6 +2,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { UserModule } from './users/user.module';
+import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 
 //Components
@@ -11,6 +12,7 @@ import { AppComponent } from './app.component';
     imports: [ 
         BrowserModule,
         UserModule,
+        AppRoutingModule,
         CoreModule.forRoot()
          ],
     declarations: [ AppComponent ],

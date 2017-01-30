@@ -1,9 +1,9 @@
 "use strict";
 exports.FIREBASE_CONFIG = {
-    apiKey: "AIzaSyBNkHXwpLxOpFG01KCAij6upKjaDEEbsks",
-    authDomain: "bugged-out-6f8c6.firebaseapp.com",
-    databaseURL: "https://bugged-out-6f8c6.firebaseio.com",
-    storageBucket: "bugged-out-6f8c6.appspot.com",
-    messagingSenderId: "149858173565"
+    apiKey: "AIzaSyDI5gkDdas1zz45zhbP34xJ8_V8ZbawGag",
+    authDomain: "mazdis-sabps.firebaseapp.com",
+    databaseURL: "https://mazdis-sabps.firebaseio.com",
+    storageBucket: "mazdis-sabps.appspot.com",
+    messagingSenderId: "1068216834283"
 };
 //# sourceMappingURL=constants.js.map

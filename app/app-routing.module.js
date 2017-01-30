@@ -8,31 +8,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-// Modules
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
-var user_module_1 = require('./users/user.module');
-var app_routing_module_1 = require('./app-routing.module');
-var core_module_1 = require('./core/core.module');
-//Components
-var app_component_1 = require('./app.component');
-var AppModule = (function () {
-    function AppModule() {
+var router_1 = require('@angular/router');
+var AppRoutingModule = (function () {
+    function AppRoutingModule() {
     }
-    AppModule = __decorate([
+    AppRoutingModule = __decorate([
         core_1.NgModule({
             imports: [
-                platform_browser_1.BrowserModule,
-                user_module_1.UserModule,
-                app_routing_module_1.AppRoutingModule,
-                core_module_1.CoreModule.forRoot()
+                router_1.RouterModule.forRoot([])
             ],
-            declarations: [app_component_1.AppComponent],
-            bootstrap: [app_component_1.AppComponent]
+            exports: [router_1.RouterModule]
         }), 
         __metadata('design:paramtypes', [])
-    ], AppModule);
-    return AppModule;
+    ], AppRoutingModule);
+    return AppRoutingModule;
 }());
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+exports.AppRoutingModule = AppRoutingModule;
+//# sourceMappingURL=app-routing.module.js.map
