@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import * as firebase from 'firebase';
 require('firebase/database');
-// require('firebase/authentication');
+require('firebase/auth');
 
 import { FIREBASE_CONFIG } from '../constant/constants';
 
@@ -10,21 +10,21 @@ import { FIREBASE_CONFIG } from '../constant/constants';
 export class FirebaseConfigService {
 
     private _database: firebase.database.Database;
-    // private _auth: firebase.auth.Auth;
+    private _auth: firebase.auth.Auth;
 
     constructor() {
         this.configureApp();
         this.configureDatabase();
-        // this.configureAuth();
+        this.configureAuth();
     }
 
     public get database() {
         return this._database;
     }
 
-    // public get auth() {
-    //     return this._auth;
-    // }
+    public get auth() {
+        return this._auth;
+    }
 
     configureApp() {
         firebase.initializeApp(FIREBASE_CONFIG);
@@ -34,7 +34,7 @@ export class FirebaseConfigService {
         this._database = firebase.database();
     }
     
-    // configureAuth() {
-    //     this._auth = firebase.auth();
-    // }
+    configureAuth() {
+        this._auth = firebase.auth();
+    }
 }

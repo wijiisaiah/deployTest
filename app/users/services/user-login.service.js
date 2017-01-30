@@ -9,12 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var firebase_config_service_1 = require('../../core/service/firebase-config.service');
 var UserLoginService = (function () {
-    function UserLoginService() {
+    function UserLoginService(fire) {
+        this.fire = fire;
+        this.authRef = this.fire.auth;
     }
+    UserLoginService.prototype.authenticateUser = function (email, password) {
+        this.authRef.createUserWithEmailAndPassword(email, password)
+            .catch(function (err) {
+            console.log("Authentication Error", err);
+        });
+    };
     UserLoginService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [firebase_config_service_1.FirebaseConfigService])
     ], UserLoginService);
     return UserLoginService;
 }());

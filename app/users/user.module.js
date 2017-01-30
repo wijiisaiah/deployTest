@@ -13,6 +13,8 @@ var core_1 = require('@angular/core');
 var user_routing_module_1 = require('./user-routing.module');
 // Components
 var user_login_component_1 = require('./user-login/user-login.component');
+// Services
+var user_login_service_1 = require('./services/user-login.service');
 var UserModule = (function () {
     function UserModule() {
     }
@@ -25,7 +27,9 @@ var UserModule = (function () {
                 user_login_component_1.UserLoginComponent
             ],
             exports: [],
-            providers: []
+            providers: [
+                user_login_service_1.UserLoginService
+            ]
         }), 
         __metadata('design:paramtypes', [])
     ], UserModule);
