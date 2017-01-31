@@ -4,7 +4,9 @@ import { Component } from '@angular/core';
     selector: 'my-app',
     template: ` <div class="container">
         <router-outlet></router-outlet>
+        <map-map></map-map>
     </div>
+    
     `,
     styles: [`
         .container {

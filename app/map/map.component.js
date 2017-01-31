@@ -9,18 +9,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var AppComponent = (function () {
-    function AppComponent() {
+var MapComponent = (function () {
+    function MapComponent() {
     }
-    AppComponent = __decorate([
+    MapComponent = __decorate([
         core_1.Component({
-            selector: 'my-app',
-            template: " <div class=\"container\">\n        <router-outlet></router-outlet>\n        <map-map></map-map>\n    </div>\n    \n    ",
-            styles: ["\n        .container {\n            margin-top: 5rem;\n        }\n    "]
+            moduleId: module.id,
+            selector: 'map-map',
+            templateUrl: 'map.component.html',
+            styleUrls: ['map.component.css']
         }), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], MapComponent);
+    return MapComponent;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.MapComponent = MapComponent;
+//# sourceMappingURL=map.component.js.map

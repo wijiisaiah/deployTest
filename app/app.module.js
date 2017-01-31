@@ -16,6 +16,7 @@ var app_routing_module_1 = require('./app-routing.module');
 var core_module_1 = require('./core/core.module');
 //Components
 var app_component_1 = require('./app.component');
+var map_component_1 = require("./map/map.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -27,7 +28,10 @@ var AppModule = (function () {
                 app_routing_module_1.AppRoutingModule,
                 core_module_1.CoreModule.forRoot()
             ],
-            declarations: [app_component_1.AppComponent],
+            declarations: [
+                app_component_1.AppComponent,
+                map_component_1.MapComponent
+            ],
             bootstrap: [app_component_1.AppComponent]
         }), 
         __metadata('design:paramtypes', [])
