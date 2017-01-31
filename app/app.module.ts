@@ -7,6 +7,7 @@ import { CoreModule } from './core/core.module';
 
 //Components
 import { AppComponent } from './app.component';
+import {MapComponent} from "./map/map.component";
 
 @NgModule({
     imports: [ 
@@ -14,8 +15,11 @@ import { AppComponent } from './app.component';
         UserModule,
         AppRoutingModule,
         CoreModule.forRoot()
-         ],
-    declarations: [ AppComponent ],
+    ],
+    declarations: [
+        AppComponent,
+        MapComponent
+    ],
     bootstrap: [ AppComponent ]
 })
 

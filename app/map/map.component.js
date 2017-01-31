@@ -9,18 +9,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var AppComponent = (function () {
-    function AppComponent() {
+var MapComponent = (function () {
+    function MapComponent() {
     }
-    AppComponent = __decorate([
+    MapComponent.prototype.ngOnInit = function () {
+        var mapProp = {
+            center: new google.maps.LatLng(49.2827, -123.1207),
+            zoom: 16,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+    };
+    MapComponent = __decorate([
         core_1.Component({
-            selector: 'my-app',
-            template: " \n    <div class=\"col-sm-3\">\n        <router-outlet></router-outlet>\n    </div>\n    <map-map></map-map>\n    \n    ",
-            styles: ["\n        .container {\n            margin-top: 5rem;\n        }\n    "]
+            moduleId: module.id,
+            selector: 'map-map',
+            templateUrl: 'map.component.html',
+            styleUrls: ['map.component.css']
         }), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], MapComponent);
+    return MapComponent;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.MapComponent = MapComponent;
+//# sourceMappingURL=map.component.js.map
