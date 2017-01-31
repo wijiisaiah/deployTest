@@ -9,11 +9,7 @@ import { Component } from '@angular/core';
     <map-map></map-map>
     
     `,
-    styles: [`
-        .container {
-            margin-top: 5rem;
-        }
-    `]
+    styles: []
 })
 
 export class AppComponent { }

@@ -16,7 +16,7 @@ var AppComponent = (function () {
         core_1.Component({
             selector: 'my-app',
             template: " \n    <div class=\"col-sm-3\">\n        <router-outlet></router-outlet>\n    </div>\n    <map-map></map-map>\n    \n    ",
-            styles: ["\n        .container {\n            margin-top: 5rem;\n        }\n    "]
+            styles: []
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);

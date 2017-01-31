@@ -1,5 +1,8 @@
 #googleMap {
     width:75%;
     height:100%;
-    border: 2px solid blue;
+    margin: 0;
+}
+#infoWindow {
+
 }
