@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ParkingStation} from "../model/parkingStation";
+import {UserAuthenticationService} from "../users/services/user-authentication.service";
 declare let google: any;
 
 @Component({
@@ -11,16 +12,22 @@ declare let google: any;
 export class MapComponent implements OnInit {
     private map: any;
     private parkingStations: ParkingStation[];
-    private testParking: ParkingStation = new ParkingStation('testParking', 'UBC drive', 49.2827, -123.1207, 100, true);
     private markers: any;
+    private infowindows: any;
+    private infowindow: any;
 
-    constructor() { }
+    constructor(private uas: UserAuthenticationService) { }
 
     ngOnInit(){
-        this.parkingStations = [this.testParking];
+        let testParking: ParkingStation = new ParkingStation('UBC Sub', '606 Something drive', 'MazDome', 49.2827, -123.1207, 100, true);
+        let testParking2: ParkingStation = new ParkingStation('UBC asdf', '606 asdf drive', 'MazDome', 49.2727, -123.1207, 100, true);
+
+        this.parkingStations = [testParking, testParking2];
         this.markers = [];
+        this.infowindows = [];
         this.createMap();
         this.assignMarkersToParking();
+
     }
 
     private createMap(){
@@ -43,32 +50,50 @@ export class MapComponent implements OnInit {
             marker.setMap(this.map);
         }
     }
+
     private createMarker(parking: ParkingStation){
+        // Creating marker
+        let that = this;
         let marker = new google.maps.Marker({
             position: {lat: parking.lat, lng: parking.lng},
             map: this.map,
             title: parking.title
         });
 
+        // Creating Info Window which is related to this Parking Station
         let infowindow = new google.maps.InfoWindow({
-            content: this.makeHTMLforInfoWindow(parking)
+           content: `
+        <div id="infoWindow">
+             <h3>`+parking.title+`</h3><br>
+             <p> Address: `+parking.address+`<br>
+                 Type: `+parking.type+` <br>
+                 Size: `+parking.size+`
+             </p>
+            <div class="col-sm-9 offset-sm-3"></div>
+        </div>
+        <button class="btn btn-info" onclick="">Reserve</button>`,
         });
 
+        // Pushes the newly created Info Window to the array of info windows
+        this.infowindows.push(infowindow);
+
+        // Listener made to open InfoWindow when user clicks on a marker
         marker.addListener('click', function() {
+            // Closes all Info Windows before opening new one
+            for (let i=0;i<that.infowindows.length;i++) {
+                that.infowindows[i].close();
+            }
             infowindow.open(this.map, marker);
+        });
+
+        // Closes the info window if a click occurs on the map
+        this.map.addListener('click', function(){
+            infowindow.close(this.map, marker);
         });
 
         return marker;
     }
 
-    private makeHTMLforInfoWindow(parking: ParkingStation): string{
-        let title = parking.title;
-        let HTML = `
-            <div id="infoWindow">
-                <h1></h1>
-            </div>
-`;
-        return HTML;
-    }
+
 
 }

@@ -15,7 +15,7 @@ var UserAuthenticationComponent = (function () {
         this.UserAuthenticationService = UserAuthenticationService;
     }
     UserAuthenticationComponent.prototype.register = function () {
-        var email = "man@mazdis.com";
+        var email = "man4567@gmail.com";
         var password = "password";
         this.UserAuthenticationService.register(email, password);
         console.log("User Registered");

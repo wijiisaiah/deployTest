@@ -14,7 +14,7 @@ export class UserAuthenticationComponent {
 
     register() {
         
-        const email = "man@mazdis.com";
+        const email = "man4567@gmail.com";
         const password = "password";
 
         this.UserAuthenticationService.register(email, password);
