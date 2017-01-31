@@ -3,21 +3,21 @@ import { NgModule } from '@angular/core';
 import { UserRoutingModule } from './user-routing.module';
 
 // Components
-import { UserLoginComponent } from './user-login/user-login.component';
+import { UserAuthenticationComponent } from './user-authentication/user-authentication.component';
 
 // Services
-import { UserLoginService } from './services/user-login.service';
+import { UserAuthenticationService } from './services/user-authentication.service';
 
 @NgModule({
     imports: [ 
         UserRoutingModule 
         ],
     declarations: [
-        UserLoginComponent
+        UserAuthenticationComponent
     ],
     exports: [],
     providers: [
-        UserLoginService
+        UserAuthenticationService
     ]
 })
 export class UserModule { }
