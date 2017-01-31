@@ -12,9 +12,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var user_routing_module_1 = require('./user-routing.module');
 // Components
-var user_login_component_1 = require('./user-login/user-login.component');
+var user_authentication_component_1 = require('./user-authentication/user-authentication.component');
 // Services
-var user_login_service_1 = require('./services/user-login.service');
+var user_authentication_service_1 = require('./services/user-authentication.service');
 var UserModule = (function () {
     function UserModule() {
     }
@@ -24,11 +24,11 @@ var UserModule = (function () {
                 user_routing_module_1.UserRoutingModule
             ],
             declarations: [
-                user_login_component_1.UserLoginComponent
+                user_authentication_component_1.UserAuthenticationComponent
             ],
             exports: [],
             providers: [
-                user_login_service_1.UserLoginService
+                user_authentication_service_1.UserAuthenticationService
             ]
         }), 
         __metadata('design:paramtypes', [])

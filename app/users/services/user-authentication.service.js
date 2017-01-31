@@ -10,22 +10,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var firebase_config_service_1 = require('../../core/service/firebase-config.service');
-var UserLoginService = (function () {
-    function UserLoginService(fire) {
+var UserAuthenticationService = (function () {
+    function UserAuthenticationService(fire) {
         this.fire = fire;
         this.authRef = this.fire.auth;
     }
-    UserLoginService.prototype.authenticateUser = function (email, password) {
+    UserAuthenticationService.prototype.register = function (email, password) {
         this.authRef.createUserWithEmailAndPassword(email, password)
             .catch(function (err) {
-            console.log("Authentication Error", err);
+            console.log("Registration Error", err);
         });
     };
-    UserLoginService = __decorate([
+    UserAuthenticationService.prototype.login = function (email, password) {
+        this.authRef.signInWithEmailAndPassword(email, password)
+            .catch(function (err) {
+            console.log("Login Error", err);
+        });
+    };
+    UserAuthenticationService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [firebase_config_service_1.FirebaseConfigService])
-    ], UserLoginService);
-    return UserLoginService;
+    ], UserAuthenticationService);
+    return UserAuthenticationService;
 }());
-exports.UserLoginService = UserLoginService;
-//# sourceMappingURL=user-login.service.js.map
+exports.UserAuthenticationService = UserAuthenticationService;
+//# sourceMappingURL=user-authentication.service.js.map
