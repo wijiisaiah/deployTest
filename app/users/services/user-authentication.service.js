@@ -14,17 +14,31 @@ var UserAuthenticationService = (function () {
     function UserAuthenticationService(fire) {
         this.fire = fire;
         this.authRef = this.fire.auth;
+        this.databaseRef = this.fire.database.ref('/users');
     }
+    ;
     UserAuthenticationService.prototype.register = function (email, password) {
         this.authRef.createUserWithEmailAndPassword(email, password)
             .catch(function (err) {
-            console.log("Registration Error", err);
+            console.error("Registration Error", err);
         });
     };
     UserAuthenticationService.prototype.login = function (email, password) {
         this.authRef.signInWithEmailAndPassword(email, password)
             .catch(function (err) {
-            console.log("Login Error", err);
+            console.error("Login Error", err);
+        });
+    };
+    UserAuthenticationService.prototype.addUser = function (user) {
+        var newUserRef = this.databaseRef.push();
+        newUserRef.set({
+            name: user.name,
+            email: user.email,
+            address: user.address,
+            phoneNumber: user.phoneNumber
+        })
+            .catch(function (err) {
+            console.error("Unable to add new user to Db -", err);
         });
     };
     UserAuthenticationService = __decorate([

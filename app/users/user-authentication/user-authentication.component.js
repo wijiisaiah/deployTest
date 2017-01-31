@@ -10,15 +10,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var user_authentication_service_1 = require('../services/user-authentication.service');
+var user_1 = require('../model/user');
 var UserAuthenticationComponent = (function () {
     function UserAuthenticationComponent(UserAuthenticationService) {
         this.UserAuthenticationService = UserAuthenticationService;
+        this.currentUser = new user_1.User(null, null, null, null);
     }
     UserAuthenticationComponent.prototype.register = function () {
-        var email = "man4567@gmail.com";
+        var name = "Manolis";
+        var email = "manioannides@gmail.com";
         var password = "password";
         this.UserAuthenticationService.register(email, password);
         console.log("User Registered");
+        this.currentUser.email = email;
+        this.currentUser.name = name;
+        this.UserAuthenticationService.addUser(this.currentUser);
     };
     UserAuthenticationComponent.prototype.login = function () {
         var email = "manolis@alumni.ubc.ca";
