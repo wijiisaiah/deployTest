@@ -76,8 +76,8 @@ var MapComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'map-map',
-            templateUrl: 'map.component.html',
-            styleUrls: ['map.component.css']
+            template: '<div id="googleMap" class="col-sm-9 offset-sm-3"></div>',
+            styles: ["\n    #googleMap {\n        width:75%;\n        height:100%;\n        margin: 0;\n         }\n"]
         }), 
         __metadata('design:paramtypes', [user_authentication_service_1.UserAuthenticationService])
     ], MapComponent);

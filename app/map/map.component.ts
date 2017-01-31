@@ -6,8 +6,14 @@ declare let google: any;
 @Component({
     moduleId: module.id,
     selector: 'map-map',
-    templateUrl: 'map.component.html',
-    styleUrls: ['map.component.css']
+    template: '<div id="googleMap" class="col-sm-9 offset-sm-3"></div>',
+    styles: [`
+    #googleMap {
+        width:75%;
+        height:100%;
+        margin: 0;
+         }
+`   ]
 })
 export class MapComponent implements OnInit {
     private map: any;
@@ -54,6 +60,7 @@ export class MapComponent implements OnInit {
     private createMarker(parking: ParkingStation){
         // Creating marker
         let that = this;
+
         let marker = new google.maps.Marker({
             position: {lat: parking.lat, lng: parking.lng},
             map: this.map,
