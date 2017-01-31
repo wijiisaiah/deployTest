@@ -27,9 +27,10 @@ var UserLoginComponent = (function () {
             templateUrl: 'user-login.component.html',
             styleUrls: ['user-login.component.css']
         }), 
-        __metadata('design:paramtypes', [user_login_service_1.UserLoginService])
+        __metadata('design:paramtypes', [(typeof (_a = typeof user_login_service_1.UserLoginService !== 'undefined' && user_login_service_1.UserLoginService) === 'function' && _a) || Object])
     ], UserLoginComponent);
     return UserLoginComponent;
+    var _a;
 }());
 exports.UserLoginComponent = UserLoginComponent;
 //# sourceMappingURL=user-login.component.js.map
