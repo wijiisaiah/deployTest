@@ -15,7 +15,7 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
-            template: " <div class=\"container\">\n        <router-outlet></router-outlet>\n        <map-map></map-map>\n    </div>\n    \n    ",
+            template: " \n    <div class=\"col-sm-3\">\n        <router-outlet></router-outlet>\n    </div>\n    <map-map></map-map>\n    \n    ",
             styles: ["\n        .container {\n            margin-top: 5rem;\n        }\n    "]
         }), 
         __metadata('design:paramtypes', [])

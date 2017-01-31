@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'my-app',
-    template: ` <div class="container">
+    template: ` 
+    <div class="col-sm-3">
         <router-outlet></router-outlet>
-        <map-map></map-map>
     </div>
+    <map-map></map-map>
     
     `,
     styles: [`

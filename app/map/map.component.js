@@ -12,6 +12,14 @@ var core_1 = require('@angular/core');
 var MapComponent = (function () {
     function MapComponent() {
     }
+    MapComponent.prototype.ngOnInit = function () {
+        var mapProp = {
+            center: new google.maps.LatLng(49.2827, -123.1207),
+            zoom: 16,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+    };
     MapComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
