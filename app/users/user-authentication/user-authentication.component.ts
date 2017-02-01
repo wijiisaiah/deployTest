@@ -32,7 +32,7 @@ export class UserAuthenticationComponent {
 
     }
 
-    loginUser() {
+    login() {
 
         const email = (<HTMLInputElement>document.getElementById('argEmail')).value;
         const password = (<HTMLInputElement>document.getElementById('argPass')).value;

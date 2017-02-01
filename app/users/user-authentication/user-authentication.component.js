@@ -27,7 +27,7 @@ var UserAuthenticationComponent = (function () {
         console.log("User Registered");
         this.UserAuthenticationService.addUser(this.user);
     };
-    UserAuthenticationComponent.prototype.loginUser = function () {
+    UserAuthenticationComponent.prototype.login = function () {
         var email = document.getElementById('argEmail').value;
         var password = document.getElementById('argPass').value;
         this.UserAuthenticationService.login(email, password);

@@ -1,10 +1,9 @@
 <div id="myNav" class="overlay">
     <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
     <div class="overlay-content">
-        <!--<div [ngIf]="currentUser!==null">-->
-            <!--<h1>Welcome </h1>-->
-        <!--</div>-->
-        <h1>Welcome {{currentUser.displayName}}</h1>
+        <div *ngIf="currentUser">
+            <h1 id="welcome-text">Welcome {{currentUser.displayName}}</h1>
+        </div>
 
         <br>
         <a href="#">My Account</a>
