@@ -6,17 +6,19 @@ import { NgModule } from '@angular/core';
 
 // Components
 import {MapComponent} from "./map.component";
+import {MenuComponent} from "../menu/menu.component";
+import {AppModule} from "../app.module";
+import {BrowserModule} from "@angular/platform-browser";
 
 // Services
 
 @NgModule({
-    imports: [],
+    imports: [BrowserModule],
     declarations: [
-        MapComponent
+        MapComponent,
+        MenuComponent
     ],
     exports: [MapComponent],
-    providers: [
-
-    ]
+    providers: [  ]
 })
 export class MapModule { }

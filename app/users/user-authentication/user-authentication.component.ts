@@ -12,33 +12,37 @@ import { User } from '../model/user';
 })
 export class UserAuthenticationComponent {
 
-    private currentUser = new User(null, null, null, null);
 
+    private user: User = new User(null, null, null, null);
     constructor(private UserAuthenticationService: UserAuthenticationService) { }
 
     register() {
-        const name = "Manolis";
-        const email = "manioannides@gmail.com";
-        const password = "password";
+        // const name = "Manolis";
+        // const email = "manolis@alumni.ubc.ca";
+        // const password = "password";
+        this.user.name = (<HTMLInputElement>document.getElementById('argName')).value;
+        this.user.email = (<HTMLInputElement>document.getElementById('argEmail')).value;
+        const password = (<HTMLInputElement>document.getElementById('argPass')).value;
 
-        this.UserAuthenticationService.register(email, password);
+        this.UserAuthenticationService.register(this.user.name, this.user.email, password);
+
         console.log("User Registered");
 
-        this.currentUser.email = email;
-        this.currentUser.name = name;
+        this.UserAuthenticationService.addUser( this.user );
 
-        this.UserAuthenticationService.addUser(this.currentUser);
 
     }
 
     login() {
 
-        const email = "manolis@alumni.ubc.ca";
-        const password = "password";
+        const email = (<HTMLInputElement>document.getElementById('argEmail')).value;
+        const password = (<HTMLInputElement>document.getElementById('argPass')).value;
 
         this.UserAuthenticationService.login(email, password);
         console.log("User Authenticated");
 
     }
+
+
 
 }

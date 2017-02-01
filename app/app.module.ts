@@ -9,6 +9,7 @@ import {MapModule} from "./map/map.module";
 
 //Components
 import { AppComponent } from './app.component';
+import {MenuComponent} from "./menu/menu.component";
 @NgModule({
     imports: [ 
         BrowserModule,

@@ -15,16 +15,29 @@ var UserAuthenticationService = (function () {
         this.fire = fire;
         this.authRef = this.fire.auth;
         this.databaseRef = this.fire.database.ref('/users');
+        this.currentUser = this.fire.auth.currentUser;
     }
-    ;
-    UserAuthenticationService.prototype.register = function (email, password) {
+    UserAuthenticationService.prototype.register = function (name, email, password) {
+        var that = this;
         this.authRef.createUserWithEmailAndPassword(email, password)
+            .then(function (user) {
+            user.updateProfile({
+                displayName: name,
+                photoURL: ""
+            });
+            console.log(user);
+        })
             .catch(function (err) {
             console.error("Registration Error", err);
         });
     };
     UserAuthenticationService.prototype.login = function (email, password) {
+        var that = this;
         this.authRef.signInWithEmailAndPassword(email, password)
+            .then(function (user) {
+            that.currentUser = user;
+            console.log(that.currentUser);
+        })
             .catch(function (err) {
             console.error("Login Error", err);
         });

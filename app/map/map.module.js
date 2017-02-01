@@ -15,15 +15,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 // Components
 var map_component_1 = require("./map.component");
+var menu_component_1 = require("../menu/menu.component");
+var platform_browser_1 = require("@angular/platform-browser");
 // Services
 var MapModule = (function () {
     function MapModule() {
     }
     MapModule = __decorate([
         core_1.NgModule({
-            imports: [],
+            imports: [platform_browser_1.BrowserModule],
             declarations: [
-                map_component_1.MapComponent
+                map_component_1.MapComponent,
+                menu_component_1.MenuComponent
             ],
             exports: [map_component_1.MapComponent],
             providers: []

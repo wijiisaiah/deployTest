@@ -10,10 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var parkingStation_1 = require("../model/parkingStation");
-var user_authentication_service_1 = require("../users/services/user-authentication.service");
 var MapComponent = (function () {
-    function MapComponent(uas) {
-        this.uas = uas;
+    function MapComponent() {
     }
     MapComponent.prototype.ngOnInit = function () {
         var testParking = new parkingStation_1.ParkingStation('UBC Sub', '606 Something drive', 'MazDome', 49.2827, -123.1207, 100, true);
@@ -23,12 +21,48 @@ var MapComponent = (function () {
         this.infowindows = [];
         this.createMap();
         this.assignMarkersToParking();
+        //
+        // this.menu = new MenuComponent();
+        var centerControlDiv = document.createElement('div');
+        var centerControl = new this.CenterControl(centerControlDiv, this.map);
+        centerControlDiv.tabIndex = 1;
+        this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(centerControlDiv);
+    };
+    MapComponent.prototype.CenterControl = function (controlDiv, map) {
+        var that = this;
+        // Set CSS for the control border.
+        var controlUI = document.createElement('div');
+        controlUI.style.backgroundColor = '#fff';
+        controlUI.style.border = '2px solid #fff';
+        controlUI.style.borderRadius = '0';
+        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.marginTop = '5px';
+        controlUI.style.marginLeft = '10px';
+        controlUI.style.textAlign = 'center';
+        controlUI.title = 'Open Menu';
+        controlDiv.appendChild(controlUI);
+        // Set CSS for the control interior.
+        var controlText = document.createElement('div');
+        controlText.style.color = 'rgb(25,25,25)';
+        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+        controlText.style.fontSize = '16px';
+        controlText.style.lineHeight = '38px';
+        controlText.style.paddingLeft = '5px';
+        controlText.style.paddingRight = '5px';
+        controlText.innerHTML = 'Menu';
+        controlUI.appendChild(controlText);
+        // Setup the click event listeners: simply set the map to Chicago.
+        controlUI.addEventListener('click', function () {
+            document.getElementById("myNav").style.width = "75%";
+        });
     };
     MapComponent.prototype.createMap = function () {
         var mapProp = {
             center: new google.maps.LatLng(49.2827, -123.1207),
             zoom: 16,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeControl: false
         };
         this.map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
     };
@@ -76,10 +110,11 @@ var MapComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'map-map',
-            template: '<div id="googleMap" class="col-sm-9 offset-sm-3"></div>',
-            styles: ["\n    #googleMap {\n        width:75%;\n        height:100%;\n        margin: 0;\n         }\n"]
+            template: '<user-menu></user-menu>' +
+                '<div id="googleMap"></div>',
+            styles: ["\n    #googleMap {\n        width: 100%;\n        height:100%;\n        padding: 0;\n         }\n"]
         }), 
-        __metadata('design:paramtypes', [user_authentication_service_1.UserAuthenticationService])
+        __metadata('design:paramtypes', [])
     ], MapComponent);
     return MapComponent;
 }());

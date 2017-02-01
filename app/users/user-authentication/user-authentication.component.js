@@ -14,21 +14,22 @@ var user_1 = require('../model/user');
 var UserAuthenticationComponent = (function () {
     function UserAuthenticationComponent(UserAuthenticationService) {
         this.UserAuthenticationService = UserAuthenticationService;
-        this.currentUser = new user_1.User(null, null, null, null);
+        this.user = new user_1.User(null, null, null, null);
     }
     UserAuthenticationComponent.prototype.register = function () {
-        var name = "Manolis";
-        var email = "manioannides@gmail.com";
-        var password = "password";
-        this.UserAuthenticationService.register(email, password);
+        // const name = "Manolis";
+        // const email = "manolis@alumni.ubc.ca";
+        // const password = "password";
+        this.user.name = document.getElementById('argName').value;
+        this.user.email = document.getElementById('argEmail').value;
+        var password = document.getElementById('argPass').value;
+        this.UserAuthenticationService.register(this.user.name, this.user.email, password);
         console.log("User Registered");
-        this.currentUser.email = email;
-        this.currentUser.name = name;
-        this.UserAuthenticationService.addUser(this.currentUser);
+        this.UserAuthenticationService.addUser(this.user);
     };
     UserAuthenticationComponent.prototype.login = function () {
-        var email = "manolis@alumni.ubc.ca";
-        var password = "password";
+        var email = document.getElementById('argEmail').value;
+        var password = document.getElementById('argPass').value;
         this.UserAuthenticationService.login(email, password);
         console.log("User Authenticated");
     };
