@@ -18,6 +18,7 @@ export class UserAuthenticationService {
 
     register(name: string, email: string, password: string) {
         let that = this;
+        let temp: User = new User(name, null, email, null, null )
 
         this.authRef.createUserWithEmailAndPassword(email, password)
             .then(function (user) {
@@ -25,11 +26,15 @@ export class UserAuthenticationService {
                     displayName: name,
                     photoURL: ""
                 });
+                temp.uid = user.uid;
+                that.addUser(temp);
                 console.log(user);
             })
             .catch(function (err) {
                 console.error("Registration Error", err);
             });
+
+
 
     }
 
@@ -53,9 +58,10 @@ export class UserAuthenticationService {
 
     addUser(user: User) {
 
-        const newUserRef = this.databaseRef.push();
+        const newUserRef = this.databaseRef.push(user.uid);
         newUserRef.set({
             name: user.name,
+            uid: user.uid,
             email: user.email,
             address: user.address,
             phoneNumber: user.phoneNumber

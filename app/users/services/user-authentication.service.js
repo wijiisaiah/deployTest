@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var firebase_config_service_1 = require('../../core/service/firebase-config.service');
+var user_1 = require('../model/user');
 var UserAuthenticationService = (function () {
     function UserAuthenticationService(fire) {
         this.fire = fire;
@@ -19,12 +20,15 @@ var UserAuthenticationService = (function () {
     }
     UserAuthenticationService.prototype.register = function (name, email, password) {
         var that = this;
+        var temp = new user_1.User(name, null, email, null, null);
         this.authRef.createUserWithEmailAndPassword(email, password)
             .then(function (user) {
             user.updateProfile({
                 displayName: name,
                 photoURL: ""
             });
+            temp.uid = user.uid;
+            that.addUser(temp);
             console.log(user);
         })
             .catch(function (err) {
@@ -47,9 +51,10 @@ var UserAuthenticationService = (function () {
         console.log('signed out');
     };
     UserAuthenticationService.prototype.addUser = function (user) {
-        var newUserRef = this.databaseRef.push();
+        var newUserRef = this.databaseRef.push(user.uid);
         newUserRef.set({
             name: user.name,
+            uid: user.uid,
             email: user.email,
             address: user.address,
             phoneNumber: user.phoneNumber

@@ -14,7 +14,7 @@ var user_1 = require('../model/user');
 var UserAuthenticationComponent = (function () {
     function UserAuthenticationComponent(UserAuthenticationService) {
         this.UserAuthenticationService = UserAuthenticationService;
-        this.user = new user_1.User(null, null, null, null);
+        this.user = new user_1.User(null, null, null, null, null);
     }
     UserAuthenticationComponent.prototype.register = function () {
         // const name = "Manolis";
@@ -25,7 +25,7 @@ var UserAuthenticationComponent = (function () {
         var password = document.getElementById('argPass').value;
         this.UserAuthenticationService.register(this.user.name, this.user.email, password);
         console.log("User Registered");
-        this.UserAuthenticationService.addUser(this.user);
+        // this.UserAuthenticationService.addUser( this.user );
     };
     UserAuthenticationComponent.prototype.login = function () {
         var email = document.getElementById('argEmail').value;
