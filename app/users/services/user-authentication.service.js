@@ -42,6 +42,10 @@ var UserAuthenticationService = (function () {
             console.error("Login Error", err);
         });
     };
+    UserAuthenticationService.prototype.signOut = function () {
+        this.authRef.signOut();
+        console.log('signed out');
+    };
     UserAuthenticationService.prototype.addUser = function (user) {
         var newUserRef = this.databaseRef.push();
         newUserRef.set({

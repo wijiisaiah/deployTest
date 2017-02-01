@@ -22,6 +22,9 @@ var MenuComponent = (function () {
     MenuComponent.prototype.closeNav = function () {
         document.getElementById("myNav").style.width = "0%";
     };
+    MenuComponent.prototype.signOut = function () {
+        this.uas.signOut();
+    };
     MenuComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

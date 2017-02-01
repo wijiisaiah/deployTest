@@ -26,5 +26,9 @@ export class MenuComponent {
         document.getElementById("myNav").style.width = "0%";
     }
 
+    signOut(){
+        this.uas.signOut();
+    }
+
 
 }

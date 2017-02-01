@@ -46,6 +46,10 @@ export class UserAuthenticationService {
             });
 
     }
+    signOut(){
+        this.authRef.signOut();
+        console.log('signed out')
+    }
 
     addUser(user: User) {
 

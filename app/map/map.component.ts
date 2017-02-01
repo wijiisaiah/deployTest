@@ -53,7 +53,7 @@ export class MapComponent implements OnInit {
         let controlUI = document.createElement('div');
         controlUI.style.backgroundColor = '#fff';
         controlUI.style.border = '2px solid #fff';
-        controlUI.style.borderRadius = '0';
+        controlUI.style.borderRadius = '3px';
         controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
         controlUI.style.cursor = 'pointer';
         controlUI.style.marginTop = '5px';
@@ -70,12 +70,15 @@ export class MapComponent implements OnInit {
         controlText.style.lineHeight = '38px';
         controlText.style.paddingLeft = '5px';
         controlText.style.paddingRight = '5px';
-        controlText.innerHTML = 'Menu';
+        controlText.innerHTML =
+            '<div style="width: 35px;height: 5px;background-color: black;margin: 6px 0;"></div>' +
+            '<div style="width: 35px;height: 5px;background-color: black;margin: 6px 0;"></div>' +
+            '<div style="width: 35px;height: 5px;background-color: black;margin: 6px 0;"></div>' ;
         controlUI.appendChild(controlText);
 
         // Setup the click event listeners: simply set the map to Chicago.
         controlUI.addEventListener('click', function () {
-            document.getElementById("myNav").style.width = "75%";
+            document.getElementById("myNav").style.width = "25%";
         });
     }
 

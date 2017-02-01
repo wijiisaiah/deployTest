@@ -7,13 +7,13 @@ import { NgModule } from '@angular/core';
 // Components
 import {MapComponent} from "./map.component";
 import {MenuComponent} from "../menu/menu.component";
-import {AppModule} from "../app.module";
 import {BrowserModule} from "@angular/platform-browser";
+import {AppRoutingModule} from "../app-routing.module";
 
 // Services
 
 @NgModule({
-    imports: [BrowserModule],
+    imports: [BrowserModule, AppRoutingModule],
     declarations: [
         MapComponent,
         MenuComponent
