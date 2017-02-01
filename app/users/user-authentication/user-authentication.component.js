@@ -16,17 +16,20 @@ var UserAuthenticationComponent = (function () {
         this.UserAuthenticationService = UserAuthenticationService;
         this.currentUser = new user_1.User(null, null, null, null);
     }
-    UserAuthenticationComponent.prototype.register = function () {
-        var name = "Manolis";
-        var email = "manioannides@gmail.com";
-        var password = "password";
-        this.UserAuthenticationService.register(email, password);
+    UserAuthenticationComponent.prototype.registerUser = function () {
+        // const name = "Manolis";
+        // const email = "manioannides@gmail.com";
+        // const password = "obafemi9";
+        this.currentUser.name = document.getElementById("argName").value;
+        this.currentUser.email = document.getElementById("argEmail").value;
+        var password = document.getElementById("argPass").value;
+        this.UserAuthenticationService.register(this.currentUser.email, password);
         console.log("User Registered");
-        this.currentUser.email = email;
-        this.currentUser.name = name;
+        // this.currentUser.email = email;
+        // this.currentUser.name = name;
         this.UserAuthenticationService.addUser(this.currentUser);
     };
-    UserAuthenticationComponent.prototype.login = function () {
+    UserAuthenticationComponent.prototype.loginUser = function () {
         var email = "manolis@alumni.ubc.ca";
         var password = "password";
         this.UserAuthenticationService.login(email, password);

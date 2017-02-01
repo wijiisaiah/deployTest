@@ -16,23 +16,26 @@ export class UserAuthenticationComponent {
 
     constructor(private UserAuthenticationService: UserAuthenticationService) { }
 
-    register() {
-        
-        const name = "Manolis"
-        const email = "manioannides@gmail.com";
-        const password = "password";
+    registerUser() {
 
-        this.UserAuthenticationService.register(email, password);
+        // const name = "Manolis";
+        // const email = "manioannides@gmail.com";
+        // const password = "obafemi9";
+        this.currentUser.name = (<HTMLInputElement>document.getElementById("argName")).value;
+        this.currentUser.email = (<HTMLInputElement>document.getElementById("argEmail")).value;
+        const password = (<HTMLInputElement>document.getElementById("argPass")).value;
+
+        this.UserAuthenticationService.register(this.currentUser.email, password);
         console.log("User Registered");
 
-        this.currentUser.email = email;
-        this.currentUser.name = name;
+        // this.currentUser.email = email;
+        // this.currentUser.name = name;
 
         this.UserAuthenticationService.addUser(this.currentUser);
 
     }
 
-    login() {
+    loginUser() {
 
         const email = "manolis@alumni.ubc.ca";
         const password = "password";

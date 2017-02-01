@@ -43,7 +43,7 @@ export class UserAuthenticationService {
         .catch(err => {
             console.error("Unable to add new user to Db -", err);
         });
-        
+
     }
 
 }

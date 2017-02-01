@@ -3,6 +3,6 @@ export class User {
         public name: string,
         public email: string,
         public address: string,
-        public phoneNumber: Number
+        public phoneNumber: Number,
     ) {}
 }
