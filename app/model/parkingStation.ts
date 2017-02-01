@@ -5,6 +5,7 @@ export class ParkingStation{
     constructor(
         public title: string,
         public address: string,
+        public type: string,
         public lat: number,
         public lng: number,
         public size: number,

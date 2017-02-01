@@ -12,37 +12,36 @@ import { User } from '../model/user';
 })
 export class UserAuthenticationComponent {
 
-    private currentUser = new User(null, null, null, null);
 
+    private user: User = new User(null, null, null, null);
     constructor(private UserAuthenticationService: UserAuthenticationService) { }
 
-    registerUser() {
-
+    register() {
         // const name = "Manolis";
-        // const email = "manioannides@gmail.com";
-        // const password = "obafemi9";
-        this.currentUser.name = (<HTMLInputElement>document.getElementById("argName")).value;
-        this.currentUser.email = (<HTMLInputElement>document.getElementById("argEmail")).value;
-        const password = (<HTMLInputElement>document.getElementById("argPass")).value;
+        // const email = "manolis@alumni.ubc.ca";
+        // const password = "password";
+        this.user.name = (<HTMLInputElement>document.getElementById('argName')).value;
+        this.user.email = (<HTMLInputElement>document.getElementById('argEmail')).value;
+        const password = (<HTMLInputElement>document.getElementById('argPass')).value;
 
-        this.UserAuthenticationService.register(this.currentUser.email, password);
+        this.UserAuthenticationService.register(this.user.name, this.user.email, password);
+
         console.log("User Registered");
 
-        // this.currentUser.email = email;
-        // this.currentUser.name = name;
-
-        this.UserAuthenticationService.addUser(this.currentUser);
+        this.UserAuthenticationService.addUser( this.user );
 
     }
 
     loginUser() {
 
-        const email = "manolis@alumni.ubc.ca";
-        const password = "password";
+        const email = (<HTMLInputElement>document.getElementById('argEmail')).value;
+        const password = (<HTMLInputElement>document.getElementById('argPass')).value;
 
         this.UserAuthenticationService.login(email, password);
         console.log("User Authenticated");
 
     }
+
+
 
 }

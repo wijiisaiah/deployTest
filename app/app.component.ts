@@ -1,15 +1,19 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
     selector: 'my-app',
     template: ` 
-    <div class="col-sm-3">
+    <div class="col-sm-12">
         <router-outlet></router-outlet>
     </div>
-    <map-map></map-map>
     
     `,
-    styles: []
+    styles: [`
+        .col-sm-12 {
+            padding: 0;
+        }
+    `]
 })
 
-export class AppComponent { }
+export class AppComponent {
+}

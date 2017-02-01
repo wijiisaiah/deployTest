@@ -8,35 +8,32 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+/**
+ * Created by Isaiah on 2017-01-31.
+ */
 // Modules
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
-var user_module_1 = require('./users/user.module');
-var app_routing_module_1 = require('./app-routing.module');
-var core_module_1 = require('./core/core.module');
-var map_module_1 = require("./map/map.module");
-//Components
-var app_component_1 = require('./app.component');
-var AppModule = (function () {
-    function AppModule() {
+// Components
+var map_component_1 = require("./map.component");
+var menu_component_1 = require("../menu/menu.component");
+var platform_browser_1 = require("@angular/platform-browser");
+// Services
+var MapModule = (function () {
+    function MapModule() {
     }
-    AppModule = __decorate([
+    MapModule = __decorate([
         core_1.NgModule({
-            imports: [
-                platform_browser_1.BrowserModule,
-                user_module_1.UserModule,
-                map_module_1.MapModule,
-                app_routing_module_1.AppRoutingModule,
-                core_module_1.CoreModule.forRoot()
-            ],
+            imports: [platform_browser_1.BrowserModule],
             declarations: [
-                app_component_1.AppComponent
+                map_component_1.MapComponent,
+                menu_component_1.MenuComponent
             ],
-            bootstrap: [app_component_1.AppComponent]
+            exports: [map_component_1.MapComponent],
+            providers: []
         }), 
         __metadata('design:paramtypes', [])
-    ], AppModule);
-    return AppModule;
+    ], MapModule);
+    return MapModule;
 }());
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+exports.MapModule = MapModule;
+//# sourceMappingURL=map.module.js.map

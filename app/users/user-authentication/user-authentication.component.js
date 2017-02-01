@@ -14,24 +14,22 @@ var user_1 = require('../model/user');
 var UserAuthenticationComponent = (function () {
     function UserAuthenticationComponent(UserAuthenticationService) {
         this.UserAuthenticationService = UserAuthenticationService;
-        this.currentUser = new user_1.User(null, null, null, null);
+        this.user = new user_1.User(null, null, null, null);
     }
-    UserAuthenticationComponent.prototype.registerUser = function () {
+    UserAuthenticationComponent.prototype.register = function () {
         // const name = "Manolis";
-        // const email = "manioannides@gmail.com";
-        // const password = "obafemi9";
-        this.currentUser.name = document.getElementById("argName").value;
-        this.currentUser.email = document.getElementById("argEmail").value;
-        var password = document.getElementById("argPass").value;
-        this.UserAuthenticationService.register(this.currentUser.email, password);
+        // const email = "manolis@alumni.ubc.ca";
+        // const password = "password";
+        this.user.name = document.getElementById('argName').value;
+        this.user.email = document.getElementById('argEmail').value;
+        var password = document.getElementById('argPass').value;
+        this.UserAuthenticationService.register(this.user.name, this.user.email, password);
         console.log("User Registered");
-        // this.currentUser.email = email;
-        // this.currentUser.name = name;
-        this.UserAuthenticationService.addUser(this.currentUser);
+        this.UserAuthenticationService.addUser(this.user);
     };
     UserAuthenticationComponent.prototype.loginUser = function () {
-        var email = "manolis@alumni.ubc.ca";
-        var password = "password";
+        var email = document.getElementById('argEmail').value;
+        var password = document.getElementById('argPass').value;
         this.UserAuthenticationService.login(email, password);
         console.log("User Authenticated");
     };

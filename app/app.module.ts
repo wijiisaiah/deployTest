@@ -5,20 +5,21 @@ import { UserModule } from './users/user.module';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 
+import {MapModule} from "./map/map.module";
+
 //Components
 import { AppComponent } from './app.component';
-import {MapComponent} from "./map/map.component";
-
+import {MenuComponent} from "./menu/menu.component";
 @NgModule({
     imports: [ 
         BrowserModule,
         UserModule,
+        MapModule,
         AppRoutingModule,
         CoreModule.forRoot()
     ],
     declarations: [
-        AppComponent,
-        MapComponent
+        AppComponent
     ],
     bootstrap: [ AppComponent ]
 })
