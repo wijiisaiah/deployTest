@@ -42,6 +42,12 @@ var MenuComponent = (function () {
             console.error("Unable to get current user -", err);
         });
     };
+    MenuComponent.prototype.replaceMenuPiece = function (target, source) {
+        console.log(target, source);
+        console.log(document.getElementById(target).outerHTML);
+        console.log(document.getElementById(source).outerHTML);
+        document.getElementById(target).outerHTML = document.getElementById(source).outerHTML;
+    };
     MenuComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

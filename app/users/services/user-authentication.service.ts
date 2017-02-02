@@ -40,8 +40,8 @@ export class UserAuthenticationService {
 
     login(email: string, password: string) {
         let that = this;
-       
-        this.authRef.signInWithEmailAndPassword(email, password)
+
+        return this.authRef.signInWithEmailAndPassword(email, password)
             .then(function(user){
                 that.currentUser = user;
                 console.log(that.currentUser)

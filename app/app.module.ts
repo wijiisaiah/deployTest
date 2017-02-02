@@ -10,6 +10,7 @@ import {MapModule} from "./map/map.module";
 //Components
 import { AppComponent } from './app.component';
 import {MenuComponent} from "./menu/menu.component";
+import {UserAccountComponent} from "./users/user-account/user-account.component";
 @NgModule({
     imports: [ 
         BrowserModule,
