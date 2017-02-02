@@ -4,7 +4,9 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { MapComponent } from "../map/map.component";
 import { UserAuthenticationService } from "../users/services/user-authentication.service";
+import { UserAccountComponent } from "../users/user-account/user-account.component";
 import { User } from "../users/model/user";
+declare let $:any;
 
 
 
@@ -46,6 +48,13 @@ export class MenuComponent implements OnInit {
             err => {
                 console.error("Unable to get current user -", err);
             });
+    }
+
+    replaceMenuPiece(target, source){
+        console.log(target, source);
+        console.log(document.getElementById(target).outerHTML);
+        console.log(document.getElementById(source).outerHTML);
+        document.getElementById(target).outerHTML= document.getElementById(source).outerHTML;
     }
 
 

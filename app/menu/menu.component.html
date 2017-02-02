@@ -2,14 +2,37 @@
     <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
     <div class="overlay-content">
         <div *ngIf="currentUser">
-            <h1 id="welcome-text">Welcome {{currentUser.name}}</h1>
+            <h1>Welcome {{currentUser.name}}</h1>
         </div>
-
-        <br>
-        <a href="#">My Account</a>
-        <a href="#">My Bookings</a>
-        <a href="#">Contact</a>
-        <a [routerLink]="['login']" (click)="signOut()">Sign Out</a>
+        <div id="replacement">
+            <br>
+            <a (click)="replaceMenuPiece('replacement', 'account')">My Account</a>
+            <a (click)="replaceMenuPiece('replacement', 'booking')">My Bookings</a>
+            <a (click)="replaceMenuPiece('replacement', 'account')">Contact</a>
+            <a [routerLink]="['/login']" (click)="signOut()">Sign Out</a>
+        </div>
     </div>
 </div>
 
+<div class="menu-pieces">
+    <div id="main-menu">
+        <br>
+        <a (click)="replaceMenuPiece('replacement', 'account')">My Account</a>
+        <a (click)="replaceMenuPiece('replacement', 'booking')">My Bookings</a>
+        <a (click)="replaceMenuPiece('replacement', 'account')">Contact</a>
+        <a [routerLink]="['/login']" (click)="signOut()">Sign Out</a>
+    </div>
+
+
+    <div id="account">
+        Account
+        <a (click)="replaceMenuPiece('replacement', 'main-menu')">Menu</a>
+    </div>
+
+
+    <div id="booking">
+        Bookings
+        <a (click)="replaceMenuPiece('replacement', 'main-menu')">Menu</a>
+    </div>
+
+</div>

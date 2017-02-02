@@ -26,13 +26,17 @@ var UserAuthenticationComponent = (function () {
         console.log("User Registered");
     };
     UserAuthenticationComponent.prototype.login = function () {
+        var that = this;
         var email = document.getElementById('argEmail').value;
         var password = document.getElementById('argPass').value;
-        this.UserAuthenticationService.login(email, password);
+        this.UserAuthenticationService.login(email, password)
+            .then(function () {
+            that.reRoute();
+        });
         console.log("User Authenticated");
     };
     UserAuthenticationComponent.prototype.reRoute = function () {
-        var attr = document.getElementById('login-modal').setAttribute('aria-hidden', 'true');
+        document.getElementById('login-modal').setAttribute('aria-hidden', 'true');
         this.router.navigate(['/map']);
     };
     UserAuthenticationComponent = __decorate([

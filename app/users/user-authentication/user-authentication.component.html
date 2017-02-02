@@ -11,7 +11,7 @@
                 <input type="text" name="name" placeholder="Name" id="argName">
                 <input type="text" name="email" placeholder="Email" id="argEmail">
                 <input type="password" name="pass" placeholder="Password" id="argPass">
-                <input type="button" name="login" class="login loginmodal-submit" value="Login" (click)="login(); reRoute()">
+                <input type="button" name="login" class="login loginmodal-submit" value="Login" data-dismiss="modal" (click)="login()">
                 <input type="button" name="register" class="register registermodal-submit" value="Register"
                        (click)="register()">
             </form>

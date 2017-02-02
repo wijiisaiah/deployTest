@@ -33,18 +33,21 @@ export class UserAuthenticationComponent {
     }
 
     login() {
-
+        let that = this;
         const email = (<HTMLInputElement>document.getElementById('argEmail')).value;
         const password = (<HTMLInputElement>document.getElementById('argPass')).value;
 
-        this.UserAuthenticationService.login(email, password);
+        this.UserAuthenticationService.login(email, password)
+            .then(()=> {
+                that.reRoute();
+            });
         console.log("User Authenticated");
 
 
     }
 
     reRoute(){
-        let attr = document.getElementById('login-modal').setAttribute('aria-hidden', 'true');
+        document.getElementById('login-modal').setAttribute('aria-hidden', 'true');
         this.router.navigate(['/map'])
     }
 
