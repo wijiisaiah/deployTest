@@ -45,6 +45,7 @@ export class UserAuthenticationService {
             .then(function(user){
                 that.currentUser = user;
                 console.log(that.currentUser)
+
             })
             .catch(function (err) {
                 console.error("Login Error", err);
@@ -75,6 +76,7 @@ export class UserAuthenticationService {
     }
 
     getCurrentUser(): Observable<any> {
+
         return Observable.create(obs => {
             const uid = this.currentUser.uid;
             const currentUserRef = this.databaseRef.child(uid);

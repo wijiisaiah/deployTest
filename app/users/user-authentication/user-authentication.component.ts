@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { UserAuthenticationService } from '../services/user-authentication.service';
 
 import { User } from '../model/user';
+import {Router} from "@angular/router";
+import {userInfo} from "os";
 
 @Component({
     moduleId: module.id,
@@ -13,7 +15,10 @@ import { User } from '../model/user';
 export class UserAuthenticationComponent {
 
     private user: User = new User(null, null, null, null, null);
-    constructor(private UserAuthenticationService: UserAuthenticationService) { }
+    constructor(
+        private UserAuthenticationService: UserAuthenticationService,
+        private router: Router
+    ) { }
 
     register() {
 
@@ -35,6 +40,12 @@ export class UserAuthenticationComponent {
         this.UserAuthenticationService.login(email, password);
         console.log("User Authenticated");
 
+
+    }
+
+    reRoute(){
+        let attr = document.getElementById('login-modal').setAttribute('aria-hidden', 'true');
+        this.router.navigate(['/map'])
     }
 
 

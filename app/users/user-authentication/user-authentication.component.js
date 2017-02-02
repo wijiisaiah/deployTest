@@ -11,9 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var user_authentication_service_1 = require('../services/user-authentication.service');
 var user_1 = require('../model/user');
+var router_1 = require("@angular/router");
 var UserAuthenticationComponent = (function () {
-    function UserAuthenticationComponent(UserAuthenticationService) {
+    function UserAuthenticationComponent(UserAuthenticationService, router) {
         this.UserAuthenticationService = UserAuthenticationService;
+        this.router = router;
         this.user = new user_1.User(null, null, null, null, null);
     }
     UserAuthenticationComponent.prototype.register = function () {
@@ -29,6 +31,10 @@ var UserAuthenticationComponent = (function () {
         this.UserAuthenticationService.login(email, password);
         console.log("User Authenticated");
     };
+    UserAuthenticationComponent.prototype.reRoute = function () {
+        var attr = document.getElementById('login-modal').setAttribute('aria-hidden', 'true');
+        this.router.navigate(['/map']);
+    };
     UserAuthenticationComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -36,7 +42,7 @@ var UserAuthenticationComponent = (function () {
             templateUrl: 'user-authentication.component.html',
             styleUrls: ['user-authentication.component.css']
         }), 
-        __metadata('design:paramtypes', [user_authentication_service_1.UserAuthenticationService])
+        __metadata('design:paramtypes', [user_authentication_service_1.UserAuthenticationService, router_1.Router])
     ], UserAuthenticationComponent);
     return UserAuthenticationComponent;
 }());
