@@ -29,6 +29,12 @@ var UserAccountComponent = (function () {
             console.error("Unable to get current user -", err);
         });
     };
+    UserAccountComponent.prototype.updateUser = function () {
+        this.currentUser.name = document.getElementById('argName').value;
+        this.currentUser.email = document.getElementById('argEmail').value;
+        this.currentUser.address = document.getElementById('argAddress').value;
+        this.uas.updateUser(this.currentUser);
+    };
     UserAccountComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

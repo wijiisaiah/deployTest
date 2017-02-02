@@ -75,6 +75,11 @@ export class UserAuthenticationService {
 
     }
 
+    updateUser(user: User) {
+        const userRef = this.databaseRef.child(user.uid);
+        userRef.update(user);
+    }
+
     getCurrentUser(): Observable<any> {
 
         return Observable.create(obs => {
