@@ -50,6 +50,7 @@ var UserAuthenticationService = (function () {
     };
     UserAuthenticationService.prototype.signOut = function () {
         this.authRef.signOut();
+        this.currentUser = null;
         console.log('signed out');
     };
     UserAuthenticationService.prototype.addUser = function (user) {

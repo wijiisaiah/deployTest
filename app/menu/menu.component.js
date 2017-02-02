@@ -26,6 +26,9 @@ var MenuComponent = (function () {
     MenuComponent.prototype.closeNav = function () {
         document.getElementById("myNav").style.width = "0%";
     };
+    MenuComponent.prototype.openNav = function () {
+        document.getElementById("myNav").style.width = "75%";
+    };
     MenuComponent.prototype.signOut = function () {
         this.uas.signOut();
     };

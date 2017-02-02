@@ -78,7 +78,7 @@ export class MapComponent implements OnInit {
 
         // Setup the click event listeners: simply set the map to Chicago.
         controlUI.addEventListener('click', function () {
-            document.getElementById("myNav").style.width = "25%";
+            document.getElementById("myNav").style.width = "75%";
         });
     }
 

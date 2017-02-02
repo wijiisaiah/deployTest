@@ -29,6 +29,9 @@ export class MenuComponent implements OnInit {
     public closeNav() {
         document.getElementById("myNav").style.width = "0%";
     }
+    public openNav(){
+        document.getElementById("myNav").style.width = "75%";
+    }
 
     signOut() {
         this.uas.signOut();

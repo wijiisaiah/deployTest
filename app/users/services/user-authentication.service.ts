@@ -19,7 +19,7 @@ export class UserAuthenticationService {
     register(name: string, email: string, password: string) {
 
         let that = this;
-        let temp = new User(name, null, email, null, null )
+        let temp = new User(name, null, email, null, null );
 
         this.authRef.createUserWithEmailAndPassword(email, password)
             .then(function (user) {
@@ -53,6 +53,7 @@ export class UserAuthenticationService {
     }
     signOut(){
         this.authRef.signOut();
+        this.currentUser = null;
         console.log('signed out')
     }
 
