@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var Observable_1 = require('rxjs/Observable');
 var firebase_config_service_1 = require('../../core/service/firebase-config.service');
-var user_1 = require('../model/user');
+var user_1 = require('../../shared/model/user');
 var UserAuthenticationService = (function () {
     function UserAuthenticationService(fire) {
         this.fire = fire;
