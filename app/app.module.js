@@ -11,12 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 // Modules
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
-var user_module_1 = require('./users/user.module');
 var app_routing_module_1 = require('./app-routing.module');
 var core_module_1 = require('./core/core.module');
-var map_module_1 = require("./map/map.module");
 //Components
 var app_component_1 = require('./app.component');
+var menu_component_1 = require("./menu/menu.component");
+var user_account_component_1 = require("./users/user-account/user-account.component");
+var map_component_1 = require("./map/map.component");
+var user_authentication_component_1 = require("./users/user-authentication/user-authentication.component");
+var user_authentication_service_1 = require("./shared/services/user-authentication.service");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -24,14 +27,17 @@ var AppModule = (function () {
         core_1.NgModule({
             imports: [
                 platform_browser_1.BrowserModule,
-                user_module_1.UserModule,
-                map_module_1.MapModule,
                 app_routing_module_1.AppRoutingModule,
                 core_module_1.CoreModule.forRoot()
             ],
             declarations: [
-                app_component_1.AppComponent
+                app_component_1.AppComponent,
+                map_component_1.MapComponent,
+                menu_component_1.MenuComponent,
+                user_authentication_component_1.UserAuthenticationComponent,
+                user_account_component_1.UserAccountComponent
             ],
+            providers: [user_authentication_service_1.UserAuthenticationService],
             bootstrap: [app_component_1.AppComponent]
         }), 
         __metadata('design:paramtypes', [])

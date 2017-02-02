@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ParkingStation} from "../model/parkingStation";
-import {UserAuthenticationService} from "../users/services/user-authentication.service";
+import {ParkingStation} from "../shared/model/parkingStation";
+import {UserAuthenticationService} from "../shared/services/user-authentication.service";
 import {MenuComponent} from "../menu/menu.component";
 declare let google: any;
 
@@ -134,6 +134,7 @@ export class MapComponent implements OnInit {
 
         // Listener made to open InfoWindow when user clicks on a marker
         marker.addListener('click', function() {
+            document.getElementById('myNav').style.width = "0";
             // Closes all Info Windows before opening new one
             for (let i=0;i<that.infowindows.length;i++) {
                 that.infowindows[i].close();

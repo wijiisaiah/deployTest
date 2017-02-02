@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var parkingStation_1 = require("../model/parkingStation");
+var parkingStation_1 = require("../shared/model/parkingStation");
 var MapComponent = (function () {
     function MapComponent() {
     }
@@ -97,6 +97,7 @@ var MapComponent = (function () {
         this.infowindows.push(infowindow);
         // Listener made to open InfoWindow when user clicks on a marker
         marker.addListener('click', function () {
+            document.getElementById('myNav').style.width = "0";
             // Closes all Info Windows before opening new one
             for (var i = 0; i < that.infowindows.length; i++) {
                 that.infowindows[i].close();

@@ -12,8 +12,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Created by Isaiah on 2017-01-31.
  */
 var core_1 = require('@angular/core');
-var user_authentication_service_1 = require("../users/services/user-authentication.service");
-var user_1 = require("../users/model/user");
+var user_authentication_service_1 = require("../shared/services/user-authentication.service");
+var user_1 = require("../shared/model/user");
 var MenuComponent = (function () {
     function MenuComponent(uas) {
         this.uas = uas;

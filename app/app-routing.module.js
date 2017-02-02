@@ -10,13 +10,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
+var map_component_1 = require("./map/map.component");
+var user_account_component_1 = require("./users/user-account/user-account.component");
+var user_authentication_component_1 = require("./users/user-authentication/user-authentication.component");
 var AppRoutingModule = (function () {
     function AppRoutingModule() {
     }
     AppRoutingModule = __decorate([
         core_1.NgModule({
             imports: [
-                router_1.RouterModule.forRoot([])
+                router_1.RouterModule.forRoot([
+                    { path: '', redirectTo: 'login', pathMatch: 'prefix' },
+                    { path: 'login', component: user_authentication_component_1.UserAuthenticationComponent },
+                    { path: 'account', component: user_account_component_1.UserAccountComponent },
+                    { path: 'map', component: map_component_1.MapComponent },
+                    { path: '**', redirectTo: 'login' }
+                ])
             ],
             exports: [router_1.RouterModule]
         }), 

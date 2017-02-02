@@ -9,8 +9,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var user_authentication_service_1 = require('../services/user-authentication.service');
-var user_1 = require('../model/user');
+var user_authentication_service_1 = require('../../shared/services/user-authentication.service');
+var user_1 = require('../../shared/model/user');
 var UserAccountComponent = (function () {
     function UserAccountComponent(uas) {
         this.uas = uas;

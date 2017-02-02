@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { UserAuthenticationService } from '../services/user-authentication.service';
+import { UserAuthenticationService } from '../../shared/services/user-authentication.service';
 
-import { User } from '../model/user';
+import { User } from '../../shared/model/user';
 
 @Component({
     moduleId: module.id,
