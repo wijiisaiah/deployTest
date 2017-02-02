@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var Observable_1 = require('rxjs/Observable');
 var firebase_config_service_1 = require('../../core/service/firebase-config.service');
 var user_1 = require('../model/user');
 var UserAuthenticationService = (function () {
@@ -29,6 +30,7 @@ var UserAuthenticationService = (function () {
             });
             temp.uid = user.uid;
             that.addUser(temp);
+            that.currentUser = user;
             console.log(user);
         })
             .catch(function (err) {
@@ -51,7 +53,7 @@ var UserAuthenticationService = (function () {
         console.log('signed out');
     };
     UserAuthenticationService.prototype.addUser = function (user) {
-        var newUserRef = this.databaseRef.push(user.uid);
+        var newUserRef = this.databaseRef.child(user.uid);
         newUserRef.set({
             name: user.name,
             uid: user.uid,
@@ -61,6 +63,19 @@ var UserAuthenticationService = (function () {
         })
             .catch(function (err) {
             console.error("Unable to add new user to Db -", err);
+        });
+    };
+    UserAuthenticationService.prototype.getCurrentUser = function () {
+        var _this = this;
+        return Observable_1.Observable.create(function (obs) {
+            var uid = _this.currentUser.uid;
+            var currentUserRef = _this.databaseRef.child(uid);
+            currentUserRef.on('value', function (user) {
+                var newUser = user.val();
+                obs.next(newUser);
+            }, function (err) {
+                obs.throw(err);
+            });
         });
     };
     UserAuthenticationService = __decorate([

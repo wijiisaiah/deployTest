@@ -11,14 +11,15 @@ export class UserAuthenticationService {
 
     private authRef = this.fire.auth;
     private databaseRef = this.fire.database.ref('/users');
-    public currentUser = this.fire.auth.currentUser;
+    private currentUser = this.fire.auth.currentUser;
 
     constructor(private fire: FirebaseConfigService) {
     }
 
     register(name: string, email: string, password: string) {
+
         let that = this;
-        let temp: User = new User(name, null, email, null, null )
+        let temp = new User(name, null, email, null, null )
 
         this.authRef.createUserWithEmailAndPassword(email, password)
             .then(function (user) {
@@ -28,13 +29,12 @@ export class UserAuthenticationService {
                 });
                 temp.uid = user.uid;
                 that.addUser(temp);
+                that.currentUser = user;
                 console.log(user);
             })
             .catch(function (err) {
                 console.error("Registration Error", err);
             });
-
-
 
     }
 
@@ -58,7 +58,7 @@ export class UserAuthenticationService {
 
     addUser(user: User) {
 
-        const newUserRef = this.databaseRef.push(user.uid);
+        const newUserRef = this.databaseRef.child(user.uid);
         newUserRef.set({
             name: user.name,
             uid: user.uid,
@@ -71,6 +71,21 @@ export class UserAuthenticationService {
                 console.error("Unable to add new user to Db -", err);
             });
 
+    }
+
+    getCurrentUser(): Observable<any> {
+        return Observable.create(obs => {
+            const uid = this.currentUser.uid;
+            const currentUserRef = this.databaseRef.child(uid);
+          
+           currentUserRef.on('value', user => {
+               const newUser = user.val() as User;
+               obs.next(newUser);
+            },
+            err => {
+                obs.throw(err);
+            });
+        });
     }
 
 

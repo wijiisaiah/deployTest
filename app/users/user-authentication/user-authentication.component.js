@@ -17,15 +17,11 @@ var UserAuthenticationComponent = (function () {
         this.user = new user_1.User(null, null, null, null, null);
     }
     UserAuthenticationComponent.prototype.register = function () {
-        // const name = "Manolis";
-        // const email = "manolis@alumni.ubc.ca";
-        // const password = "password";
         this.user.name = document.getElementById('argName').value;
         this.user.email = document.getElementById('argEmail').value;
         var password = document.getElementById('argPass').value;
         this.UserAuthenticationService.register(this.user.name, this.user.email, password);
         console.log("User Registered");
-        // this.UserAuthenticationService.addUser( this.user );
     };
     UserAuthenticationComponent.prototype.login = function () {
         var email = document.getElementById('argEmail').value;

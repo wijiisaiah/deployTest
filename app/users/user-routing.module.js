@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var user_authentication_component_1 = require('./user-authentication/user-authentication.component');
+var user_account_component_1 = require('./user-account/user-account.component');
 var map_component_1 = require("../map/map.component");
 var UserRoutingModule = (function () {
     function UserRoutingModule() {
@@ -21,6 +22,7 @@ var UserRoutingModule = (function () {
                 router_1.RouterModule.forChild([
                     { path: '', redirectTo: 'login', pathMatch: 'prefix' },
                     { path: 'login', component: user_authentication_component_1.UserAuthenticationComponent },
+                    { path: 'account', component: user_account_component_1.UserAccountComponent },
                     { path: 'map', component: map_component_1.MapComponent },
                     { path: '**', redirectTo: 'login' }
                 ])

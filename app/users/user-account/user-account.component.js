@@ -8,28 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-/**
- * Created by Isaiah on 2017-01-31.
- */
 var core_1 = require('@angular/core');
-var user_authentication_service_1 = require("../users/services/user-authentication.service");
-var user_1 = require("../users/model/user");
-var MenuComponent = (function () {
-    function MenuComponent(uas) {
+var user_authentication_service_1 = require('../services/user-authentication.service');
+var user_1 = require('../model/user');
+var UserAccountComponent = (function () {
+    function UserAccountComponent(uas) {
         this.uas = uas;
         this.currentUser = new user_1.User(null, null, null, null, null);
     }
-    MenuComponent.prototype.ngOnInit = function () {
+    UserAccountComponent.prototype.ngOnInit = function () {
         this.getCurrentUser();
     };
-    /* Close when someone clicks on the "x" symbol inside the overlay */
-    MenuComponent.prototype.closeNav = function () {
-        document.getElementById("myNav").style.width = "0%";
-    };
-    MenuComponent.prototype.signOut = function () {
-        this.uas.signOut();
-    };
-    MenuComponent.prototype.getCurrentUser = function () {
+    UserAccountComponent.prototype.getCurrentUser = function () {
         var _this = this;
         this.uas.getCurrentUser()
             .subscribe(function (user) {
@@ -39,16 +29,16 @@ var MenuComponent = (function () {
             console.error("Unable to get current user -", err);
         });
     };
-    MenuComponent = __decorate([
+    UserAccountComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'user-menu',
-            templateUrl: 'menu.component.html',
-            styleUrls: ['menu.component.css']
+            selector: 'user-account',
+            templateUrl: 'user-account.component.html',
+            styleUrls: ['user-account.component.css']
         }), 
         __metadata('design:paramtypes', [user_authentication_service_1.UserAuthenticationService])
-    ], MenuComponent);
-    return MenuComponent;
+    ], UserAccountComponent);
+    return UserAccountComponent;
 }());
-exports.MenuComponent = MenuComponent;
-//# sourceMappingURL=menu.component.js.map
+exports.UserAccountComponent = UserAccountComponent;
+//# sourceMappingURL=user-account.component.js.map

@@ -13,6 +13,7 @@ var core_1 = require('@angular/core');
 var user_routing_module_1 = require('./user-routing.module');
 // Components
 var user_authentication_component_1 = require('./user-authentication/user-authentication.component');
+var user_account_component_1 = require('./user-account/user-account.component');
 // Services
 var user_authentication_service_1 = require('./services/user-authentication.service');
 var UserModule = (function () {
@@ -24,7 +25,8 @@ var UserModule = (function () {
                 user_routing_module_1.UserRoutingModule
             ],
             declarations: [
-                user_authentication_component_1.UserAuthenticationComponent
+                user_authentication_component_1.UserAuthenticationComponent,
+                user_account_component_1.UserAccountComponent
             ],
             exports: [],
             providers: [

@@ -4,6 +4,7 @@ import { UserRoutingModule } from './user-routing.module';
 
 // Components
 import { UserAuthenticationComponent } from './user-authentication/user-authentication.component';
+import { UserAccountComponent } from './user-account/user-account.component';
 
 // Services
 import { UserAuthenticationService } from './services/user-authentication.service';
@@ -13,7 +14,8 @@ import { UserAuthenticationService } from './services/user-authentication.servic
         UserRoutingModule 
         ],
     declarations: [
-        UserAuthenticationComponent
+        UserAuthenticationComponent,
+        UserAccountComponent
     ],
     exports: [],
     providers: [
