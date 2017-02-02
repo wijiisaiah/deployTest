@@ -40,7 +40,7 @@ export class UserAuthenticationService {
 
     login(email: string, password: string) {
         let that = this;
-
+       
         this.authRef.signInWithEmailAndPassword(email, password)
             .then(function(user){
                 that.currentUser = user;
@@ -73,6 +73,11 @@ export class UserAuthenticationService {
                 console.error("Unable to add new user to Db -", err);
             });
 
+    }
+
+    updateUser(user: User) {
+        const userRef = this.databaseRef.child(user.uid);
+        userRef.update(user);
     }
 
     getCurrentUser(): Observable<any> {

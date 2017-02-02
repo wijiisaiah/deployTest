@@ -32,4 +32,13 @@ export class UserAccountComponent implements OnInit {
             });
     }
 
+    updateUser() {
+
+        this.currentUser.name = (<HTMLInputElement>document.getElementById('argName')).value;
+        this.currentUser.email = (<HTMLInputElement>document.getElementById('argEmail')).value;
+        this.currentUser.address = (<HTMLInputElement>document.getElementById('argAddress')).value;
+
+        this.uas.updateUser(this.currentUser);
+    }
+
 }

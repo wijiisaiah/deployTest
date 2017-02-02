@@ -66,6 +66,10 @@ var UserAuthenticationService = (function () {
             console.error("Unable to add new user to Db -", err);
         });
     };
+    UserAuthenticationService.prototype.updateUser = function (user) {
+        var userRef = this.databaseRef.child(user.uid);
+        userRef.update(user);
+    };
     UserAuthenticationService.prototype.getCurrentUser = function () {
         var _this = this;
         return Observable_1.Observable.create(function (obs) {

@@ -3,14 +3,13 @@
  */
 // Modules
 import { NgModule } from '@angular/core';
+import {BrowserModule} from "@angular/platform-browser";
+import {AppRoutingModule} from "../app-routing.module";
 
 // Components
 import {MapComponent} from "./map.component";
 import {MenuComponent} from "../menu/menu.component";
-import {BrowserModule} from "@angular/platform-browser";
-import {AppRoutingModule} from "../app-routing.module";
 
-// Services
 
 @NgModule({
     imports: [BrowserModule, AppRoutingModule],

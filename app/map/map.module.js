@@ -13,12 +13,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  */
 // Modules
 var core_1 = require('@angular/core');
+var platform_browser_1 = require("@angular/platform-browser");
+var app_routing_module_1 = require("../app-routing.module");
 // Components
 var map_component_1 = require("./map.component");
 var menu_component_1 = require("../menu/menu.component");
-var platform_browser_1 = require("@angular/platform-browser");
-var app_routing_module_1 = require("../app-routing.module");
-// Services
 var MapModule = (function () {
     function MapModule() {
     }
