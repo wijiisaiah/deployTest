@@ -80,6 +80,10 @@ export class UserService{
         userRef.update(user);
     }
 
+    findUserRef(uid: string){
+        return this.databaseRef.child(uid);
+    }
+
     getCurrentUser(): Observable<any> {
 
         return Observable.create(obs => {

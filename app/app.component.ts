@@ -6,7 +6,6 @@ import {Component} from '@angular/core';
     <div class="col-sm-12">
         <router-outlet></router-outlet>
     </div>
-    
     `,
     styles: [`
         .col-sm-12 {
