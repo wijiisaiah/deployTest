@@ -15,7 +15,7 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
-            template: " \n    <div class=\"col-sm-12\">\n        <router-outlet></router-outlet>\n    </div>\n    \n    ",
+            template: " \n    <div class=\"col-sm-12\">\n        <router-outlet></router-outlet>\n    </div>\n    ",
             styles: ["\n        .col-sm-12 {\n            padding: 0;\n        }\n    "]
         }), 
         __metadata('design:paramtypes', [])

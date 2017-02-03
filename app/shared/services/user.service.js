@@ -70,6 +70,9 @@ var UserService = (function () {
         var userRef = this.databaseRef.child(user.uid);
         userRef.update(user);
     };
+    UserService.prototype.findUserRef = function (uid) {
+        return this.databaseRef.child(uid);
+    };
     UserService.prototype.getCurrentUser = function () {
         var _this = this;
         return Observable_1.Observable.create(function (obs) {
