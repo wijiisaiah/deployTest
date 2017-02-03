@@ -1,7 +1,9 @@
-import {Component, OnInit, NgZone, HostListener} from '@angular/core';
-import {ParkingStation} from "../shared/model/parkingStation";
-import {UserService} from "../shared/services/user.service";
-import {MenuComponent} from "../menu/menu.component";
+import { Component, OnInit, NgZone, HostListener } from '@angular/core';
+import { ParkingStation } from "../shared/model/parkingStation";
+import { UserService } from "../shared/services/user.service";
+import { MenuComponent } from "../menu/menu.component";
+import { BookingService } from "../shared/services/booking.service";
+import { Booking } from "../shared/model/booking";
 declare let google: any;
 
 @Component({
@@ -21,16 +23,36 @@ export class MapComponent implements OnInit {
     @HostListener('window:reserve', ['$event'])
     reserveEventListener(event) {
         console.log(event.detail)
-
+        this.bookingService.createBooking(this.selectedParkingStation);
     }
 
+    @HostListener('window:complete', ['$event'])
+    completeEventListener(event) {
+        console.log(event.detail)
+        let currentBooking = new Booking(null, null, null);
+        this.bookingService.updateCurrentBooking;
+        console.log("Current booking updated");
+        this.bookingService.getUpdatedBooking()
+            .subscribe(updatedBooking => {
+                currentBooking = updatedBooking.val() as Booking;
+                console.log(currentBooking);
+            });
+        console.log("CurrentBooking retrieved");
+        this.bookingService.addBooking(currentBooking);
+        console.log("Current booking added to bookings");
+        this.bookingService.removeCurrentBooking;
+
+        console.log("Current booking removed");
+
+    }
 
     private map: any;
     private parkingStations: ParkingStation[];
     private markers: any;
     private infowindows: any;
+    private selectedParkingStation: ParkingStation;
 
-    constructor(private zone: NgZone) {
+    constructor(private bookingService: BookingService) {
     }
 
     ngOnInit() {
@@ -116,11 +138,11 @@ export class MapComponent implements OnInit {
         let that = this;
 
         let marker = new google.maps.Marker({
-            position: {lat: parking.lat, lng: parking.lng},
+            position: { lat: parking.lat, lng: parking.lng },
             map: this.map,
             title: parking.title
         });
-        let content =  `
+        let content = `
                 <head>
                    <script>
                         function myFunction(){
@@ -138,6 +160,7 @@ export class MapComponent implements OnInit {
                      </p>
                      <br>
                     <button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("reserve", {detail: "Reservation Started"}));'>Reserve</button>
+                    <button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("complete", {detail: "End Booking"}));'>Reserve</button>
                 </div>
                 </body>
                   `;
@@ -164,6 +187,7 @@ export class MapComponent implements OnInit {
                 that.infowindows[i].close();
             }
             infowindow.open(this.map, marker);
+            that.selectedParkingStation = parking;
         });
 
         // Closes the info window if a click occurs on the map

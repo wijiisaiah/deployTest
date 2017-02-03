@@ -11,11 +11,27 @@ import { Booking } from '../../shared/model/booking';
     styleUrls: ['my-bookings.component.css']
 
 })
-export class MyBookingsComponent { 
+export class MyBookingsComponent implements OnInit { 
 
-    private currentBooking = new Booking(null, null, null, null, null);
+    private bookings: Booking[] = [];
 
-    constructor(private bookingService: BookingService){
-
+    constructor(private bookingService: BookingService){ }
+    
+    ngOnInit() {
+        
+        this.getAddedBookings();
     }
+
+     getAddedBookings() {
+        this.bookingService.getAddedBookings()
+        .subscribe(booking => {
+            this.bookings.push(booking);
+        },
+        err => {
+            console.error("Unable to get added booking - ", err);
+        });
+    }
+
+    
+
 }

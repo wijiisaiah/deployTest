@@ -13,6 +13,7 @@ var firebase_config_service_1 = require('../../core/service/firebase-config.serv
 var user_service_1 = require("./user.service");
 var booking_1 = require("../model/booking");
 var Time_1 = require("../util/Time");
+var Observable_1 = require("rxjs/Observable");
 var BookingService = (function () {
     function BookingService(fire, us) {
         this.fire = fire;
@@ -21,12 +22,69 @@ var BookingService = (function () {
         var curUser = this.fire.auth.currentUser;
         this.currentUserRef = this.databaseRef.child(curUser.uid);
     }
+    BookingService.prototype.getAddedBookings = function () {
+        var bookingsRef = this.currentUserRef.child('bookings');
+        return Observable_1.Observable.create(function (obs) {
+            bookingsRef.on('child_added', function (booking) {
+                var newBooking = booking.val();
+                obs.next(newBooking);
+            }, function (err) {
+                obs.throw(err);
+            });
+        });
+    };
+    BookingService.prototype.getUpdatedBooking = function () {
+        var currentBookingRef = this.currentUserRef.child('current booking');
+        return Observable_1.Observable.create(function (obs) {
+            currentBookingRef.on('child_changed', function (booking) {
+                var updatedBooking = booking.val();
+                obs.next(updatedBooking);
+            }, function (err) {
+                obs.throw(err);
+            });
+        });
+    };
     BookingService.prototype.createBooking = function (parkingStation) {
         var t = new Time_1.Time();
         var date = t.getCurrentDate();
         var startTime = t.getCurrentTime();
         var newBooking = new booking_1.Booking(parkingStation, date, startTime);
-        this.currentUserRef.child('bookings').push(newBooking);
+        var currentBookingRef = this.currentUserRef.child('current booking');
+        currentBookingRef.set({
+            ParkingStation: parkingStation,
+            date: date,
+            startTime: startTime
+        })
+            .catch(function (err) { return console.error("Unable to add Booking", err); });
+    };
+    BookingService.prototype.updateCurrentBooking = function () {
+        var t = new Time_1.Time();
+        var endTime = t.getCurrentTime();
+        var cost = 5;
+        var currentBookingRef = this.currentUserRef.child('current booking');
+        currentBookingRef.set({
+            endTime: endTime,
+            cost: cost
+        })
+            .catch(function (err) { return console.error("Unable to update current booking -", err); });
+    };
+    BookingService.prototype.addBooking = function (booking) {
+        var bookingsRef = this.currentUserRef.child('bookings');
+        console.log("bookingsRef created");
+        var ref = bookingsRef.push();
+        console.log("Pushed to bookingsRef");
+        ref.set({
+            ParkingStation: booking.parkingStation,
+            date: booking.date,
+            startTime: booking.startTime,
+            endTime: booking.endTime,
+            cost: booking.totalCost
+        })
+            .catch(function (err) { return console.error("Unable to add Booking", err); });
+    };
+    BookingService.prototype.removeCurrentBooking = function () {
+        var currentBookingRef = this.currentUserRef.child('current booking');
+        currentBookingRef.remove();
     };
     BookingService = __decorate([
         core_1.Injectable(), 
