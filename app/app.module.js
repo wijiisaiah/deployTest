@@ -19,7 +19,7 @@ var menu_component_1 = require("./menu/menu.component");
 var user_account_component_1 = require("./users/user-account/user-account.component");
 var map_component_1 = require("./map/map.component");
 var user_authentication_component_1 = require("./users/user-authentication/user-authentication.component");
-var user_authentication_service_1 = require("./shared/services/user-authentication.service");
+var user_service_1 = require("./shared/services/user.service");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -37,7 +37,7 @@ var AppModule = (function () {
                 user_authentication_component_1.UserAuthenticationComponent,
                 user_account_component_1.UserAccountComponent
             ],
-            providers: [user_authentication_service_1.UserAuthenticationService],
+            providers: [user_service_1.UserService],
             bootstrap: [app_component_1.AppComponent]
         }), 
         __metadata('design:paramtypes', [])

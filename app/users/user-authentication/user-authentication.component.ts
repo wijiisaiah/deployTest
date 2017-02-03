@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { UserAuthenticationService } from '../../shared/services/user-authentication.service';
+import { UserService } from '../../shared/services/user.service';
 
 import { User } from '../../shared/model/user';
 import {Router} from "@angular/router";
@@ -16,17 +16,20 @@ export class UserAuthenticationComponent {
 
     private user: User = new User(null, null, null, null, null);
     constructor(
-        private UserAuthenticationService: UserAuthenticationService,
+        private userService: UserService,
         private router: Router
     ) { }
 
     register() {
-
+        let that = this;
         this.user.name = (<HTMLInputElement>document.getElementById('argName')).value;
         this.user.email = (<HTMLInputElement>document.getElementById('argEmail')).value;
         const password = (<HTMLInputElement>document.getElementById('argPass')).value;
 
-        this.UserAuthenticationService.register(this.user.name, this.user.email, password);
+        this.userService.register(this.user.name, this.user.email, password)
+            .then(() => {
+                that.reRoute();
+            });
 
         console.log("User Registered");
 
@@ -37,12 +40,14 @@ export class UserAuthenticationComponent {
         const email = (<HTMLInputElement>document.getElementById('argEmail')).value;
         const password = (<HTMLInputElement>document.getElementById('argPass')).value;
 
-        this.UserAuthenticationService.login(email, password)
+        this.userService.login(email, password)
             .then(()=> {
                 that.reRoute();
-            });
+            })
+            .catch((err => {
+                alert('Login Failed');
+            }));
         console.log("User Authenticated");
-
 
     }
 

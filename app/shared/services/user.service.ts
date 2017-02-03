@@ -7,7 +7,7 @@ import {FirebaseConfigService} from '../../core/service/firebase-config.service'
 import {User} from '../model/user';
 
 @Injectable()
-export class UserAuthenticationService {
+export class UserService{
 
     private authRef = this.fire.auth;
     private databaseRef = this.fire.database.ref('/users');
@@ -21,7 +21,7 @@ export class UserAuthenticationService {
         let that = this;
         let temp = new User(name, null, email, null, null );
 
-        this.authRef.createUserWithEmailAndPassword(email, password)
+        return this.authRef.createUserWithEmailAndPassword(email, password)
             .then(function (user) {
                 user.updateProfile({
                     displayName: name,

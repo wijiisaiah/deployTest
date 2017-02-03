@@ -4,35 +4,14 @@
         <div *ngIf="currentUser">
             <h1>Welcome {{currentUser.name}}</h1>
         </div>
-        <div id="replacement">
-            <br>
-            <a (click)="replaceMenuPiece('replacement', 'account')">My Account</a>
-            <a (click)="replaceMenuPiece('replacement', 'booking')">My Bookings</a>
-            <a (click)="replaceMenuPiece('replacement', 'account')">Contact</a>
-            <a [routerLink]="['/login']" (click)="signOut()">Sign Out</a>
+        <div id="menu" [hidden]="userMenuHidden">
+            <a (click)="replaceMenuContent('menu','account')">My Account</a>
+            <a (click)="replaceMenuContent('menu','account')">My Bookings</a>
+        </div>
+        <div id="myAccount" [hidden]="userAccountHidden">
+            <user-account></user-account>
+            <a (click)="replaceMenuContent('account','menu')">Menu</a>
         </div>
     </div>
 </div>
 
-<div class="menu-pieces">
-    <div id="main-menu">
-        <br>
-        <a (click)="replaceMenuPiece('replacement', 'account')">My Account</a>
-        <a (click)="replaceMenuPiece('replacement', 'booking')">My Bookings</a>
-        <a (click)="replaceMenuPiece('replacement', 'account')">Contact</a>
-        <a [routerLink]="['/login']" (click)="signOut()">Sign Out</a>
-    </div>
-
-
-    <div id="account">
-        Account
-        <a (click)="replaceMenuPiece('replacement', 'main-menu')">Menu</a>
-    </div>
-
-
-    <div id="booking">
-        Bookings
-        <a (click)="replaceMenuPiece('replacement', 'main-menu')">Menu</a>
-    </div>
-
-</div>

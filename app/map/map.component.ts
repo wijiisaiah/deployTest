@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, NgZone, HostListener} from '@angular/core';
 import {ParkingStation} from "../shared/model/parkingStation";
-import {UserAuthenticationService} from "../shared/services/user-authentication.service";
+import {UserService} from "../shared/services/user.service";
 import {MenuComponent} from "../menu/menu.component";
 declare let google: any;
 
 @Component({
     moduleId: module.id,
     selector: 'map-map',
-    template:
-    '<user-menu></user-menu>' +
-    '<div id="googleMap"></div>',
+    template: '<user-menu></user-menu><div id="googleMap"></div>',
 
     styles: [`
     #googleMap {
@@ -17,19 +15,27 @@ declare let google: any;
         height:100%;
         padding: 0;
          }
-`   ]
+`]
 })
 export class MapComponent implements OnInit {
+    @HostListener('window:reserve', ['$event'])
+    reserveEventListener(event) {
+        console.log(event.detail)
+
+    }
+
+
     private map: any;
     private parkingStations: ParkingStation[];
     private markers: any;
     private infowindows: any;
 
-    constructor( ) { }
+    constructor(private zone: NgZone) {
+    }
 
-    ngOnInit(){
-        let testParking: ParkingStation = new ParkingStation('UBC Sub', '606 Something drive', 'MazDome', 49.2827, -123.1207, 100, true);
-        let testParking2: ParkingStation = new ParkingStation('UBC asdf', '606 asdf drive', 'MazDome', 49.2727, -123.1207, 100, true);
+    ngOnInit() {
+        let testParking: ParkingStation = new ParkingStation('UBC Sub', '606 Something drive', 'MazDome', 49.2827, -123.1207, 100, true, 100);
+        let testParking2: ParkingStation = new ParkingStation('UBC asdf', '606 asdf drive', 'MazDome', 49.2727, -123.1207, 100, true, 100);
 
         this.parkingStations = [testParking, testParking2];
         this.markers = [];
@@ -73,7 +79,7 @@ export class MapComponent implements OnInit {
         controlText.innerHTML =
             '<div style="width: 35px;height: 5px;background-color: black;margin: 6px 0;"></div>' +
             '<div style="width: 35px;height: 5px;background-color: black;margin: 6px 0;"></div>' +
-            '<div style="width: 35px;height: 5px;background-color: black;margin: 6px 0;"></div>' ;
+            '<div style="width: 35px;height: 5px;background-color: black;margin: 6px 0;"></div>';
         controlUI.appendChild(controlText);
 
         // Setup the click event listeners: simply set the map to Chicago.
@@ -83,7 +89,7 @@ export class MapComponent implements OnInit {
     }
 
 
-    private createMap(){
+    private createMap() {
         let mapProp = {
             center: new google.maps.LatLng(49.2827, -123.1207),
             zoom: 16,
@@ -93,19 +99,19 @@ export class MapComponent implements OnInit {
         this.map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
     }
 
-    private assignMarkersToParking(){
-        for (let parking of this.parkingStations){
+    private assignMarkersToParking() {
+        for (let parking of this.parkingStations) {
             this.markers.push(this.createMarker(parking))
         }
     }
 
-    private setMarkersToMap(){
-        for (let marker of this.markers){
+    private setMarkersToMap() {
+        for (let marker of this.markers) {
             marker.setMap(this.map);
         }
     }
 
-    private createMarker(parking: ParkingStation){
+    private createMarker(parking: ParkingStation) {
         // Creating marker
         let that = this;
 
@@ -114,41 +120,63 @@ export class MapComponent implements OnInit {
             map: this.map,
             title: parking.title
         });
+        let content =  `
+                <head>
+                   <script>
+                        function myFunction(){
+                            console.log('message');
+                        }
+                    </script>
+                </head>
+                <body>
+                    <div id="infoWindow">
+                     <h3>` + parking.title + `</h3><br>
+                     <p> Address: ` + parking.address + `<br>
+                         Type: ` + parking.type + ` <br>
+                         Size: ` + parking.size + `<br>
+                         Rate: ` + parking.rate + `
+                     </p>
+                     <br>
+                    <button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("reserve", {detail: "Reservation Started"}));'>Reserve</button>
+                </div>
+                </body>
+                  `;
 
         // Creating Info Window which is related to this Parking Station
         let infowindow = new google.maps.InfoWindow({
-           content: `
-        <div id="infoWindow">
-             <h3>`+parking.title+`</h3><br>
-             <p> Address: `+parking.address+`<br>
-                 Type: `+parking.type+` <br>
-                 Size: `+parking.size+`
-             </p>
-            <div class="col-sm-9 offset-sm-3"></div>
-        </div>
-        <button class="btn btn-info" onclick="">Reserve</button>`,
+            content: content,
         });
+
+        // function myFunction(){
+        //     console.log('reserve');
+        // }
 
         // Pushes the newly created Info Window to the array of info windows
         this.infowindows.push(infowindow);
 
         // Listener made to open InfoWindow when user clicks on a marker
-        marker.addListener('click', function() {
+        marker.addListener('click', function () {
             document.getElementById('myNav').style.width = "0";
             // Closes all Info Windows before opening new one
-            for (let i=0;i<that.infowindows.length;i++) {
+            for (let i = 0; i < that.infowindows.length; i++) {
                 that.infowindows[i].close();
             }
             infowindow.open(this.map, marker);
         });
 
         // Closes the info window if a click occurs on the map
-        this.map.addListener('click', function(){
+        this.map.addListener('click', function () {
             infowindow.close(this.map, marker);
         });
 
         return marker;
     }
+
+
+
+
+
+
 
 
 

@@ -2,7 +2,7 @@
  * Created by Isaiah on 2017-01-31.
  */
 import { Component, AfterViewInit, OnInit } from '@angular/core';
-import { UserAuthenticationService } from "../shared/services/user-authentication.service";
+import { UserService } from "../shared/services/user.service";
 import { User } from "../shared/model/user";
 declare let $:any;
 
@@ -17,8 +17,11 @@ declare let $:any;
 export class MenuComponent implements OnInit {
 
     private currentUser = new User(null, null, null, null, null);
+    private userAccountHidden = true;
+    private userBookingsHidden = true;
+    private userMenuHidden = false;
 
-    constructor(private uas: UserAuthenticationService) {
+    constructor(private uas: UserService) {
     }
 
     ngOnInit() {
@@ -48,11 +51,23 @@ export class MenuComponent implements OnInit {
             });
     }
 
-    replaceMenuPiece(target, source){
-        console.log(target, source);
-        console.log(document.getElementById(target).outerHTML);
-        console.log(document.getElementById(source).outerHTML);
-        document.getElementById(target).outerHTML= document.getElementById(source).outerHTML;
+    replaceMenuContent(replaceThis: string, withThis: string){
+        switch (replaceThis){
+            case 'menu': {
+                this.userMenuHidden = true;
+                switch (withThis){
+                    case 'account': this.userAccountHidden = false; return;
+                    case 'booking': this.userBookingsHidden = false;
+                }
+                return;
+            }
+            default:{
+                this.userAccountHidden = true;
+                this.userBookingsHidden = true;
+                this.userMenuHidden = false;
+            }
+        }
+
     }
 
 

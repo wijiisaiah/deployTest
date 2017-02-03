@@ -9,30 +9,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var user_authentication_service_1 = require('../../shared/services/user-authentication.service');
+var user_service_1 = require('../../shared/services/user.service');
 var user_1 = require('../../shared/model/user');
 var router_1 = require("@angular/router");
 var UserAuthenticationComponent = (function () {
-    function UserAuthenticationComponent(UserAuthenticationService, router) {
-        this.UserAuthenticationService = UserAuthenticationService;
+    function UserAuthenticationComponent(userService, router) {
+        this.userService = userService;
         this.router = router;
         this.user = new user_1.User(null, null, null, null, null);
     }
     UserAuthenticationComponent.prototype.register = function () {
+        var that = this;
         this.user.name = document.getElementById('argName').value;
         this.user.email = document.getElementById('argEmail').value;
         var password = document.getElementById('argPass').value;
-        this.UserAuthenticationService.register(this.user.name, this.user.email, password);
+        this.userService.register(this.user.name, this.user.email, password)
+            .then(function () {
+            that.reRoute();
+        });
         console.log("User Registered");
     };
     UserAuthenticationComponent.prototype.login = function () {
         var that = this;
         var email = document.getElementById('argEmail').value;
         var password = document.getElementById('argPass').value;
-        this.UserAuthenticationService.login(email, password)
+        this.userService.login(email, password)
             .then(function () {
             that.reRoute();
-        });
+        })
+            .catch((function (err) {
+            alert('Login Failed');
+        }));
         console.log("User Authenticated");
     };
     UserAuthenticationComponent.prototype.reRoute = function () {
@@ -46,7 +53,7 @@ var UserAuthenticationComponent = (function () {
             templateUrl: 'user-authentication.component.html',
             styleUrls: ['user-authentication.component.css']
         }), 
-        __metadata('design:paramtypes', [user_authentication_service_1.UserAuthenticationService, router_1.Router])
+        __metadata('design:paramtypes', [user_service_1.UserService, router_1.Router])
     ], UserAuthenticationComponent);
     return UserAuthenticationComponent;
 }());

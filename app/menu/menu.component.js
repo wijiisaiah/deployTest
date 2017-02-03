@@ -12,12 +12,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Created by Isaiah on 2017-01-31.
  */
 var core_1 = require('@angular/core');
-var user_authentication_service_1 = require("../shared/services/user-authentication.service");
+var user_service_1 = require("../shared/services/user.service");
 var user_1 = require("../shared/model/user");
 var MenuComponent = (function () {
     function MenuComponent(uas) {
         this.uas = uas;
         this.currentUser = new user_1.User(null, null, null, null, null);
+        this.userAccountHidden = true;
+        this.userBookingsHidden = true;
+        this.userMenuHidden = false;
     }
     MenuComponent.prototype.ngOnInit = function () {
         this.getCurrentUser();
@@ -42,11 +45,24 @@ var MenuComponent = (function () {
             console.error("Unable to get current user -", err);
         });
     };
-    MenuComponent.prototype.replaceMenuPiece = function (target, source) {
-        console.log(target, source);
-        console.log(document.getElementById(target).outerHTML);
-        console.log(document.getElementById(source).outerHTML);
-        document.getElementById(target).outerHTML = document.getElementById(source).outerHTML;
+    MenuComponent.prototype.replaceMenuContent = function (replaceThis, withThis) {
+        switch (replaceThis) {
+            case 'menu': {
+                this.userMenuHidden = true;
+                switch (withThis) {
+                    case 'account':
+                        this.userAccountHidden = false;
+                        return;
+                    case 'booking': this.userBookingsHidden = false;
+                }
+                return;
+            }
+            default: {
+                this.userAccountHidden = true;
+                this.userBookingsHidden = true;
+                this.userMenuHidden = false;
+            }
+        }
     };
     MenuComponent = __decorate([
         core_1.Component({
@@ -55,7 +71,7 @@ var MenuComponent = (function () {
             templateUrl: 'menu.component.html',
             styleUrls: ['menu.component.css']
         }), 
-        __metadata('design:paramtypes', [user_authentication_service_1.UserAuthenticationService])
+        __metadata('design:paramtypes', [user_service_1.UserService])
     ], MenuComponent);
     return MenuComponent;
 }());
