@@ -118,6 +118,13 @@ export class MapComponent implements OnInit {
         // Creating Info Window which is related to this Parking Station
         let infowindow = new google.maps.InfoWindow({
            content: `
+           <head>
+           <script>
+            myFuntion() {
+                console.log("Button worked!!")
+            }
+           </script>
+        </head>
         <div id="infoWindow">
              <h3>`+parking.title+`</h3><br>
              <p> Address: `+parking.address+`<br>
@@ -126,7 +133,7 @@ export class MapComponent implements OnInit {
              </p>
             <div class="col-sm-9 offset-sm-3"></div>
         </div>
-        <button class="btn btn-info" onclick="">Reserve</button>`,
+        <input type="button" class="btn btn-info" onclick="myFunction()">Reserve</input>`,
         });
 
         // Pushes the newly created Info Window to the array of info windows
@@ -150,6 +157,8 @@ export class MapComponent implements OnInit {
         return marker;
     }
 
-
+    // myFunction() {
+    //     console.log("Button worked!!");
+    // }
 
 }

@@ -91,7 +91,7 @@ var MapComponent = (function () {
         });
         // Creating Info Window which is related to this Parking Station
         var infowindow = new google.maps.InfoWindow({
-            content: "\n        <div id=\"infoWindow\">\n             <h3>" + parking.title + "</h3><br>\n             <p> Address: " + parking.address + "<br>\n                 Type: " + parking.type + " <br>\n                 Size: " + parking.size + "\n             </p>\n            <div class=\"col-sm-9 offset-sm-3\"></div>\n        </div>\n        <button class=\"btn btn-info\" onclick=\"\">Reserve</button>",
+            content: "\n           <head>\n           <script>\n            myFuntion() {\n                console.log(\"Button worked!!\")\n            }\n           </script>\n        </head>\n        <div id=\"infoWindow\">\n             <h3>" + parking.title + "</h3><br>\n             <p> Address: " + parking.address + "<br>\n                 Type: " + parking.type + " <br>\n                 Size: " + parking.size + "\n             </p>\n            <div class=\"col-sm-9 offset-sm-3\"></div>\n        </div>\n        <input type=\"button\" class=\"btn btn-info\" onclick=\"myFunction()\">Reserve</input>",
         });
         // Pushes the newly created Info Window to the array of info windows
         this.infowindows.push(infowindow);
