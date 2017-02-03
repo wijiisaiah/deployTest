@@ -8,32 +8,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-/**
- * Created by Isaiah on 2017-01-31.
- */
-// Modules
 var core_1 = require('@angular/core');
-var platform_browser_1 = require("@angular/platform-browser");
-var app_routing_module_1 = require("../app-routing.module");
-// Components
-var map_component_1 = require("./map.component");
-var menu_component_1 = require("../menu/menu.component");
-var MapModule = (function () {
-    function MapModule() {
+var booking_1 = require('../../shared/model/booking');
+var MyBookingsComponent = (function () {
+    function MyBookingsComponent() {
+        this.currentBooking = new booking_1.Booking(null, null, null, null, null);
     }
-    MapModule = __decorate([
-        core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, app_routing_module_1.AppRoutingModule],
-            declarations: [
-                map_component_1.MapComponent,
-                menu_component_1.MenuComponent
-            ],
-            exports: [map_component_1.MapComponent],
-            providers: []
+    MyBookingsComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'my-bookings',
+            templateUrl: 'my-bookings.component.html',
+            styleUrls: ['my-bookings.component.css']
         }), 
         __metadata('design:paramtypes', [])
-    ], MapModule);
-    return MapModule;
+    ], MyBookingsComponent);
+    return MyBookingsComponent;
 }());
-exports.MapModule = MapModule;
-//# sourceMappingURL=map.module.js.map
+exports.MyBookingsComponent = MyBookingsComponent;
+//# sourceMappingURL=my-bookings.component.js.map

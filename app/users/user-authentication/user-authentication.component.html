@@ -1,6 +1,6 @@
 <a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
 <a [routerLink]="['/map']">Map</a>
-<a [routerLink]="['/account']">Account</a>
+<a [routerLink]="['/my-bookings']">Bookings</a>
 
 <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
      style="display: none;">
@@ -12,7 +12,7 @@
                 <input type="text" name="email" placeholder="Email" id="argEmail">
                 <input type="password" name="pass" placeholder="Password" id="argPass">
                 <input type="button" name="login" class="login loginmodal-submit" value="Login" data-dismiss="modal" (click)="login()">
-                <input type="button" name="register" class="register registermodal-submit" value="Register"
+                <input type="button" name="register" class="register registermodal-submit" data-dismiss="modal" value="Register"
                        (click)="register()">
             </form>
             <div class="login-help">

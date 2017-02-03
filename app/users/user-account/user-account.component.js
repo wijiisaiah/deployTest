@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var user_authentication_service_1 = require('../../shared/services/user-authentication.service');
+var user_service_1 = require('../../shared/services/user.service');
 var user_1 = require('../../shared/model/user');
 var UserAccountComponent = (function () {
     function UserAccountComponent(uas) {
@@ -42,7 +42,7 @@ var UserAccountComponent = (function () {
             templateUrl: 'user-account.component.html',
             styleUrls: ['user-account.component.css']
         }), 
-        __metadata('design:paramtypes', [user_authentication_service_1.UserAuthenticationService])
+        __metadata('design:paramtypes', [user_service_1.UserService])
     ], UserAccountComponent);
     return UserAccountComponent;
 }());

@@ -6,11 +6,14 @@ import { CoreModule } from './core/core.module';
 
 //Components
 import { AppComponent } from './app.component';
-import {MenuComponent} from "./menu/menu.component";
-import {UserAccountComponent} from "./users/user-account/user-account.component";
-import {MapComponent} from "./map/map.component";
-import {UserAuthenticationComponent} from "./users/user-authentication/user-authentication.component";
-import {UserAuthenticationService} from "./shared/services/user-authentication.service";
+import { MenuComponent } from "./menu/menu.component";
+import { UserAccountComponent } from "./users/user-account/user-account.component";
+import { MapComponent } from "./map/map.component";
+import { UserAuthenticationComponent } from "./users/user-authentication/user-authentication.component";
+import { MyBookingsComponent } from "./bookings/my-bookings/my-bookings.component";
+
+//Services
+import {UserService} from "./shared/services/user.service";
 
 @NgModule({
     imports: [ 
@@ -23,9 +26,10 @@ import {UserAuthenticationService} from "./shared/services/user-authentication.s
         MapComponent,
         MenuComponent,
         UserAuthenticationComponent,
-        UserAccountComponent
+        UserAccountComponent,
+        MyBookingsComponent
     ],
-    providers:[UserAuthenticationService],
+    providers:[ UserService ],
     bootstrap: [ AppComponent ]
 })
 

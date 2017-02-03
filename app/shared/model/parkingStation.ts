@@ -9,6 +9,7 @@ export class ParkingStation{
         public lat: number,
         public lng: number,
         public size: number,
-        public available: boolean
+        public availability: boolean,
+        public rate: number
     ){}
 }

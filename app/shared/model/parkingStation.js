@@ -3,14 +3,15 @@
  * Created by Isaiah on 2017-01-31.
  */
 var ParkingStation = (function () {
-    function ParkingStation(title, address, type, lat, lng, size, available) {
+    function ParkingStation(title, address, type, lat, lng, size, availability, rate) {
         this.title = title;
         this.address = address;
         this.type = type;
         this.lat = lat;
         this.lng = lng;
         this.size = size;
-        this.available = available;
+        this.availability = availability;
+        this.rate = rate;
     }
     return ParkingStation;
 }());

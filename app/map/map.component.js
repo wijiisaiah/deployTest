@@ -11,11 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var parkingStation_1 = require("../shared/model/parkingStation");
 var MapComponent = (function () {
-    function MapComponent() {
+    function MapComponent(zone) {
+        this.zone = zone;
     }
+    MapComponent.prototype.reserveEventListener = function (event) {
+        console.log(event.detail);
+    };
     MapComponent.prototype.ngOnInit = function () {
-        var testParking = new parkingStation_1.ParkingStation('UBC Sub', '606 Something drive', 'MazDome', 49.2827, -123.1207, 100, true);
-        var testParking2 = new parkingStation_1.ParkingStation('UBC asdf', '606 asdf drive', 'MazDome', 49.2727, -123.1207, 100, true);
+        var testParking = new parkingStation_1.ParkingStation('UBC Sub', '606 Something drive', 'MazDome', 49.2827, -123.1207, 100, true, 100);
+        var testParking2 = new parkingStation_1.ParkingStation('UBC asdf', '606 asdf drive', 'MazDome', 49.2727, -123.1207, 100, true, 100);
         this.parkingStations = [testParking, testParking2];
         this.markers = [];
         this.infowindows = [];
@@ -89,10 +93,14 @@ var MapComponent = (function () {
             map: this.map,
             title: parking.title
         });
+        var content = "\n                <head>\n                   <script>\n                        function myFunction(){\n                            console.log('message');\n                        }\n                    </script>\n                </head>\n                <body>\n                    <div id=\"infoWindow\">\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Rate: " + parking.rate + "\n                     </p>\n                     <br>\n                    <button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"reserve\", {detail: \"Reservation Started\"}));'>Reserve</button>\n                </div>\n                </body>\n                  ";
         // Creating Info Window which is related to this Parking Station
         var infowindow = new google.maps.InfoWindow({
-            content: "\n           <head>\n           <script>\n            myFuntion() {\n                console.log(\"Button worked!!\")\n            }\n           </script>\n        </head>\n        <div id=\"infoWindow\">\n             <h3>" + parking.title + "</h3><br>\n             <p> Address: " + parking.address + "<br>\n                 Type: " + parking.type + " <br>\n                 Size: " + parking.size + "\n             </p>\n            <div class=\"col-sm-9 offset-sm-3\"></div>\n        </div>\n        <input type=\"button\" class=\"btn btn-info\" onclick=\"myFunction()\">Reserve</input>",
+            content: content,
         });
+        // function myFunction(){
+        //     console.log('reserve');
+        // }
         // Pushes the newly created Info Window to the array of info windows
         this.infowindows.push(infowindow);
         // Listener made to open InfoWindow when user clicks on a marker
@@ -110,15 +118,20 @@ var MapComponent = (function () {
         });
         return marker;
     };
+    __decorate([
+        core_1.HostListener('window:reserve', ['$event']), 
+        __metadata('design:type', Function), 
+        __metadata('design:paramtypes', [Object]), 
+        __metadata('design:returntype', void 0)
+    ], MapComponent.prototype, "reserveEventListener", null);
     MapComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'map-map',
-            template: '<user-menu></user-menu>' +
-                '<div id="googleMap"></div>',
+            template: '<user-menu></user-menu><div id="googleMap"></div>',
             styles: ["\n    #googleMap {\n        width: 100%;\n        height:100%;\n        padding: 0;\n         }\n"]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [core_1.NgZone])
     ], MapComponent);
     return MapComponent;
 }());

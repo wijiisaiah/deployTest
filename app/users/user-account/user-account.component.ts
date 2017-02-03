@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { UserAuthenticationService } from '../../shared/services/user-authentication.service';
+import { UserService } from '../../shared/services/user.service';
 
 import { User } from '../../shared/model/user';
 
@@ -15,7 +15,7 @@ export class UserAccountComponent implements OnInit {
 
     private currentUser = new User(null, null, null, null, null);
 
-    constructor(private uas: UserAuthenticationService) { }
+    constructor(private uas: UserService) { }
 
     ngOnInit() {
         this.getCurrentUser();

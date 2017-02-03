@@ -13,6 +13,7 @@ var router_1 = require('@angular/router');
 var map_component_1 = require("./map/map.component");
 var user_account_component_1 = require("./users/user-account/user-account.component");
 var user_authentication_component_1 = require("./users/user-authentication/user-authentication.component");
+var my_bookings_component_1 = require("./bookings/my-bookings/my-bookings.component");
 var AppRoutingModule = (function () {
     function AppRoutingModule() {
     }
@@ -24,6 +25,7 @@ var AppRoutingModule = (function () {
                     { path: 'login', component: user_authentication_component_1.UserAuthenticationComponent },
                     { path: 'account', component: user_account_component_1.UserAccountComponent },
                     { path: 'map', component: map_component_1.MapComponent },
+                    { path: 'my-bookings', component: my_bookings_component_1.MyBookingsComponent },
                     { path: '**', redirectTo: 'login' }
                 ])
             ],
