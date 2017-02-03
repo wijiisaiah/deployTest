@@ -14,4 +14,8 @@ import { Booking } from '../../shared/model/booking';
 export class MyBookingsComponent { 
 
     private currentBooking = new Booking(null, null, null, null, null);
+
+    constructor(private bookingService: BookingService){
+
+    }
 }

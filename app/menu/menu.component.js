@@ -14,9 +14,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var user_service_1 = require("../shared/services/user.service");
 var user_1 = require("../shared/model/user");
+var booking_service_1 = require("../shared/services/booking.service");
 var MenuComponent = (function () {
-    function MenuComponent(uas) {
+    function MenuComponent(uas, BookingService) {
         this.uas = uas;
+        this.BookingService = BookingService;
         this.currentUser = new user_1.User(null, null, null, null, null);
         this.userAccountHidden = true;
         this.userBookingsHidden = true;
@@ -53,7 +55,10 @@ var MenuComponent = (function () {
                     case 'account':
                         this.userAccountHidden = false;
                         return;
-                    case 'booking': this.userBookingsHidden = false;
+                    case 'booking': {
+                        this.userBookingsHidden = false;
+                        console.log("call update here");
+                    }
                 }
                 return;
             }
@@ -71,7 +76,7 @@ var MenuComponent = (function () {
             templateUrl: 'menu.component.html',
             styleUrls: ['menu.component.css']
         }), 
-        __metadata('design:paramtypes', [user_service_1.UserService])
+        __metadata('design:paramtypes', [user_service_1.UserService, booking_service_1.BookingService])
     ], MenuComponent);
     return MenuComponent;
 }());

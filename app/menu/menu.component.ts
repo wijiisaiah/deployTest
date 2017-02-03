@@ -4,6 +4,7 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { UserService } from "../shared/services/user.service";
 import { User } from "../shared/model/user";
+import {BookingService} from "../shared/services/booking.service";
 declare let $:any;
 
 
@@ -21,7 +22,7 @@ export class MenuComponent implements OnInit {
     private userBookingsHidden = true;
     private userMenuHidden = false;
 
-    constructor(private uas: UserService) {
+    constructor(private uas: UserService, private BookingService: BookingService) {
     }
 
     ngOnInit() {
@@ -57,7 +58,10 @@ export class MenuComponent implements OnInit {
                 this.userMenuHidden = true;
                 switch (withThis){
                     case 'account': this.userAccountHidden = false; return;
-                    case 'booking': this.userBookingsHidden = false;
+                    case 'booking': {
+                        this.userBookingsHidden = false;
+                        console.log("call update here");
+                    }
                 }
                 return;
             }

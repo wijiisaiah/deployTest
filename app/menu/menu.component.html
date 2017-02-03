@@ -13,6 +13,7 @@
             <a (click)="replaceMenuContent('account','menu')">Menu</a>
         </div>
         <div id="myBookings" [hidden]="userBookingsHidden">
+            <my-bookings></my-bookings>
             <a (click)="replaceMenuContent('booking','menu')">Menu</a>
         </div>
     </div>

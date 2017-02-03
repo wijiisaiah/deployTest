@@ -9,9 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var booking_service_1 = require('../../shared/services/booking.service');
 var booking_1 = require('../../shared/model/booking');
 var MyBookingsComponent = (function () {
-    function MyBookingsComponent() {
+    function MyBookingsComponent(bookingService) {
+        this.bookingService = bookingService;
         this.currentBooking = new booking_1.Booking(null, null, null, null, null);
     }
     MyBookingsComponent = __decorate([
@@ -21,7 +23,7 @@ var MyBookingsComponent = (function () {
             templateUrl: 'my-bookings.component.html',
             styleUrls: ['my-bookings.component.css']
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [booking_service_1.BookingService])
     ], MyBookingsComponent);
     return MyBookingsComponent;
 }());
