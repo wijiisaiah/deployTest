@@ -15,7 +15,7 @@ export class Time{
         if (day.length < 2){ day = "0" + day}
         if (month.length < 2){ month = "0" + month}
 
-        return month + " " + day + ", " + year;
+        return month + "/" + day + "/" + year;
     }
 
     public static getCurrentTime(): string{

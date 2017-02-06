@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
-
-import {Observable} from 'rxjs/Observable';
-
 import {FirebaseConfigService} from '../../core/service/firebase-config.service';
 
 import {User} from '../model/user';
-import {Subject} from "rxjs/Rx";
+import {Subject, Observable} from "rxjs/Rx";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class UserService {
@@ -14,7 +12,7 @@ export class UserService {
     private databaseRef = this.fire.database.ref('/users');
     private currentUser = this.fire.auth.currentUser;
 
-    constructor(private fire: FirebaseConfigService) {
+    constructor(private fire: FirebaseConfigService, private router: Router) {
     }
 
     register(name: string, email: string, password: string) {
@@ -32,6 +30,7 @@ export class UserService {
                 that.addUser(temp);
                 that.currentUser = user;
                 console.log(user);
+                this.router.navigate(['/map']);
             })
             .catch(function (err) {
                 console.error("Registration Error", err);
@@ -45,8 +44,8 @@ export class UserService {
         return this.authRef.signInWithEmailAndPassword(email, password)
             .then(function (user) {
                 that.currentUser = user;
-                console.log(that.currentUser)
-
+                console.log(that.currentUser);
+                that.router.navigate(['/map']);
             })
             .catch(function (err) {
                 console.error("Login Error", err);
@@ -57,7 +56,8 @@ export class UserService {
     signOut() {
         this.authRef.signOut();
         this.currentUser = null;
-        console.log('signed out')
+        console.log('signed out');
+        this.router.navigate(['/login']);
     }
 
     addUser(user: User) {
@@ -106,8 +106,7 @@ export class UserService {
         let user = this.authRef.currentUser;
         if (user){
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

@@ -9,12 +9,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var Observable_1 = require('rxjs/Observable');
 var firebase_config_service_1 = require('../../core/service/firebase-config.service');
 var user_1 = require('../model/user');
+var Rx_1 = require("rxjs/Rx");
+var router_1 = require("@angular/router");
 var UserService = (function () {
-    function UserService(fire) {
+    function UserService(fire, router) {
         this.fire = fire;
+        this.router = router;
         this.authRef = this.fire.auth;
         this.databaseRef = this.fire.database.ref('/users');
         this.currentUser = this.fire.auth.currentUser;
@@ -32,6 +34,7 @@ var UserService = (function () {
             that.addUser(temp);
             that.currentUser = user;
             console.log(user);
+            this.router.navigate(['/map']);
         })
             .catch(function (err) {
             console.error("Registration Error", err);
@@ -43,6 +46,7 @@ var UserService = (function () {
             .then(function (user) {
             that.currentUser = user;
             console.log(that.currentUser);
+            that.router.navigate(['/map']);
         })
             .catch(function (err) {
             console.error("Login Error", err);
@@ -52,6 +56,7 @@ var UserService = (function () {
         this.authRef.signOut();
         this.currentUser = null;
         console.log('signed out');
+        this.router.navigate(['/login']);
     };
     UserService.prototype.addUser = function (user) {
         var newUserRef = this.databaseRef.child(user.uid);
@@ -75,7 +80,7 @@ var UserService = (function () {
     };
     UserService.prototype.getCurrentUser = function () {
         var _this = this;
-        return Observable_1.Observable.create(function (obs) {
+        return Rx_1.Observable.create(function (obs) {
             var uid = _this.currentUser.uid;
             var currentUserRef = _this.databaseRef.child(uid);
             currentUserRef.on('value', function (user) {
@@ -97,7 +102,7 @@ var UserService = (function () {
     };
     UserService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [firebase_config_service_1.FirebaseConfigService])
+        __metadata('design:paramtypes', [firebase_config_service_1.FirebaseConfigService, router_1.Router])
     ], UserService);
     return UserService;
 }());

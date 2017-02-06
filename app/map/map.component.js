@@ -10,11 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var parkingStation_1 = require("../shared/model/parkingStation");
+var user_service_1 = require("../shared/services/user.service");
 var booking_service_1 = require("../shared/services/booking.service");
 var booking_1 = require("../shared/model/booking");
+var router_1 = require("@angular/router");
 var MapComponent = (function () {
-    function MapComponent(bookingService) {
+    function MapComponent(bookingService, userService, router) {
         this.bookingService = bookingService;
+        this.userService = userService;
+        this.router = router;
     }
     MapComponent.prototype.reserveEventListener = function (event) {
         console.log(event.detail);
@@ -144,6 +148,8 @@ var MapComponent = (function () {
         });
         return marker;
     };
+    MapComponent.prototype.ngOnDestroy = function () {
+    };
     __decorate([
         core_1.HostListener('window:reserve', ['$event']), 
         __metadata('design:type', Function), 
@@ -163,7 +169,7 @@ var MapComponent = (function () {
             template: '<user-menu></user-menu><div id="googleMap"></div>',
             styles: ["\n    #googleMap {\n        width: 100%;\n        height:100%;\n        padding: 0;\n         }\n"]
         }), 
-        __metadata('design:paramtypes', [booking_service_1.BookingService])
+        __metadata('design:paramtypes', [booking_service_1.BookingService, user_service_1.UserService, router_1.Router])
     ], MapComponent);
     return MapComponent;
 }());

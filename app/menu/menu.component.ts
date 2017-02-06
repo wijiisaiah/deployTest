@@ -40,7 +40,6 @@ export class MenuComponent implements OnInit {
 
     signOut() {
         this.uas.signOut();
-        this.reRoute();
     }
 
     getCurrentUser() {

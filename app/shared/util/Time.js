@@ -16,7 +16,7 @@ var Time = (function () {
         if (month.length < 2) {
             month = "0" + month;
         }
-        return month + " " + day + ", " + year;
+        return month + "/" + day + "/" + year;
     };
     Time.getCurrentTime = function () {
         var d = new Date();
