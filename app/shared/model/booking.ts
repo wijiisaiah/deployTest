@@ -7,6 +7,7 @@ export class Booking{
         public parkingStation: ParkingStation,
         public date: string,
         public startTime: string,
+        public startTimeMs: number,
         public endTime?: string,
         public totalCost?: number
     ){}

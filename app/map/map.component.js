@@ -23,7 +23,7 @@ var MapComponent = (function () {
     };
     MapComponent.prototype.completeEventListener = function (event) {
         console.log(event.detail);
-        var currentBooking = new booking_1.Booking(null, null, null);
+        var currentBooking = new booking_1.Booking(null, null, null, null);
         //get the current booking from Firebase and set it to currentBooking
         this.bookingService.getCurrentBooking()
             .subscribe(function (obs) {
@@ -117,7 +117,7 @@ var MapComponent = (function () {
             map: this.map,
             title: parking.title
         });
-        var content = "\n                <head>\n                   <script>\n                        function myFunction(){\n                            console.log('message');\n                        }\n                    </script>\n                </head>\n                <body>\n                    <div id=\"infoWindow\">\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Rate: " + parking.rate + "\n                     </p>\n                     <br>\n                    <button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"reserve\", {detail: \"Reservation Started\"}));'>Reserve</button>\n                    <button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"complete\", {detail: \"End Booking\"}));'>Reserve</button>\n                </div>\n                </body>\n                  ";
+        var content = "\n                <head>\n                   <script>\n                        function myFunction(){\n                            console.log('message');\n                        }\n                    </script>\n                </head>\n                <body>\n                    <div id=\"infoWindow\">\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Rate: " + parking.rate + "\n                     </p>\n                     <br>\n                    <button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"reserve\", {detail: \"Reservation Started\"}));'>Reserve</button>\n                    <button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"complete\", {detail: \"End Booking\"}));'>Complete</button>\n                </div>\n                </body>\n                  ";
         // Creating Info Window which is related to this Parking Station
         var infowindow = new google.maps.InfoWindow({
             content: content,

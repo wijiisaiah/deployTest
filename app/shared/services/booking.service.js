@@ -42,12 +42,14 @@ var BookingService = (function () {
     BookingService.prototype.createBooking = function (parkingStation) {
         var date = Time_1.Time.getCurrentDate();
         var startTime = Time_1.Time.getCurrentTime();
-        var newBooking = new booking_1.Booking(parkingStation, date, startTime);
+        var startTimeMs = new Date().getTime();
+        var newBooking = new booking_1.Booking(parkingStation, date, startTime, startTimeMs);
         var currentBookingRef = this.currentUserRef.child('current booking').child('curBooking');
         currentBookingRef.set({
             ParkingStation: parkingStation,
             date: date,
-            startTime: startTime
+            startTime: startTime,
+            startTimeMs: startTimeMs
         })
             .catch(function (err) { return console.error("Unable to add Booking", err); });
     };
@@ -70,7 +72,8 @@ var BookingService = (function () {
     /* Sets the end time and cost of the argument booking */
     BookingService.prototype.updateCurrentBooking = function (curBooking) {
         var endTime = Time_1.Time.getCurrentTime();
-        var cost = 5;
+        //const cost = 5;
+        var cost = this.calculateCost(curBooking);
         curBooking.endTime = endTime;
         curBooking.totalCost = cost;
     };
@@ -100,6 +103,15 @@ var BookingService = (function () {
         var currentBookingRef = this.currentUserRef.child('current booking');
         currentBookingRef.ref.remove();
         console.log("Removed");
+    };
+    BookingService.prototype.calculateCost = function (booking) {
+        var endTime = new Date().getTime();
+        var startTime = booking.startTimeMs;
+        var durationMs = endTime - startTime;
+        var durationHrs = durationMs / (3600 * 1000);
+        var cost = (durationHrs * booking.parkingStation.rate).toFixed(3);
+        console.log("Cost: " + cost + " Rate: " + booking.parkingStation.rate + " Duration: " + durationHrs);
+        return cost;
     };
     BookingService = __decorate([
         core_1.Injectable(), 

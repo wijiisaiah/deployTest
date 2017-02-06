@@ -45,14 +45,16 @@ export class BookingService {
     public createBooking(parkingStation: ParkingStation) {
         let date = Time.getCurrentDate();
         let startTime = Time.getCurrentTime();
-        let newBooking = new Booking(parkingStation, date, startTime);
+        let startTimeMs = new Date().getTime();
+        let newBooking = new Booking(parkingStation, date, startTime, startTimeMs);
 
         const currentBookingRef = this.currentUserRef.child('current booking').child('curBooking');
 
         currentBookingRef.set({
             ParkingStation: parkingStation,
             date: date,
-            startTime: startTime
+            startTime: startTime,
+            startTimeMs: startTimeMs
         })
             .catch(err => console.error("Unable to add Booking", err));
 
@@ -82,7 +84,9 @@ export class BookingService {
     updateCurrentBooking(curBooking: Booking) {
 
         let endTime = Time.getCurrentTime();
-        const cost = 5;
+        //const cost = 5;
+
+        const cost = this.calculateCost(curBooking);
 
         curBooking.endTime = endTime;
         curBooking.totalCost = cost;
@@ -118,6 +122,22 @@ export class BookingService {
         const currentBookingRef = this.currentUserRef.child('current booking');
         currentBookingRef.ref.remove();
         console.log("Removed");
+    }
+
+    calculateCost(booking: Booking): string {
+
+    const endTime = new Date().getTime();
+    const startTime = booking.startTimeMs;
+
+    const durationMs = endTime - startTime;
+    const durationHrs = durationMs / (3600*1000);
+
+    const cost = (durationHrs * booking.parkingStation.rate).toFixed(3);
+
+    console.log("Cost: " + cost + " Rate: " + booking.parkingStation.rate + " Duration: " + durationHrs);
+
+    return cost;
+
     }
 
 

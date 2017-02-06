@@ -30,7 +30,7 @@ export class MapComponent implements OnInit {
     @HostListener('window:complete', ['$event'])
     completeEventListener(event) {
         console.log(event.detail)
-        let currentBooking = new Booking(null, null, null);
+        let currentBooking = new Booking(null, null, null, null);
 
         //get the current booking from Firebase and set it to currentBooking
         this.bookingService.getCurrentBooking()
@@ -170,7 +170,7 @@ export class MapComponent implements OnInit {
                      </p>
                      <br>
                     <button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("reserve", {detail: "Reservation Started"}));'>Reserve</button>
-                    <button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("complete", {detail: "End Booking"}));'>Reserve</button>
+                    <button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("complete", {detail: "End Booking"}));'>Complete</button>
                 </div>
                 </body>
                   `;
