@@ -43,9 +43,8 @@ var BookingService = (function () {
         var date = Time_1.Time.getCurrentDate();
         var startTime = Time_1.Time.getCurrentTime();
         var newBooking = new booking_1.Booking(parkingStation, date, startTime);
-        var currentBookingRef = this.currentUserRef.child('current booking');
-        var ref = currentBookingRef.push();
-        ref.set({
+        var currentBookingRef = this.currentUserRef.child('current booking').child('curBooking');
+        currentBookingRef.set({
             ParkingStation: parkingStation,
             date: date,
             startTime: startTime
@@ -59,16 +58,16 @@ var BookingService = (function () {
         var bookingsRef = this.currentUserRef.child('current booking');
         return Observable_1.Observable.create(function (obs) {
             bookingsRef.on('child_added', function (booking) {
+                var parkingStation = booking.child('ParkingStation').val();
                 var curBooking = booking.val();
+                curBooking.parkingStation = parkingStation;
                 obs.next(curBooking);
             }, function (err) {
                 obs.throw(err);
             });
         });
     };
-    /* Sets the end time and cost of the current booking in
-    * user -> current booking in the database
-    */
+    /* Sets the end time and cost of the argument booking */
     BookingService.prototype.updateCurrentBooking = function (curBooking) {
         var endTime = Time_1.Time.getCurrentTime();
         var cost = 5;
@@ -83,9 +82,10 @@ var BookingService = (function () {
         console.log("bookingsRef created");
         var ref = bookingsRef.push();
         console.log("Pushed to bookingsRef");
-        var ParkingStation = booking.parkingStation;
         ref.set({
-            ParkingStation: ParkingStation,
+            title: booking.parkingStation.title,
+            address: booking.parkingStation.address,
+            rate: booking.parkingStation.rate,
             date: booking.date,
             startTime: booking.startTime,
             endTime: booking.endTime,
@@ -98,7 +98,8 @@ var BookingService = (function () {
     */
     BookingService.prototype.removeCurrentBooking = function () {
         var currentBookingRef = this.currentUserRef.child('current booking');
-        currentBookingRef.remove();
+        currentBookingRef.ref.remove();
+        console.log("Removed");
     };
     BookingService = __decorate([
         core_1.Injectable(), 

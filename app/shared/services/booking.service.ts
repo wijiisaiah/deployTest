@@ -39,17 +39,17 @@ export class BookingService {
         });
     }
 
-     /* Creates a new booking in user -> current booking in the database. It sets
-     * the bookings start time, date and parking station.
-     */
+    /* Creates a new booking in user -> current booking in the database. It sets
+    * the bookings start time, date and parking station.
+    */
     public createBooking(parkingStation: ParkingStation) {
         let date = Time.getCurrentDate();
         let startTime = Time.getCurrentTime();
         let newBooking = new Booking(parkingStation, date, startTime);
 
-        const currentBookingRef = this.currentUserRef.child('current booking');
-        const ref = currentBookingRef.push();
-        ref.set({
+        const currentBookingRef = this.currentUserRef.child('current booking').child('curBooking');
+
+        currentBookingRef.set({
             ParkingStation: parkingStation,
             date: date,
             startTime: startTime
@@ -67,7 +67,9 @@ export class BookingService {
 
         return Observable.create(obs => {
             bookingsRef.on('child_added', booking => {
+                const parkingStation = booking.child('ParkingStation').val() as ParkingStation;
                 const curBooking = booking.val() as Booking;
+                curBooking.parkingStation = parkingStation;
                 obs.next(curBooking);
             },
                 err => {
@@ -76,9 +78,7 @@ export class BookingService {
         });
     }
 
-    /* Sets the end time and cost of the current booking in
-    * user -> current booking in the database
-    */
+    /* Sets the end time and cost of the argument booking */
     updateCurrentBooking(curBooking: Booking) {
 
         let endTime = Time.getCurrentTime();
@@ -98,10 +98,10 @@ export class BookingService {
         const ref = bookingsRef.push();
         console.log("Pushed to bookingsRef");
 
-        let ParkingStation = booking.parkingStation;
-
         ref.set({
-            ParkingStation: ParkingStation,
+            title: booking.parkingStation.title,
+            address: booking.parkingStation.address,
+            rate: booking.parkingStation.rate,
             date: booking.date,
             startTime: booking.startTime,
             endTime: booking.endTime,
@@ -116,7 +116,8 @@ export class BookingService {
     */
     removeCurrentBooking() {
         const currentBookingRef = this.currentUserRef.child('current booking');
-        currentBookingRef.remove();
+        currentBookingRef.ref.remove();
+        console.log("Removed");
     }
 
 

@@ -46,10 +46,12 @@ export class MapComponent implements OnInit {
         this.bookingService.updateCurrentBooking(currentBooking);
         console.log("CurrentBooking updated", currentBooking);
 
+        console.log("Parking station: ", currentBooking.parkingStation);
+
         this.bookingService.addBooking(currentBooking);
         console.log("Current booking added to bookings");
 
-        this.bookingService.removeCurrentBooking;
+        this.bookingService.removeCurrentBooking();
         console.log("Current booking removed");
 
     }
