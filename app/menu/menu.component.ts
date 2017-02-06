@@ -5,6 +5,7 @@ import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { UserService } from "../shared/services/user.service";
 import { User } from "../shared/model/user";
 import {BookingService} from "../shared/services/booking.service";
+import {Router} from "@angular/router";
 declare let $:any;
 
 
@@ -22,7 +23,7 @@ export class MenuComponent implements OnInit {
     private userBookingsHidden = true;
     private userMenuHidden = false;
 
-    constructor(private uas: UserService, private BookingService: BookingService) {
+    constructor(private uas: UserService, private BookingService: BookingService, private router: Router) {
     }
 
     ngOnInit() {
@@ -39,6 +40,7 @@ export class MenuComponent implements OnInit {
 
     signOut() {
         this.uas.signOut();
+        this.reRoute();
     }
 
     getCurrentUser() {
@@ -75,7 +77,7 @@ export class MenuComponent implements OnInit {
     }
 
     reRoute(){
-
+        this.router.navigate(['/login']);
     }
 
 }
