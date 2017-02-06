@@ -18,19 +18,23 @@ var MapComponent = (function () {
     }
     MapComponent.prototype.reserveEventListener = function (event) {
         console.log(event.detail);
-        this.bookingService.createBooking(this.selectedParkingStation);
+        this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
+        console.log("Current booking created");
     };
     MapComponent.prototype.completeEventListener = function (event) {
         console.log(event.detail);
         var currentBooking = new booking_1.Booking(null, null, null);
-        this.bookingService.updateCurrentBooking;
-        console.log("Current booking updated");
-        this.bookingService.getUpdatedBooking()
-            .subscribe(function (updatedBooking) {
-            currentBooking = updatedBooking.val();
-            console.log(currentBooking);
+        //get the current booking from Firebase and set it to currentBooking
+        this.bookingService.getCurrentBooking()
+            .subscribe(function (obs) {
+            currentBooking = obs;
+        }, function (err) {
+            console.error("Unable to get current booking", err);
         });
-        console.log("CurrentBooking retrieved");
+        console.log("Current booking retrieved", currentBooking);
+        //update currentBooking with end time and cost
+        this.bookingService.updateCurrentBooking(currentBooking);
+        console.log("CurrentBooking updated", currentBooking);
         this.bookingService.addBooking(currentBooking);
         console.log("Current booking added to bookings");
         this.bookingService.removeCurrentBooking;

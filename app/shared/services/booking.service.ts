@@ -39,24 +39,6 @@ export class BookingService {
         });
     }
 
-     /* Listens for changes to user -> current booking in the database
-    * Returns an Observable with the updated current booking
-    */
-    getUpdatedBooking(): Observable<any> {
-
-        const currentBookingRef = this.currentUserRef.child('current booking');
-
-        return Observable.create(obs => {
-            currentBookingRef.on('child_changed', booking => {
-                const updatedBooking = booking.val() as Booking;
-                obs.next(updatedBooking);
-            },
-                err => {
-                    obs.throw(err);
-                });
-        });
-    }
-
      /* Creates a new booking in user -> current booking in the database. It sets
      * the bookings start time, date and parking station.
      */
@@ -67,7 +49,8 @@ export class BookingService {
         let newBooking = new Booking(parkingStation, date, startTime);
 
         const currentBookingRef = this.currentUserRef.child('current booking');
-        currentBookingRef.set({
+        const ref = currentBookingRef.push();
+        ref.set({
             ParkingStation: parkingStation,
             date: date,
             startTime: startTime
@@ -76,22 +59,35 @@ export class BookingService {
 
     }
 
+    /* Listens for bookings added to user -> current booking in the database
+    * Returns an Observable with the newly added current booking
+    */
+    getCurrentBooking(): Observable<any> {
+
+        const bookingsRef = this.currentUserRef.child('current booking');
+
+        return Observable.create(obs => {
+            bookingsRef.on('child_added', booking => {
+                const curBooking = booking.val() as Booking;
+                obs.next(curBooking);
+            },
+                err => {
+                    obs.throw(err);
+                });
+        });
+    }
+
     /* Sets the end time and cost of the current booking in
     * user -> current booking in the database
     */
-    updateCurrentBooking() {
+    updateCurrentBooking(curBooking: Booking) {
 
         let t = new Time();
         let endTime = t.getCurrentTime();
         const cost = 5;
-        const currentBookingRef = this.currentUserRef.child('current booking');
 
-        currentBookingRef.set({
-            endTime: endTime,
-            cost: cost
-        })
-        .catch(err => console.error("Unable to update current booking -", err));
-
+        curBooking.endTime = endTime;
+        curBooking.totalCost = cost;
     }
 
     /* Takes a booking as an argument and adds it to the database
@@ -104,8 +100,10 @@ export class BookingService {
         const ref = bookingsRef.push();
         console.log("Pushed to bookingsRef");
 
+        let ParkingStation = booking.parkingStation;
+
         ref.set({
-            ParkingStation: booking.parkingStation,
+            ParkingStation: ParkingStation,
             date: booking.date,
             startTime: booking.startTime,
             endTime: booking.endTime,
