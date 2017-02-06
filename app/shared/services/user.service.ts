@@ -5,9 +5,10 @@ import {Observable} from 'rxjs/Observable';
 import {FirebaseConfigService} from '../../core/service/firebase-config.service';
 
 import {User} from '../model/user';
+import {Subject} from "rxjs/Rx";
 
 @Injectable()
-export class UserService{
+export class UserService {
 
     private authRef = this.fire.auth;
     private databaseRef = this.fire.database.ref('/users');
@@ -19,7 +20,7 @@ export class UserService{
     register(name: string, email: string, password: string) {
 
         let that = this;
-        let temp = new User(name, null, email, null, null );
+        let temp = new User(name, null, email, null, null);
 
         return this.authRef.createUserWithEmailAndPassword(email, password)
             .then(function (user) {
@@ -42,7 +43,7 @@ export class UserService{
         let that = this;
 
         return this.authRef.signInWithEmailAndPassword(email, password)
-            .then(function(user){
+            .then(function (user) {
                 that.currentUser = user;
                 console.log(that.currentUser)
 
@@ -52,7 +53,8 @@ export class UserService{
             });
 
     }
-    signOut(){
+
+    signOut() {
         this.authRef.signOut();
         this.currentUser = null;
         console.log('signed out')
@@ -80,7 +82,7 @@ export class UserService{
         userRef.update(user);
     }
 
-    findUserRef(uid: string){
+    findUserRef(uid: string) {
         return this.databaseRef.child(uid);
     }
 
@@ -89,15 +91,25 @@ export class UserService{
         return Observable.create(obs => {
             const uid = this.currentUser.uid;
             const currentUserRef = this.databaseRef.child(uid);
-          
-           currentUserRef.on('value', user => {
-               const newUser = user.val() as User;
-               obs.next(newUser);
-            },
-            err => {
-                obs.throw(err);
-            });
+
+            currentUserRef.on('value', user => {
+                    const newUser = user.val() as User;
+                    obs.next(newUser);
+                },
+                err => {
+                    obs.throw(err);
+                });
         });
+    }
+
+    isAuthenticated(): boolean {
+        let user = this.authRef.currentUser;
+        if (user){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 

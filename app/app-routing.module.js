@@ -14,6 +14,7 @@ var map_component_1 = require("./map/map.component");
 var user_account_component_1 = require("./users/user-account/user-account.component");
 var user_authentication_component_1 = require("./users/user-authentication/user-authentication.component");
 var my_bookings_component_1 = require("./bookings/my-bookings/my-bookings.component");
+var auth_guard_1 = require("./shared/services/auth.guard");
 var AppRoutingModule = (function () {
     function AppRoutingModule() {
     }
@@ -24,8 +25,8 @@ var AppRoutingModule = (function () {
                     { path: '', redirectTo: 'login', pathMatch: 'prefix' },
                     { path: 'login', component: user_authentication_component_1.UserAuthenticationComponent },
                     { path: 'account', component: user_account_component_1.UserAccountComponent },
-                    { path: 'map', component: map_component_1.MapComponent },
-                    { path: 'my-bookings', component: my_bookings_component_1.MyBookingsComponent },
+                    { path: 'map', component: map_component_1.MapComponent, canActivate: [auth_guard_1.AuthGuard] },
+                    { path: 'my-bookings', component: my_bookings_component_1.MyBookingsComponent, canActivate: [auth_guard_1.AuthGuard] },
                     { path: '**', redirectTo: 'login' }
                 ])
             ],

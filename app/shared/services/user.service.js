@@ -86,6 +86,15 @@ var UserService = (function () {
             });
         });
     };
+    UserService.prototype.isAuthenticated = function () {
+        var user = this.authRef.currentUser;
+        if (user) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
     UserService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [firebase_config_service_1.FirebaseConfigService])

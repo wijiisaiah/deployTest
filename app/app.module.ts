@@ -15,6 +15,7 @@ import { MyBookingsComponent } from "./bookings/my-bookings/my-bookings.componen
 //Services
 import {UserService} from "./shared/services/user.service";
 import {BookingService} from "./shared/services/booking.service";
+import {AuthGuard} from "./shared/services/auth.guard";
 
 @NgModule({
     imports: [ 
@@ -30,7 +31,7 @@ import {BookingService} from "./shared/services/booking.service";
         UserAccountComponent,
         MyBookingsComponent
     ],
-    providers:[ UserService, BookingService ],
+    providers:[ UserService, BookingService, AuthGuard ],
     bootstrap: [ AppComponent ]
 })
 

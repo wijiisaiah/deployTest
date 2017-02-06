@@ -23,6 +23,7 @@ var my_bookings_component_1 = require("./bookings/my-bookings/my-bookings.compon
 //Services
 var user_service_1 = require("./shared/services/user.service");
 var booking_service_1 = require("./shared/services/booking.service");
+var auth_guard_1 = require("./shared/services/auth.guard");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -41,7 +42,7 @@ var AppModule = (function () {
                 user_account_component_1.UserAccountComponent,
                 my_bookings_component_1.MyBookingsComponent
             ],
-            providers: [user_service_1.UserService, booking_service_1.BookingService],
+            providers: [user_service_1.UserService, booking_service_1.BookingService, auth_guard_1.AuthGuard],
             bootstrap: [app_component_1.AppComponent]
         }), 
         __metadata('design:paramtypes', [])
