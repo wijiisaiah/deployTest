@@ -21,6 +21,9 @@ export class BookingService {
         this.currentUserRef = this.databaseRef.child(curUser.uid);
     }
 
+    /* Listens for bookings added to user -> bookings in the database
+    * Returns an Observable with the newly added booking
+    */
     getAddedBookings(): Observable<any> {
 
         const bookingsRef = this.currentUserRef.child('bookings');
@@ -36,6 +39,9 @@ export class BookingService {
         });
     }
 
+     /* Listens for changes to user -> current booking in the database
+    * Returns an Observable with the updated current booking
+    */
     getUpdatedBooking(): Observable<any> {
 
         const currentBookingRef = this.currentUserRef.child('current booking');
@@ -51,6 +57,9 @@ export class BookingService {
         });
     }
 
+     /* Creates a new booking in user -> current booking in the database. It sets
+     * the bookings start time, date and parking station.
+     */
     public createBooking(parkingStation: ParkingStation) {
         let t = new Time();
         let date = t.getCurrentDate();
@@ -67,6 +76,9 @@ export class BookingService {
 
     }
 
+    /* Sets the end time and cost of the current booking in
+    * user -> current booking in the database
+    */
     updateCurrentBooking() {
 
         let t = new Time();
@@ -82,6 +94,9 @@ export class BookingService {
 
     }
 
+    /* Takes a booking as an argument and adds it to the database
+    *  under user -> bookings.
+    */
     public addBooking(booking: Booking) {
 
         const bookingsRef = this.currentUserRef.child('bookings');
@@ -100,6 +115,9 @@ export class BookingService {
 
     }
 
+    /* 
+    * Deletes the current booking from the database under user -> current booking.
+    */
     removeCurrentBooking() {
         const currentBookingRef = this.currentUserRef.child('current booking');
         currentBookingRef.remove();
