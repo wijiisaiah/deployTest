@@ -43,9 +43,8 @@ export class BookingService {
      * the bookings start time, date and parking station.
      */
     public createBooking(parkingStation: ParkingStation) {
-        let t = new Time();
-        let date = t.getCurrentDate();
-        let startTime = t.getCurrentTime();
+        let date = Time.getCurrentDate();
+        let startTime = Time.getCurrentTime();
         let newBooking = new Booking(parkingStation, date, startTime);
 
         const currentBookingRef = this.currentUserRef.child('current booking');
@@ -82,8 +81,7 @@ export class BookingService {
     */
     updateCurrentBooking(curBooking: Booking) {
 
-        let t = new Time();
-        let endTime = t.getCurrentTime();
+        let endTime = Time.getCurrentTime();
         const cost = 5;
 
         curBooking.endTime = endTime;

@@ -15,10 +15,12 @@ var core_1 = require('@angular/core');
 var user_service_1 = require("../shared/services/user.service");
 var user_1 = require("../shared/model/user");
 var booking_service_1 = require("../shared/services/booking.service");
+var router_1 = require("@angular/router");
 var MenuComponent = (function () {
-    function MenuComponent(uas, BookingService) {
+    function MenuComponent(uas, BookingService, router) {
         this.uas = uas;
         this.BookingService = BookingService;
+        this.router = router;
         this.currentUser = new user_1.User(null, null, null, null, null);
         this.userAccountHidden = true;
         this.userBookingsHidden = true;
@@ -36,6 +38,7 @@ var MenuComponent = (function () {
     };
     MenuComponent.prototype.signOut = function () {
         this.uas.signOut();
+        this.reRoute();
     };
     MenuComponent.prototype.getCurrentUser = function () {
         var _this = this;
@@ -70,6 +73,7 @@ var MenuComponent = (function () {
         }
     };
     MenuComponent.prototype.reRoute = function () {
+        this.router.navigate(['/login']);
     };
     MenuComponent = __decorate([
         core_1.Component({
@@ -78,7 +82,7 @@ var MenuComponent = (function () {
             templateUrl: 'menu.component.html',
             styleUrls: ['menu.component.css']
         }), 
-        __metadata('design:paramtypes', [user_service_1.UserService, booking_service_1.BookingService])
+        __metadata('design:paramtypes', [user_service_1.UserService, booking_service_1.BookingService, router_1.Router])
     ], MenuComponent);
     return MenuComponent;
 }());

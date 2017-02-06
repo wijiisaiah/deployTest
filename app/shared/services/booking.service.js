@@ -40,9 +40,8 @@ var BookingService = (function () {
     * the bookings start time, date and parking station.
     */
     BookingService.prototype.createBooking = function (parkingStation) {
-        var t = new Time_1.Time();
-        var date = t.getCurrentDate();
-        var startTime = t.getCurrentTime();
+        var date = Time_1.Time.getCurrentDate();
+        var startTime = Time_1.Time.getCurrentTime();
         var newBooking = new booking_1.Booking(parkingStation, date, startTime);
         var currentBookingRef = this.currentUserRef.child('current booking');
         var ref = currentBookingRef.push();
@@ -71,8 +70,7 @@ var BookingService = (function () {
     * user -> current booking in the database
     */
     BookingService.prototype.updateCurrentBooking = function (curBooking) {
-        var t = new Time_1.Time();
-        var endTime = t.getCurrentTime();
+        var endTime = Time_1.Time.getCurrentTime();
         var cost = 5;
         curBooking.endTime = endTime;
         curBooking.totalCost = cost;

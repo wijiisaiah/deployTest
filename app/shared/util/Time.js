@@ -5,14 +5,20 @@
 var Time = (function () {
     function Time() {
     }
-    Time.prototype.getCurrentDate = function () {
+    Time.getCurrentDate = function () {
         var d = new Date();
-        var day = d.getDate();
-        var month = d.getMonth();
-        var year = d.getFullYear();
+        var day = d.getDate().toString();
+        var month = d.getMonth().toString();
+        var year = d.getFullYear().toString();
+        if (day.length < 2) {
+            day = "0" + day;
+        }
+        if (month.length < 2) {
+            month = "0" + month;
+        }
         return month + " " + day + ", " + year;
     };
-    Time.prototype.getCurrentTime = function () {
+    Time.getCurrentTime = function () {
         var d = new Date();
         var second = d.getSeconds().toString();
         var minutes = d.getMinutes().toString();
@@ -21,10 +27,10 @@ var Time = (function () {
             second = "0" + second;
         }
         if (minutes.length < 2) {
-            second = "0" + second;
+            minutes = "0" + minutes;
         }
         if (hour.length < 2) {
-            second = "0" + second;
+            hour = "0" + hour;
         }
         return hour + ":" + minutes + ":" + second;
     };
