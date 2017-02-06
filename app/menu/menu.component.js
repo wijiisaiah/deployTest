@@ -38,7 +38,6 @@ var MenuComponent = (function () {
     };
     MenuComponent.prototype.signOut = function () {
         this.uas.signOut();
-        this.reRoute();
     };
     MenuComponent.prototype.getCurrentUser = function () {
         var _this = this;

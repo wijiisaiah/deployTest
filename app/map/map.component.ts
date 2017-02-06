@@ -1,9 +1,10 @@
-import { Component, OnInit, NgZone, HostListener } from '@angular/core';
-import { ParkingStation } from "../shared/model/parkingStation";
-import { UserService } from "../shared/services/user.service";
-import { MenuComponent } from "../menu/menu.component";
-import { BookingService } from "../shared/services/booking.service";
-import { Booking } from "../shared/model/booking";
+import {Component, OnInit, NgZone, HostListener, OnDestroy} from '@angular/core';
+import {ParkingStation} from "../shared/model/parkingStation";
+import {UserService} from "../shared/services/user.service";
+import {MenuComponent} from "../menu/menu.component";
+import {BookingService} from "../shared/services/booking.service";
+import {Booking} from "../shared/model/booking";
+import {Router} from "@angular/router";
 declare let google: any;
 
 @Component({
@@ -19,13 +20,13 @@ declare let google: any;
          }
 `]
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnDestroy {
     @HostListener('window:reserve', ['$event'])
     reserveEventListener(event) {
         console.log(event.detail)
         this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
         console.log("Current booking created")
- }
+    }
 
     @HostListener('window:complete', ['$event'])
     completeEventListener(event) {
@@ -34,12 +35,12 @@ export class MapComponent implements OnInit {
 
         //get the current booking from Firebase and set it to currentBooking
         this.bookingService.getCurrentBooking()
-        .subscribe(obs => {
-            currentBooking = obs;
-        },
-        err => {
-            console.error("Unable to get current booking", err);
-        });
+            .subscribe(obs => {
+                    currentBooking = obs;
+                },
+                err => {
+                    console.error("Unable to get current booking", err);
+                });
         console.log("Current booking retrieved", currentBooking);
 
         //update currentBooking with end time and cost
@@ -62,10 +63,12 @@ export class MapComponent implements OnInit {
     private infowindows: any;
     private selectedParkingStation: ParkingStation;
 
-    constructor(private bookingService: BookingService) {
+    constructor(private bookingService: BookingService, private userService: UserService, private router: Router) {
+
     }
 
     ngOnInit() {
+
         let testParking: ParkingStation = new ParkingStation('UBC Sub', '606 Something drive', 'MazDome', 49.2827, -123.1207, 100, true, 100);
         let testParking2: ParkingStation = new ParkingStation('UBC asdf', '606 asdf drive', 'MazDome', 49.2727, -123.1207, 100, true, 100);
 
@@ -82,6 +85,7 @@ export class MapComponent implements OnInit {
 
         centerControlDiv.tabIndex = 1;
         this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(centerControlDiv);
+
 
     }
 
@@ -148,7 +152,7 @@ export class MapComponent implements OnInit {
         let that = this;
 
         let marker = new google.maps.Marker({
-            position: { lat: parking.lat, lng: parking.lng },
+            position: {lat: parking.lat, lng: parking.lng},
             map: this.map,
             title: parking.title
         });
@@ -209,14 +213,12 @@ export class MapComponent implements OnInit {
         return marker;
     }
 
+    ngOnDestroy() {
+    }
+
     // myFunction() {
     //     console.log("Button worked!!");
     // }
-
-
-
-
-
 
 
 }

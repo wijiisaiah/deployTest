@@ -26,10 +26,7 @@ export class UserAuthenticationComponent {
         this.user.email = (<HTMLInputElement>document.getElementById('argEmail')).value;
         const password = (<HTMLInputElement>document.getElementById('argPass')).value;
 
-        this.userService.register(this.user.name, this.user.email, password)
-            .then(() => {
-                that.reRoute();
-            });
+        this.userService.register(this.user.name, this.user.email, password);
 
         console.log("User Registered");
 
@@ -42,7 +39,7 @@ export class UserAuthenticationComponent {
 
         this.userService.login(email, password)
             .then(()=> {
-                that.reRoute();
+
             })
             .catch((err => {
                 alert('Login Failed');

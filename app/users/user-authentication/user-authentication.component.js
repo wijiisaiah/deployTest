@@ -23,10 +23,7 @@ var UserAuthenticationComponent = (function () {
         this.user.name = document.getElementById('argName').value;
         this.user.email = document.getElementById('argEmail').value;
         var password = document.getElementById('argPass').value;
-        this.userService.register(this.user.name, this.user.email, password)
-            .then(function () {
-            that.reRoute();
-        });
+        this.userService.register(this.user.name, this.user.email, password);
         console.log("User Registered");
     };
     UserAuthenticationComponent.prototype.login = function () {
@@ -35,7 +32,6 @@ var UserAuthenticationComponent = (function () {
         var password = document.getElementById('argPass').value;
         this.userService.login(email, password)
             .then(function () {
-            that.reRoute();
         })
             .catch((function (err) {
             alert('Login Failed');
