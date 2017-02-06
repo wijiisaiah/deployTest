@@ -192,6 +192,7 @@ export class MapComponent implements OnInit {
 
         // Closes the info window if a click occurs on the map
         this.map.addListener('click', function () {
+            document.getElementById('myNav').style.width = "0";
             infowindow.close(this.map, marker);
         });
 

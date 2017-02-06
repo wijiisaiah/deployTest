@@ -74,5 +74,8 @@ export class MenuComponent implements OnInit {
 
     }
 
+    reRoute(){
+
+    }
 
 }

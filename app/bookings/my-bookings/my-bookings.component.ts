@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { BookingService } from '../../shared/services/booking.service';
 
 import { Booking } from '../../shared/model/booking';
+import {ParkingStation} from "../../shared/model/parkingStation";
 
 @Component({
     moduleId: module.id,
@@ -11,14 +12,13 @@ import { Booking } from '../../shared/model/booking';
     styleUrls: ['my-bookings.component.css']
 
 })
-export class MyBookingsComponent implements OnInit { 
+export class MyBookingsComponent implements OnInit {
 
     private bookings: Booking[] = [];
 
     constructor(private bookingService: BookingService){ }
     
     ngOnInit() {
-        
         this.getAddedBookings();
     }
 

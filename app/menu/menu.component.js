@@ -69,6 +69,8 @@ var MenuComponent = (function () {
             }
         }
     };
+    MenuComponent.prototype.reRoute = function () {
+    };
     MenuComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

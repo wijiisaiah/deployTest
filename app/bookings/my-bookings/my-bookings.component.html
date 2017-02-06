@@ -1,14 +1,18 @@
 <div class="modal-dialog">
     <div class="loginmodal-container">
-        <h1>My Bookings</h1><br>
-        <p>
-           <br> 
-            Title: {{ currentBooking.parkingStation.title }} <br>
-            Address: {{ currentBooking.parkingStation.address }}<br>
-            Date: {{ currentBooking.date }}<br>
-            Start Time: {{ currentBooking.startTime }}<br>
-            End Time: {{ currentBooking.endTime }}<br>
-            Total Cost: {{ currentBooking.totalCost }}<br>
-        </p>
+
+        <ul class="list-group">
+            <h1>My Bookings</h1>
+            <li *ngFor="let booking of bookings" class="list-group-item">
+                <ul class="list-group">
+                    <li class="list-group-item"> <b>Title</b>: {{ booking.parkingStation.title }}</li>
+                    <li class="list-group-item"> <b>Address</b>: {{ booking.parkingStation.address }}</li>
+                    <li class="list-group-item"> <b>Date</b>: {{ booking.date }}</li>
+                    <li class="list-group-item"> <b>Start Time</b>: {{ booking.startTime }}</li>
+                    <li class="list-group-item"> <b>End Time</b>: {{ booking.endTime }}</li>
+                    <li class="list-group-item"> <b>Total Cost</b>: {{ booking.totalCost }}</li>
+                </ul>
+            </li>
+        </ul>
     </div>
 </div>

@@ -22,6 +22,9 @@ var BookingService = (function () {
         var curUser = this.fire.auth.currentUser;
         this.currentUserRef = this.databaseRef.child(curUser.uid);
     }
+    /* Listens for bookings added to user -> bookings in the database
+    * Returns an Observable with the newly added booking
+    */
     BookingService.prototype.getAddedBookings = function () {
         var bookingsRef = this.currentUserRef.child('bookings');
         return Observable_1.Observable.create(function (obs) {
@@ -33,6 +36,9 @@ var BookingService = (function () {
             });
         });
     };
+    /* Listens for changes to user -> current booking in the database
+   * Returns an Observable with the updated current booking
+   */
     BookingService.prototype.getUpdatedBooking = function () {
         var currentBookingRef = this.currentUserRef.child('current booking');
         return Observable_1.Observable.create(function (obs) {
@@ -44,6 +50,9 @@ var BookingService = (function () {
             });
         });
     };
+    /* Creates a new booking in user -> current booking in the database. It sets
+    * the bookings start time, date and parking station.
+    */
     BookingService.prototype.createBooking = function (parkingStation) {
         var t = new Time_1.Time();
         var date = t.getCurrentDate();
@@ -57,6 +66,9 @@ var BookingService = (function () {
         })
             .catch(function (err) { return console.error("Unable to add Booking", err); });
     };
+    /* Sets the end time and cost of the current booking in
+    * user -> current booking in the database
+    */
     BookingService.prototype.updateCurrentBooking = function () {
         var t = new Time_1.Time();
         var endTime = t.getCurrentTime();
@@ -68,6 +80,9 @@ var BookingService = (function () {
         })
             .catch(function (err) { return console.error("Unable to update current booking -", err); });
     };
+    /* Takes a booking as an argument and adds it to the database
+    *  under user -> bookings.
+    */
     BookingService.prototype.addBooking = function (booking) {
         var bookingsRef = this.currentUserRef.child('bookings');
         console.log("bookingsRef created");
@@ -82,6 +97,9 @@ var BookingService = (function () {
         })
             .catch(function (err) { return console.error("Unable to add Booking", err); });
     };
+    /*
+    * Deletes the current booking from the database under user -> current booking.
+    */
     BookingService.prototype.removeCurrentBooking = function () {
         var currentBookingRef = this.currentUserRef.child('current booking');
         currentBookingRef.remove();
