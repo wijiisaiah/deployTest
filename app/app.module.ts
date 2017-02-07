@@ -33,11 +33,7 @@ import { AuthGuard } from "./shared/services/auth.guard";
         UserAccountComponent,
         MyBookingsComponent
     ],
-<<<<<<< HEAD
     providers:[ UserService, BookingService, ParkingService, AuthGuard ],
-=======
-    providers:[ UserService, BookingService, AuthGuard, ParkingService ],
->>>>>>> d18a72b417ebc37f176cada1beeee7c86cabeebc
     bootstrap: [ AppComponent ]
 })
 

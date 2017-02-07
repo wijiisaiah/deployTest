@@ -17,7 +17,7 @@ export class ParkingService {
 
     getAddedParkingStations(): Observable<any> {
 
-         const parkingStationsRef = this.databaseRef.ref('/parking stations');
+        const parkingStationsRef = this.databaseRef.ref('/parking stations');
 
         return Observable.create(obs => {
             parkingStationsRef.on('child_added', parking => {
@@ -32,14 +32,31 @@ export class ParkingService {
 
     incrementAvailability(booking: Booking) {
 
-        booking.parkingStation.availableSpots++;
+        const title = booking.parkingStation.title;
+        const parkingStationsRef = this.databaseRef.ref('/parking stations').child(title);
+        const availability = booking.parkingStation.availableSpots++;
+
+        parkingStationsRef.update({
+            availableSpots: availability
+        },
+        err => {
+            console.error("Incrementing availability failed", err);
+        });
 
     }
 
     decrementAvailability(booking: Booking) {
 
-        booking.parkingStation.availableSpots--;
+        const title = booking.parkingStation.title;
+        const parkingStationsRef = this.databaseRef.ref('/parking stations').child(title);
+        const availability = booking.parkingStation.availableSpots--;
+
+        parkingStationsRef.update({
+            availableSpots: availability
+        },
+        err => {
+            console.error("Decrementing availability failed", err);
+        });
 
     }
-
 }

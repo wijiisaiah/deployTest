@@ -51,6 +51,8 @@ export class BookingService {
 
         const currentBookingRef = this.currentUserRef.child('current booking').child('curBooking');
 
+        // this.parkingService.decrementAvailability(newBooking);
+
         currentBookingRef.set({
             ParkingStation: parkingStation,
             date: date,
@@ -59,7 +61,7 @@ export class BookingService {
         })
             .catch(err => console.error("Unable to add Booking", err));
 
-        this.parkingService.decrementAvailability(newBooking);
+       
 
     }
 
@@ -103,6 +105,8 @@ export class BookingService {
         const ref = bookingsRef.push();
         console.log("Pushed to bookingsRef");
 
+        //this.parkingService.incrementAvailability(booking);
+
         ref.set({
             title: booking.parkingStation.title,
             address: booking.parkingStation.address,
@@ -113,8 +117,6 @@ export class BookingService {
             cost: booking.cost
         })
             .catch(err => console.error("Unable to add Booking", err));
-
-        this.parkingService.incrementAvailability(booking);
 
     }
 

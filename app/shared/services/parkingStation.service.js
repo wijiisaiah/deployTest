@@ -32,10 +32,24 @@ var ParkingService = (function () {
         });
     };
     ParkingService.prototype.incrementAvailability = function (booking) {
-        booking.parkingStation.availableSpots++;
+        var title = booking.parkingStation.title;
+        var parkingStationsRef = this.databaseRef.ref('/parking stations').child(title);
+        var availability = booking.parkingStation.availableSpots++;
+        parkingStationsRef.update({
+            availableSpots: availability
+        }, function (err) {
+            console.error("Incrementing availability failed", err);
+        });
     };
     ParkingService.prototype.decrementAvailability = function (booking) {
-        booking.parkingStation.availableSpots--;
+        var title = booking.parkingStation.title;
+        var parkingStationsRef = this.databaseRef.ref('/parking stations').child(title);
+        var availability = booking.parkingStation.availableSpots--;
+        parkingStationsRef.update({
+            availableSpots: availability
+        }, function (err) {
+            console.error("Decrementing availability failed", err);
+        });
     };
     ParkingService = __decorate([
         core_1.Injectable(), 
