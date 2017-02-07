@@ -20,6 +20,7 @@ var UserService = (function () {
         this.authRef = this.fire.auth;
         this.databaseRef = this.fire.database.ref('/users');
         this.currentUser = this.fire.auth.currentUser;
+        this.currentUser = this.fire.auth.currentUser;
     }
     UserService.prototype.register = function (name, email, password) {
         var that = this;
@@ -77,6 +78,7 @@ var UserService = (function () {
     };
     UserService.prototype.getCurrentUser = function () {
         var _this = this;
+        this.currentUser = this.fire.auth.currentUser;
         return Rx_1.Observable.create(function (obs) {
             var uid = _this.currentUser.uid;
             var currentUserRef = _this.databaseRef.child(uid);
