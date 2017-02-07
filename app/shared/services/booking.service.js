@@ -54,7 +54,7 @@ var BookingService = (function () {
             startTimeMs: startTimeMs
         })
             .catch(function (err) { return console.error("Unable to add Booking", err); });
-        this.parkingService.updateParking();
+        this.parkingService.decrementAvailability(newBooking);
     };
     /* Listens for bookings added to user -> current booking in the database
     * Returns an Observable with the newly added current booking
@@ -75,7 +75,6 @@ var BookingService = (function () {
     /* Sets the end time and cost of the argument booking */
     BookingService.prototype.updateCurrentBooking = function (curBooking) {
         var endTime = Time_1.Time.getCurrentTime();
-        //const cost = 5;
         var cost = this.calculateCost(curBooking);
         curBooking.endTime = endTime;
         curBooking.cost = cost;
@@ -98,6 +97,7 @@ var BookingService = (function () {
             cost: booking.cost
         })
             .catch(function (err) { return console.error("Unable to add Booking", err); });
+        this.parkingService.incrementAvailability(booking);
     };
     /*
     * Deletes the current booking from the database under user -> current booking.

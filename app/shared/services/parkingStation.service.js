@@ -17,21 +17,25 @@ var Rx_1 = require("rxjs/Rx");
 var ParkingService = (function () {
     function ParkingService(fire) {
         this.fire = fire;
-        this.databaseRef = this.fire.database.ref('/parking stations');
+        this.databaseRef = this.fire.database;
         this.getAddedParkingStations();
     }
     ParkingService.prototype.getAddedParkingStations = function () {
-        var _this = this;
+        var parkingStationsRef = this.databaseRef.ref('/parking stations');
         return Rx_1.Observable.create(function (obs) {
-            _this.databaseRef.on('child_added', function (parking) {
+            parkingStationsRef.on('child_added', function (parking) {
                 var newParking = parking.val();
-                _this.parkingStations.push(newParking);
+                obs.next(newParking);
             }, function (err) {
                 obs.throw(err);
             });
         });
     };
-    ParkingService.prototype.updateParking = function () {
+    ParkingService.prototype.incrementAvailability = function (booking) {
+        booking.parkingStation.availableSpots++;
+    };
+    ParkingService.prototype.decrementAvailability = function (booking) {
+        booking.parkingStation.availableSpots--;
     };
     ParkingService = __decorate([
         core_1.Injectable(), 

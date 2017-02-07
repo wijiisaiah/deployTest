@@ -1,10 +1,12 @@
-import {Component, OnInit, NgZone, HostListener, OnDestroy} from '@angular/core';
-import {ParkingStation} from "../shared/model/parkingStation";
-import {UserService} from "../shared/services/user.service";
-import {MenuComponent} from "../menu/menu.component";
-import {BookingService} from "../shared/services/booking.service";
-import {Booking} from "../shared/model/booking";
-import {Router} from "@angular/router";
+import { Observable } from 'rxjs/Rx';
+import { ParkingService } from './../shared/services/parkingStation.service';
+import { Component, OnInit, NgZone, HostListener, OnDestroy } from '@angular/core';
+import { ParkingStation } from "../shared/model/parkingStation";
+import { UserService } from "../shared/services/user.service";
+import { MenuComponent } from "../menu/menu.component";
+import { BookingService } from "../shared/services/booking.service";
+import { Booking } from "../shared/model/booking";
+import { Router } from "@angular/router";
 declare let google: any;
 
 @Component({
@@ -36,11 +38,11 @@ export class MapComponent implements OnInit, OnDestroy {
         //get the current booking from Firebase and set it to currentBooking
         this.bookingService.getCurrentBooking()
             .subscribe(obs => {
-                    currentBooking = obs;
-                },
-                err => {
-                    console.error("Unable to get current booking", err);
-                });
+                currentBooking = obs;
+            },
+            err => {
+                console.error("Unable to get current booking", err);
+            });
         console.log("Current booking retrieved", currentBooking);
 
         //update currentBooking with end time and cost
@@ -63,19 +65,21 @@ export class MapComponent implements OnInit, OnDestroy {
     private infowindows: any;
     private selectedParkingStation: ParkingStation;
 
-    constructor(private bookingService: BookingService, private userService: UserService, private router: Router) {
+    constructor(private bookingService: BookingService, private userService: UserService, private parkingService: ParkingService, private router: Router) {
 
     }
 
     ngOnInit() {
 
-        let testParking: ParkingStation = new ParkingStation('UBC Sub', '606 Something drive', 'MazDome', 49.2827, -123.1207, 100, true, 100);
-        let testParking2: ParkingStation = new ParkingStation('UBC asdf', '606 asdf drive', 'MazDome', 49.2727, -123.1207, 100, true, 100);
+        // let testParking: ParkingStation = new ParkingStation('Mazdis - UBC Sub', '606 Something drive', 'MazDome', 49.2827, -123.1207, 100, 100, true, 100);
+        // let testParking2: ParkingStation = new ParkingStation('Mazdis - Waterfront', '601 W Cordova St', 'MazDome', 49.2860, -123.1117, 100, 100, true, 100);
 
-        this.parkingStations = [testParking, testParking2];
+        // this.getAddedParkingStations();
+        // this.parkingStations = [testParking, testParking2];
         this.markers = [];
         this.infowindows = [];
         this.createMap();
+
         this.assignMarkersToParking();
         //
         // this.menu = new MenuComponent();
@@ -86,6 +90,26 @@ export class MapComponent implements OnInit, OnDestroy {
         centerControlDiv.tabIndex = 1;
         this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(centerControlDiv);
 
+    }
+
+    getAddedParkingStations(): Observable<any> {
+
+         const parkingStations: ParkingStation[] = [];
+
+        return Observable.create(obs => {
+            this.parkingService.getAddedParkingStations()
+                .subscribe(parkingStation => {
+                    parkingStations.push(parkingStation);
+                    obs.next(parkingStations);
+                },
+                err => {
+                    console.error("Unable to get added booking - ", err);
+                }),
+                err => {
+                   obs.throw(err); 
+                };
+           
+        });
 
     }
 
@@ -136,9 +160,13 @@ export class MapComponent implements OnInit, OnDestroy {
     }
 
     private assignMarkersToParking() {
-        for (let parking of this.parkingStations) {
-            this.markers.push(this.createMarker(parking))
-        }
+        this.getAddedParkingStations()
+            .subscribe(parkingStations => {
+                for (let parking of parkingStations) {
+                    this.markers.push(this.createMarker(parking))
+                }
+            });
+
     }
 
     private setMarkersToMap() {
@@ -152,7 +180,7 @@ export class MapComponent implements OnInit, OnDestroy {
         let that = this;
 
         let marker = new google.maps.Marker({
-            position: {lat: parking.lat, lng: parking.lng},
+            position: { lat: parking.lat, lng: parking.lng },
             map: this.map,
             title: parking.title
         });
@@ -170,7 +198,8 @@ export class MapComponent implements OnInit, OnDestroy {
                      <p> Address: ` + parking.address + `<br>
                          Type: ` + parking.type + ` <br>
                          Size: ` + parking.size + `<br>
-                         Rate: ` + parking.rate + `
+                         Availabiliy: ` + parking.availableSpots + "/" + parking.size + `<br>
+                         Rate: ` + parking.rate + ` 
                      </p>
                      <br>
                     <button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("reserve", {detail: "Reservation Started"}));'>Reserve</button>

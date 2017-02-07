@@ -1,3 +1,4 @@
+
 // Modules
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,9 +14,11 @@ import { UserAuthenticationComponent } from "./users/user-authentication/user-au
 import { MyBookingsComponent } from "./bookings/my-bookings/my-bookings.component";
 
 //Services
-import {UserService} from "./shared/services/user.service";
-import {BookingService} from "./shared/services/booking.service";
-import {AuthGuard} from "./shared/services/auth.guard";
+import { UserService } from "./shared/services/user.service";
+import { BookingService } from "./shared/services/booking.service";
+import { ParkingService } from "./shared/services/parkingStation.service";
+import { AuthGuard } from "./shared/services/auth.guard";
+
 
 @NgModule({
     imports: [ 
@@ -31,7 +34,7 @@ import {AuthGuard} from "./shared/services/auth.guard";
         UserAccountComponent,
         MyBookingsComponent
     ],
-    providers:[ UserService, BookingService, AuthGuard ],
+    providers:[ UserService, BookingService, ParkingService, AuthGuard ],
     bootstrap: [ AppComponent ]
 })
 

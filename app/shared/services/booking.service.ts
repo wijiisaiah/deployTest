@@ -59,7 +59,7 @@ export class BookingService {
         })
             .catch(err => console.error("Unable to add Booking", err));
 
-        this.parkingService.updateParking();
+        this.parkingService.decrementAvailability(newBooking);
 
     }
 
@@ -87,8 +87,6 @@ export class BookingService {
     updateCurrentBooking(curBooking: Booking) {
 
         let endTime = Time.getCurrentTime();
-        //const cost = 5;
-
         const cost = this.calculateCost(curBooking);
 
         curBooking.endTime = endTime;
@@ -115,6 +113,8 @@ export class BookingService {
             cost: booking.cost
         })
             .catch(err => console.error("Unable to add Booking", err));
+
+        this.parkingService.incrementAvailability(booking);
 
     }
 
