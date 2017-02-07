@@ -13,14 +13,16 @@ export class UserService {
     private currentUser = this.fire.auth.currentUser;
 
     constructor(private fire: FirebaseConfigService, private router: Router) {
+        this.currentUser = this.fire.auth.currentUser;
     }
+
 
     register(name: string, email: string, password: string) {
 
         let that = this;
         let temp = new User(name, null, email, null, null);
 
-        console.log(name,email, password);
+        console.log(name, email, password);
 
         return this.authRef.createUserWithEmailAndPassword(email, password)
             .then(function (user) {
@@ -85,7 +87,7 @@ export class UserService {
     }
 
     getCurrentUser(): Observable<any> {
-
+        this.currentUser = this.fire.auth.currentUser;
         return Observable.create(obs => {
             const uid = this.currentUser.uid;
             const currentUserRef = this.databaseRef.child(uid);
@@ -102,12 +104,10 @@ export class UserService {
 
     isAuthenticated(): boolean {
         let user = this.authRef.currentUser;
-        if (user){
+        if (user) {
             return true;
         } else {
             return false;
         }
     }
-
-
 }
