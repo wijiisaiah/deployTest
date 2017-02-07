@@ -8,6 +8,7 @@ import { ParkingStation } from "../model/parkingStation";
 import { Booking } from "../model/booking";
 import { Time } from "../util/Time";
 import { Observable } from "rxjs/Observable";
+import {ParkingService} from "./parkingStation.service";
 
 
 @Injectable()
@@ -16,7 +17,7 @@ export class BookingService {
     private currentUserRef: any;
     private databaseRef = this.fire.database.ref('/users');
 
-    constructor(private fire: FirebaseConfigService, private us: UserService) {
+    constructor(private fire: FirebaseConfigService, private us: UserService, private parkingService: ParkingService) {
         let curUser = this.fire.auth.currentUser;
         this.currentUserRef = this.databaseRef.child(curUser.uid);
     }
@@ -58,6 +59,8 @@ export class BookingService {
         })
             .catch(err => console.error("Unable to add Booking", err));
 
+        this.parkingService.updateParking();
+
     }
 
     /* Listens for bookings added to user -> current booking in the database
@@ -89,7 +92,7 @@ export class BookingService {
         const cost = this.calculateCost(curBooking);
 
         curBooking.endTime = endTime;
-        curBooking.totalCost = cost;
+        curBooking.cost = cost;
     }
 
     /* Takes a booking as an argument and adds it to the database
@@ -109,7 +112,7 @@ export class BookingService {
             date: booking.date,
             startTime: booking.startTime,
             endTime: booking.endTime,
-            cost: booking.totalCost
+            cost: booking.cost
         })
             .catch(err => console.error("Unable to add Booking", err));
 

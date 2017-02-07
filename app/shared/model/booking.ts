@@ -9,6 +9,6 @@ export class Booking{
         public startTime: string,
         public startTimeMs: number,
         public endTime?: string,
-        public totalCost?: number
+        public cost?: string
     ){}
 }

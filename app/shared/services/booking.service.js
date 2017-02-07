@@ -14,10 +14,12 @@ var user_service_1 = require("./user.service");
 var booking_1 = require("../model/booking");
 var Time_1 = require("../util/Time");
 var Observable_1 = require("rxjs/Observable");
+var parkingStation_service_1 = require("./parkingStation.service");
 var BookingService = (function () {
-    function BookingService(fire, us) {
+    function BookingService(fire, us, parkingService) {
         this.fire = fire;
         this.us = us;
+        this.parkingService = parkingService;
         this.databaseRef = this.fire.database.ref('/users');
         var curUser = this.fire.auth.currentUser;
         this.currentUserRef = this.databaseRef.child(curUser.uid);
@@ -52,6 +54,7 @@ var BookingService = (function () {
             startTimeMs: startTimeMs
         })
             .catch(function (err) { return console.error("Unable to add Booking", err); });
+        this.parkingService.updateParking();
     };
     /* Listens for bookings added to user -> current booking in the database
     * Returns an Observable with the newly added current booking
@@ -75,7 +78,7 @@ var BookingService = (function () {
         //const cost = 5;
         var cost = this.calculateCost(curBooking);
         curBooking.endTime = endTime;
-        curBooking.totalCost = cost;
+        curBooking.cost = cost;
     };
     /* Takes a booking as an argument and adds it to the database
     *  under user -> bookings.
@@ -92,7 +95,7 @@ var BookingService = (function () {
             date: booking.date,
             startTime: booking.startTime,
             endTime: booking.endTime,
-            cost: booking.totalCost
+            cost: booking.cost
         })
             .catch(function (err) { return console.error("Unable to add Booking", err); });
     };
@@ -115,7 +118,7 @@ var BookingService = (function () {
     };
     BookingService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [firebase_config_service_1.FirebaseConfigService, user_service_1.UserService])
+        __metadata('design:paramtypes', [firebase_config_service_1.FirebaseConfigService, user_service_1.UserService, parkingStation_service_1.ParkingService])
     ], BookingService);
     return BookingService;
 }());
