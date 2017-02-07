@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import { UserService } from '../../shared/services/user.service';
 
 import { User } from '../../shared/model/user';
 import {Router} from "@angular/router";
 import {userInfo} from "os";
+declare let $: any;
 
 @Component({
     moduleId: module.id,
@@ -12,7 +13,7 @@ import {userInfo} from "os";
     templateUrl: 'user-authentication.component.html',
     styleUrls: ['user-authentication.component.css']
 })
-export class UserAuthenticationComponent {
+export class UserAuthenticationComponent implements OnInit{
 
     private user: User = new User(null, null, null, null, null);
     constructor(
@@ -20,30 +21,50 @@ export class UserAuthenticationComponent {
         private router: Router
     ) { }
 
+    ngOnInit(){
+
+        $('#login-form-link').click(function(e) {
+            $("#login-form").delay(100).fadeIn(100);
+            $("#register-form").fadeOut(100);
+            $('#register-form-link').removeClass('active');
+            $(this).addClass('active');
+            e.preventDefault();
+        });
+        $('#register-form-link').click(function(e) {
+            $("#register-form").delay(100).fadeIn(100);
+            $("#login-form").fadeOut(100);
+            $('#login-form-link').removeClass('active');
+            $(this).addClass('active');
+            e.preventDefault();
+        });
+
+    }
+
     register() {
         let that = this;
-        this.user.name = (<HTMLInputElement>document.getElementById('argName')).value;
-        this.user.email = (<HTMLInputElement>document.getElementById('argEmail')).value;
-        const password = (<HTMLInputElement>document.getElementById('argPass')).value;
+        this.user.name = (<HTMLInputElement>document.getElementById('RegisterName')).value;
+        this.user.email = (<HTMLInputElement>document.getElementById('RegisterEmail')).value;
+        const password = (<HTMLInputElement>document.getElementById('RegisterPass')).value;
+        const confirmPassword = (<HTMLInputElement>document.getElementById('ConfirmPass')).value;
 
-        this.userService.register(this.user.name, this.user.email, password);
-
-        console.log("User Registered");
-
+        if (this.isMatchingPassword(password,confirmPassword)) {
+            this.userService.register(this.user.name, this.user.email, password);
+            console.log("User Registered");
+        } else {
+            alert('Passwords Must Match');
+        }
     }
 
     login() {
         let that = this;
-        const email = (<HTMLInputElement>document.getElementById('argEmail')).value;
-        const password = (<HTMLInputElement>document.getElementById('argPass')).value;
+        const email = (<HTMLInputElement>document.getElementById('LoginEmail')).value;
+        const password = (<HTMLInputElement>document.getElementById('LoginPass')).value;
 
         this.userService.login(email, password)
-            .then(()=> {
-
-            })
             .catch((err => {
                 alert('Login Failed');
             }));
+
         console.log("User Authenticated");
 
     }
@@ -53,6 +74,9 @@ export class UserAuthenticationComponent {
         this.router.navigate(['/map'])
     }
 
+    isMatchingPassword(password:string, confirmPass: string){
+       return password === confirmPass;
+    }
 
 
 }

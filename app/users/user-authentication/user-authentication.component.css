@@ -96,3 +96,11 @@
 .login-help{
   font-size: 12px;
 }
+
+#login-form{
+  display: block;
+}
+
+#register-form {
+  display: none;
+}

@@ -24,12 +24,9 @@ var UserService = (function () {
     UserService.prototype.register = function (name, email, password) {
         var that = this;
         var temp = new user_1.User(name, null, email, null, null);
+        console.log(name, email, password);
         return this.authRef.createUserWithEmailAndPassword(email, password)
             .then(function (user) {
-            user.updateProfile({
-                displayName: name,
-                photoURL: ""
-            });
             temp.uid = user.uid;
             that.addUser(temp);
             that.currentUser = user;

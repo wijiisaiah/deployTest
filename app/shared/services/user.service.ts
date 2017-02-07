@@ -20,12 +20,10 @@ export class UserService {
         let that = this;
         let temp = new User(name, null, email, null, null);
 
+        console.log(name,email, password);
+
         return this.authRef.createUserWithEmailAndPassword(email, password)
             .then(function (user) {
-                user.updateProfile({
-                    displayName: name,
-                    photoURL: ""
-                });
                 temp.uid = user.uid;
                 that.addUser(temp);
                 that.currentUser = user;

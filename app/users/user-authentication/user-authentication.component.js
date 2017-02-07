@@ -18,21 +18,41 @@ var UserAuthenticationComponent = (function () {
         this.router = router;
         this.user = new user_1.User(null, null, null, null, null);
     }
+    UserAuthenticationComponent.prototype.ngOnInit = function () {
+        $('#login-form-link').click(function (e) {
+            $("#login-form").delay(100).fadeIn(100);
+            $("#register-form").fadeOut(100);
+            $('#register-form-link').removeClass('active');
+            $(this).addClass('active');
+            e.preventDefault();
+        });
+        $('#register-form-link').click(function (e) {
+            $("#register-form").delay(100).fadeIn(100);
+            $("#login-form").fadeOut(100);
+            $('#login-form-link').removeClass('active');
+            $(this).addClass('active');
+            e.preventDefault();
+        });
+    };
     UserAuthenticationComponent.prototype.register = function () {
         var that = this;
-        this.user.name = document.getElementById('argName').value;
-        this.user.email = document.getElementById('argEmail').value;
-        var password = document.getElementById('argPass').value;
-        this.userService.register(this.user.name, this.user.email, password);
-        console.log("User Registered");
+        this.user.name = document.getElementById('RegisterName').value;
+        this.user.email = document.getElementById('RegisterEmail').value;
+        var password = document.getElementById('RegisterPass').value;
+        var confirmPassword = document.getElementById('ConfirmPass').value;
+        if (this.isMatchingPassword(password, confirmPassword)) {
+            this.userService.register(this.user.name, this.user.email, password);
+            console.log("User Registered");
+        }
+        else {
+            alert('Passwords Must Match');
+        }
     };
     UserAuthenticationComponent.prototype.login = function () {
         var that = this;
-        var email = document.getElementById('argEmail').value;
-        var password = document.getElementById('argPass').value;
+        var email = document.getElementById('LoginEmail').value;
+        var password = document.getElementById('LoginPass').value;
         this.userService.login(email, password)
-            .then(function () {
-        })
             .catch((function (err) {
             alert('Login Failed');
         }));
@@ -41,6 +61,9 @@ var UserAuthenticationComponent = (function () {
     UserAuthenticationComponent.prototype.reRoute = function () {
         document.getElementById('login-modal').setAttribute('aria-hidden', 'true');
         this.router.navigate(['/map']);
+    };
+    UserAuthenticationComponent.prototype.isMatchingPassword = function (password, confirmPass) {
+        return password === confirmPass;
     };
     UserAuthenticationComponent = __decorate([
         core_1.Component({
