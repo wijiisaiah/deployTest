@@ -24,7 +24,7 @@ var ParkingService = (function () {
     ParkingService.prototype.getAddedParkingStations = function () {
         var _this = this;
         return Rx_1.Observable.create(function (obs) {
-            _this.parkingStationsRef.on('value', function (parking) {
+            _this.parkingStationsRef.on('child_added', function (parking) {
                 var newParking = parking.val();
                 console.log(newParking);
                 obs.next(newParking);

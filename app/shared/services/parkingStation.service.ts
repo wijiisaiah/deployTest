@@ -20,7 +20,7 @@ export class ParkingService {
 
         return Observable.create(obs => {
             
-            this.parkingStationsRef.on('value', parking => {
+            this.parkingStationsRef.on('child_added', parking => {
                     const newParking = parking.val() as ParkingStation;
                     console.log(newParking);
                     obs.next(newParking);

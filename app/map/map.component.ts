@@ -60,7 +60,7 @@ export class MapComponent implements OnInit, OnDestroy {
     }
 
     private map: any;
-    private parkingStations: ParkingStation[];
+    private parkingStations: ParkingStation[] = [];
     private markers: any;
     private infowindows: any;
     private selectedParkingStation: ParkingStation;
@@ -81,8 +81,6 @@ export class MapComponent implements OnInit, OnDestroy {
         this.createMap();
         this.getAddedParkingStations();
         this.getUpdatedParkingStations();
-
-        this.assignMarkersToParking();
         //
         // this.menu = new MenuComponent();
 
@@ -99,7 +97,7 @@ export class MapComponent implements OnInit, OnDestroy {
         this.parkingService.getAddedParkingStations()
             .subscribe(parkingStation => {
                 this.parkingStations.push(parkingStation);
-
+                this.assignMarkersToParking();
             },
             err => {
                 console.error("Unable to get added booking - ", err);
@@ -112,6 +110,8 @@ export class MapComponent implements OnInit, OnDestroy {
             .subscribe(updatedParkingStation => {
                 const parkingIndex = this.parkingStations.map(index => index.title).indexOf(updatedParkingStation['title']);
                 this.parkingStations[parkingIndex] = updatedParkingStation;
+                console.log("Update works: ", this.parkingStations);
+                this.assignMarkersToParking();
             },
             err => {
                 console.log("Unable to get updated bug - ", err);
@@ -165,9 +165,9 @@ export class MapComponent implements OnInit, OnDestroy {
     }
 
     private assignMarkersToParking() {
-                for (let parking of this.parkingStations) {
-                    this.markers.push(this.createMarker(parking))
-                }
+        for (let parking of this.parkingStations) {
+            this.markers.push(this.createMarker(parking))
+        }
     }
 
     private setMarkersToMap() {

@@ -20,6 +20,7 @@ var MapComponent = (function () {
         this.userService = userService;
         this.parkingService = parkingService;
         this.router = router;
+        this.parkingStations = [];
     }
     MapComponent.prototype.reserveEventListener = function (event) {
         console.log(event.detail);
@@ -56,7 +57,6 @@ var MapComponent = (function () {
         this.createMap();
         this.getAddedParkingStations();
         this.getUpdatedParkingStations();
-        this.assignMarkersToParking();
         //
         // this.menu = new MenuComponent();
         var centerControlDiv = document.createElement('div');
@@ -69,6 +69,7 @@ var MapComponent = (function () {
         this.parkingService.getAddedParkingStations()
             .subscribe(function (parkingStation) {
             _this.parkingStations.push(parkingStation);
+            _this.assignMarkersToParking();
         }, function (err) {
             console.error("Unable to get added booking - ", err);
         });
@@ -79,6 +80,8 @@ var MapComponent = (function () {
             .subscribe(function (updatedParkingStation) {
             var parkingIndex = _this.parkingStations.map(function (index) { return index.title; }).indexOf(updatedParkingStation['title']);
             _this.parkingStations[parkingIndex] = updatedParkingStation;
+            console.log("Update works: ", _this.parkingStations);
+            _this.assignMarkersToParking();
         }, function (err) {
             console.log("Unable to get updated bug - ", err);
         });
