@@ -10,13 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var booking_service_1 = require('../../shared/services/booking.service');
+var booking_1 = require('../../shared/model/booking');
 var MyBookingsComponent = (function () {
     function MyBookingsComponent(bookingService) {
         this.bookingService = bookingService;
         this.bookings = [];
+        this.curBooking = new booking_1.Booking(null, null, null, null);
     }
     MyBookingsComponent.prototype.ngOnInit = function () {
         this.getAddedBookings();
+        // this.getCurrentBooking();
     };
     MyBookingsComponent.prototype.getAddedBookings = function () {
         var _this = this;
@@ -25,6 +28,15 @@ var MyBookingsComponent = (function () {
             _this.bookings.push(booking);
         }, function (err) {
             console.error("Unable to get added booking - ", err);
+        });
+    };
+    MyBookingsComponent.prototype.getCurrentBooking = function () {
+        var _this = this;
+        this.bookingService.getCurrentBooking()
+            .subscribe(function (booking) {
+            _this.curBooking = booking;
+        }, function (err) {
+            console.error("Unable to get current booking -", err);
         });
     };
     MyBookingsComponent = __decorate([

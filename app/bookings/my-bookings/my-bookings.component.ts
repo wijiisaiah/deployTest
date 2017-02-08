@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { BookingService } from '../../shared/services/booking.service';
 
 import { Booking } from '../../shared/model/booking';
-import {ParkingStation} from "../../shared/model/parkingStation";
+import { ParkingStation } from "../../shared/model/parkingStation";
 
 @Component({
     moduleId: module.id,
@@ -15,20 +15,32 @@ import {ParkingStation} from "../../shared/model/parkingStation";
 export class MyBookingsComponent implements OnInit {
 
     private bookings: Booking[] = [];
+    private curBooking = new Booking(null, null, null, null);
 
-    constructor(private bookingService: BookingService){ }
-    
+    constructor(private bookingService: BookingService) { }
+
     ngOnInit() {
         this.getAddedBookings();
+       // this.getCurrentBooking();
     }
 
-     getAddedBookings() {
+    getAddedBookings() {
         this.bookingService.getAddedBookings()
+            .subscribe(booking => {
+                this.bookings.push(booking);
+            },
+            err => {
+                console.error("Unable to get added booking - ", err);
+            });
+    }
+
+    getCurrentBooking() {
+        this.bookingService.getCurrentBooking()
         .subscribe(booking => {
-            this.bookings.push(booking);
+          this.curBooking = booking;  
         },
         err => {
-            console.error("Unable to get added booking - ", err);
+            console.error("Unable to get current booking -", err);
         });
     }
 
