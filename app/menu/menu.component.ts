@@ -46,7 +46,6 @@ export class MenuComponent implements OnInit {
         this.uas.getCurrentUser()
             .subscribe(user => {
                 this.currentUser = user;
-                console.log("Current user - ", this.currentUser);
             },
             err => {
                 console.error("Unable to get current user -", err);

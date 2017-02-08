@@ -1,8 +1,8 @@
-import { ParkingStation } from './../model/parkingStation';
-import { Booking } from './../model/booking';
-import { Injectable } from "@angular/core";
-import { FirebaseConfigService } from "../../core/service/firebase-config.service";
-import { Observable } from "rxjs/Rx";
+import {ParkingStation} from './../model/parkingStation';
+import {Booking} from './../model/booking';
+import {Injectable} from "@angular/core";
+import {FirebaseConfigService} from "../../core/service/firebase-config.service";
+import {Observable} from "rxjs/Rx";
 /**
  * Created by Isaiah on 2017-02-06.
  */
@@ -21,9 +21,10 @@ export class ParkingService {
 
         return Observable.create(obs => {
             parkingStationsRef.on('child_added', parking => {
-                const newParking = parking.val() as ParkingStation;
-                obs.next(newParking);
-            },
+                    const newParking = parking.val() as ParkingStation;
+                    console.log(newParking);
+                    obs.next(newParking);
+                },
                 err => {
                     obs.throw(err);
                 });
@@ -33,30 +34,37 @@ export class ParkingService {
     incrementAvailability(booking: Booking) {
 
         const title = booking.parkingStation.title;
+        let availability;
         const parkingStationsRef = this.databaseRef.ref('/parking stations').child(title);
-        const availability = booking.parkingStation.availableSpots++;
-
-        parkingStationsRef.update({
-            availableSpots: availability
-        },
-        err => {
-            console.error("Incrementing availability failed", err);
+        parkingStationsRef.once('value').then(snapshot => {
+            availability = snapshot.val().availableSpots;
+            console.log(availability);
+            availability++;
+            parkingStationsRef.update({
+                availableSpots: availability
+            })
+                .catch(err => console.error("Unable to increment", err));
         });
+        // let temp: number = booking.parkingStation.availableSpots--;
+
 
     }
 
     decrementAvailability(booking: Booking) {
 
+
         const title = booking.parkingStation.title;
+        let availability;
         const parkingStationsRef = this.databaseRef.ref('/parking stations').child(title);
-        const availability = booking.parkingStation.availableSpots--;
-
-        parkingStationsRef.update({
-            availableSpots: availability
-        },
-        err => {
-            console.error("Decrementing availability failed", err);
+        parkingStationsRef.once('value').then(snapshot => {
+            availability = snapshot.val().availableSpots;
+            console.log(availability);
+            availability--;
+            parkingStationsRef.update({
+                availableSpots: availability
+            })
+                .catch(err => console.error("Unable to decrement", err));
         });
-
+        // let temp: number = booking.parkingStation.availableSpots--;
     }
 }

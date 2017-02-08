@@ -51,7 +51,7 @@ export class BookingService {
 
         const currentBookingRef = this.currentUserRef.child('current booking').child('curBooking');
 
-        // this.parkingService.decrementAvailability(newBooking);
+        this.parkingService.decrementAvailability(newBooking);
 
         currentBookingRef.set({
             ParkingStation: parkingStation,
@@ -105,7 +105,7 @@ export class BookingService {
         const ref = bookingsRef.push();
         console.log("Pushed to bookingsRef");
 
-        //this.parkingService.incrementAvailability(booking);
+        this.parkingService.incrementAvailability(booking);
 
         ref.set({
             title: booking.parkingStation.title,

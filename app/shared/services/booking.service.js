@@ -47,7 +47,7 @@ var BookingService = (function () {
         var startTimeMs = new Date().getTime();
         var newBooking = new booking_1.Booking(parkingStation, date, startTime, startTimeMs);
         var currentBookingRef = this.currentUserRef.child('current booking').child('curBooking');
-        // this.parkingService.decrementAvailability(newBooking);
+        this.parkingService.decrementAvailability(newBooking);
         currentBookingRef.set({
             ParkingStation: parkingStation,
             date: date,
@@ -87,7 +87,7 @@ var BookingService = (function () {
         console.log("bookingsRef created");
         var ref = bookingsRef.push();
         console.log("Pushed to bookingsRef");
-        //this.parkingService.incrementAvailability(booking);
+        this.parkingService.incrementAvailability(booking);
         ref.set({
             title: booking.parkingStation.title,
             address: booking.parkingStation.address,

@@ -32,9 +32,8 @@ export class MapComponent implements OnInit, OnDestroy {
 
     @HostListener('window:complete', ['$event'])
     completeEventListener(event) {
-        console.log(event.detail)
+        console.log(event.detail);
         let currentBooking = new Booking(null, null, null, null);
-
         //get the current booking from Firebase and set it to currentBooking
         this.bookingService.getCurrentBooking()
             .subscribe(obs => {

@@ -24,7 +24,7 @@ var UserAccountComponent = (function () {
         this.uas.getCurrentUser()
             .subscribe(function (user) {
             _this.currentUser = user;
-            console.log("Current user - ", _this.currentUser);
+            // console.log("Current user - ", this.currentUser);
         }, function (err) {
             console.error("Unable to get current user -", err);
         });

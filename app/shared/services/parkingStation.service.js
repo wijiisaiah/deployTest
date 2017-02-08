@@ -25,6 +25,7 @@ var ParkingService = (function () {
         return Rx_1.Observable.create(function (obs) {
             parkingStationsRef.on('child_added', function (parking) {
                 var newParking = parking.val();
+                console.log(newParking);
                 obs.next(newParking);
             }, function (err) {
                 obs.throw(err);
@@ -33,23 +34,33 @@ var ParkingService = (function () {
     };
     ParkingService.prototype.incrementAvailability = function (booking) {
         var title = booking.parkingStation.title;
+        var availability;
         var parkingStationsRef = this.databaseRef.ref('/parking stations').child(title);
-        var availability = booking.parkingStation.availableSpots++;
-        parkingStationsRef.update({
-            availableSpots: availability
-        }, function (err) {
-            console.error("Incrementing availability failed", err);
+        parkingStationsRef.once('value').then(function (snapshot) {
+            availability = snapshot.val().availableSpots;
+            console.log(availability);
+            availability++;
+            parkingStationsRef.update({
+                availableSpots: availability
+            })
+                .catch(function (err) { return console.error("Unable to increment", err); });
         });
+        // let temp: number = booking.parkingStation.availableSpots--;
     };
     ParkingService.prototype.decrementAvailability = function (booking) {
         var title = booking.parkingStation.title;
+        var availability;
         var parkingStationsRef = this.databaseRef.ref('/parking stations').child(title);
-        var availability = booking.parkingStation.availableSpots--;
-        parkingStationsRef.update({
-            availableSpots: availability
-        }, function (err) {
-            console.error("Decrementing availability failed", err);
+        parkingStationsRef.once('value').then(function (snapshot) {
+            availability = snapshot.val().availableSpots;
+            console.log(availability);
+            availability--;
+            parkingStationsRef.update({
+                availableSpots: availability
+            })
+                .catch(function (err) { return console.error("Unable to decrement", err); });
         });
+        // let temp: number = booking.parkingStation.availableSpots--;
     };
     ParkingService = __decorate([
         core_1.Injectable(), 
