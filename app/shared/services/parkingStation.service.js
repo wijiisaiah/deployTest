@@ -18,12 +18,13 @@ var ParkingService = (function () {
     function ParkingService(fire) {
         this.fire = fire;
         this.databaseRef = this.fire.database;
+        this.parkingStationsRef = this.databaseRef.ref('/parking stations');
         this.getAddedParkingStations();
     }
     ParkingService.prototype.getAddedParkingStations = function () {
-        var parkingStationsRef = this.databaseRef.ref('/parking stations');
+        var _this = this;
         return Rx_1.Observable.create(function (obs) {
-            parkingStationsRef.on('child_added', function (parking) {
+            _this.parkingStationsRef.on('value', function (parking) {
                 var newParking = parking.val();
                 console.log(newParking);
                 obs.next(newParking);
@@ -32,10 +33,21 @@ var ParkingService = (function () {
             });
         });
     };
+    ParkingService.prototype.getUpdatedParkingStation = function () {
+        var _this = this;
+        return Rx_1.Observable.create(function (obs) {
+            _this.parkingStationsRef.on('child_changed', function (parkingStation) {
+                var updatedBug = parkingStation.val();
+                obs.next(updatedBug);
+            }, function (err) {
+                obs.throw(err);
+            });
+        });
+    };
     ParkingService.prototype.incrementAvailability = function (booking) {
         var title = booking.parkingStation.title;
         var availability;
-        var parkingStationsRef = this.databaseRef.ref('/parking stations').child(title);
+        var parkingStationsRef = this.parkingStationsRef.child(title);
         parkingStationsRef.once('value').then(function (snapshot) {
             availability = snapshot.val().availableSpots;
             console.log(availability);
@@ -50,7 +62,7 @@ var ParkingService = (function () {
     ParkingService.prototype.decrementAvailability = function (booking) {
         var title = booking.parkingStation.title;
         var availability;
-        var parkingStationsRef = this.databaseRef.ref('/parking stations').child(title);
+        var parkingStationsRef = this.parkingStationsRef.child(title);
         parkingStationsRef.once('value').then(function (snapshot) {
             availability = snapshot.val().availableSpots;
             console.log(availability);

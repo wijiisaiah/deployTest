@@ -10,6 +10,7 @@ import {Observable} from "rxjs/Rx";
 export class ParkingService {
 
     private databaseRef = this.fire.database;
+    private parkingStationsRef = this.databaseRef.ref('/parking stations');
 
     constructor(private fire: FirebaseConfigService) {
         this.getAddedParkingStations()
@@ -17,10 +18,9 @@ export class ParkingService {
 
     getAddedParkingStations(): Observable<any> {
 
-        const parkingStationsRef = this.databaseRef.ref('/parking stations');
-
         return Observable.create(obs => {
-            parkingStationsRef.on('child_added', parking => {
+            
+            this.parkingStationsRef.on('value', parking => {
                     const newParking = parking.val() as ParkingStation;
                     console.log(newParking);
                     obs.next(newParking);
@@ -31,11 +31,23 @@ export class ParkingService {
         });
     }
 
+     getUpdatedParkingStation(): Observable<any> {
+        return Observable.create(obs => {
+            this.parkingStationsRef.on('child_changed', parkingStation => {
+                const updatedBug = parkingStation.val() as ParkingStation;
+                obs.next(updatedBug);
+            },
+            err => {
+                obs.throw(err);
+            });
+        });
+    }
+
     incrementAvailability(booking: Booking) {
 
         const title = booking.parkingStation.title;
         let availability;
-        const parkingStationsRef = this.databaseRef.ref('/parking stations').child(title);
+        const parkingStationsRef = this.parkingStationsRef.child(title);
         parkingStationsRef.once('value').then(snapshot => {
             availability = snapshot.val().availableSpots;
             console.log(availability);
@@ -55,7 +67,7 @@ export class ParkingService {
 
         const title = booking.parkingStation.title;
         let availability;
-        const parkingStationsRef = this.databaseRef.ref('/parking stations').child(title);
+        const parkingStationsRef = this.parkingStationsRef.child(title);
         parkingStationsRef.once('value').then(snapshot => {
             availability = snapshot.val().availableSpots;
             console.log(availability);

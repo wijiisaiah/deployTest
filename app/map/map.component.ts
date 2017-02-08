@@ -1,3 +1,4 @@
+import { ParkingStation } from './../shared/model/parkingStation';
 import { Observable } from 'rxjs/Rx';
 import { ParkingService } from './../shared/services/parkingStation.service';
 import { Component, OnInit, NgZone, HostListener, OnDestroy } from '@angular/core';
@@ -78,6 +79,8 @@ export class MapComponent implements OnInit, OnDestroy {
         this.markers = [];
         this.infowindows = [];
         this.createMap();
+        this.getAddedParkingStations();
+        this.getUpdatedParkingStations();
 
         this.assignMarkersToParking();
         //
@@ -91,25 +94,28 @@ export class MapComponent implements OnInit, OnDestroy {
 
     }
 
-    getAddedParkingStations(): Observable<any> {
+    getAddedParkingStations() {
 
-         const parkingStations: ParkingStation[] = [];
+        this.parkingService.getAddedParkingStations()
+            .subscribe(parkingStation => {
+                this.parkingStations.push(parkingStation);
 
-        return Observable.create(obs => {
-            this.parkingService.getAddedParkingStations()
-                .subscribe(parkingStation => {
-                    parkingStations.push(parkingStation);
-                    obs.next(parkingStations);
-                },
-                err => {
-                    console.error("Unable to get added booking - ", err);
-                }),
-                err => {
-                   obs.throw(err); 
-                };
-           
-        });
+            },
+            err => {
+                console.error("Unable to get added booking - ", err);
+            });
 
+    }
+
+    getUpdatedParkingStations() {
+        this.parkingService.getUpdatedParkingStation()
+            .subscribe(updatedParkingStation => {
+                const parkingIndex = this.parkingStations.map(index => index.title).indexOf(updatedParkingStation['title']);
+                this.parkingStations[parkingIndex] = updatedParkingStation;
+            },
+            err => {
+                console.log("Unable to get updated bug - ", err);
+            });
     }
 
     CenterControl(controlDiv, map) {
@@ -159,13 +165,9 @@ export class MapComponent implements OnInit, OnDestroy {
     }
 
     private assignMarkersToParking() {
-        this.getAddedParkingStations()
-            .subscribe(parkingStations => {
-                for (let parking of parkingStations) {
+                for (let parking of this.parkingStations) {
                     this.markers.push(this.createMarker(parking))
                 }
-            });
-
     }
 
     private setMarkersToMap() {

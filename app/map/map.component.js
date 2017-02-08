@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var Rx_1 = require('rxjs/Rx');
 var parkingStation_service_1 = require('./../shared/services/parkingStation.service');
 var core_1 = require('@angular/core');
 var user_service_1 = require("../shared/services/user.service");
@@ -55,6 +54,8 @@ var MapComponent = (function () {
         this.markers = [];
         this.infowindows = [];
         this.createMap();
+        this.getAddedParkingStations();
+        this.getUpdatedParkingStations();
         this.assignMarkersToParking();
         //
         // this.menu = new MenuComponent();
@@ -65,18 +66,21 @@ var MapComponent = (function () {
     };
     MapComponent.prototype.getAddedParkingStations = function () {
         var _this = this;
-        var parkingStations = [];
-        return Rx_1.Observable.create(function (obs) {
-            _this.parkingService.getAddedParkingStations()
-                .subscribe(function (parkingStation) {
-                parkingStations.push(parkingStation);
-                obs.next(parkingStations);
-            }, function (err) {
-                console.error("Unable to get added booking - ", err);
-            }),
-                function (err) {
-                    obs.throw(err);
-                };
+        this.parkingService.getAddedParkingStations()
+            .subscribe(function (parkingStation) {
+            _this.parkingStations.push(parkingStation);
+        }, function (err) {
+            console.error("Unable to get added booking - ", err);
+        });
+    };
+    MapComponent.prototype.getUpdatedParkingStations = function () {
+        var _this = this;
+        this.parkingService.getUpdatedParkingStation()
+            .subscribe(function (updatedParkingStation) {
+            var parkingIndex = _this.parkingStations.map(function (index) { return index.title; }).indexOf(updatedParkingStation['title']);
+            _this.parkingStations[parkingIndex] = updatedParkingStation;
+        }, function (err) {
+            console.log("Unable to get updated bug - ", err);
         });
     };
     MapComponent.prototype.CenterControl = function (controlDiv, map) {
@@ -121,14 +125,10 @@ var MapComponent = (function () {
         this.map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
     };
     MapComponent.prototype.assignMarkersToParking = function () {
-        var _this = this;
-        this.getAddedParkingStations()
-            .subscribe(function (parkingStations) {
-            for (var _i = 0, parkingStations_1 = parkingStations; _i < parkingStations_1.length; _i++) {
-                var parking = parkingStations_1[_i];
-                _this.markers.push(_this.createMarker(parking));
-            }
-        });
+        for (var _i = 0, _a = this.parkingStations; _i < _a.length; _i++) {
+            var parking = _a[_i];
+            this.markers.push(this.createMarker(parking));
+        }
     };
     MapComponent.prototype.setMarkersToMap = function () {
         for (var _i = 0, _a = this.markers; _i < _a.length; _i++) {
