@@ -32,8 +32,8 @@ var MapComponent = (function () {
         var currentBooking = new booking_1.Booking(null, null, null, null);
         //get the current booking from Firebase and set it to currentBooking
         this.bookingService.getCurrentBooking()
-            .subscribe(function (obs) {
-            currentBooking = obs;
+            .subscribe(function (booking) {
+            currentBooking = booking;
         }, function (err) {
             console.error("Unable to get current booking", err);
         });

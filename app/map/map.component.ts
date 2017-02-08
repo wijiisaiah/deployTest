@@ -36,8 +36,8 @@ export class MapComponent implements OnInit, OnDestroy {
         let currentBooking = new Booking(null, null, null, null);
         //get the current booking from Firebase and set it to currentBooking
         this.bookingService.getCurrentBooking()
-            .subscribe(obs => {
-                currentBooking = obs;
+            .subscribe(booking => {
+                currentBooking = booking;
             },
             err => {
                 console.error("Unable to get current booking", err);
