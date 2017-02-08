@@ -10,16 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var booking_service_1 = require('../../shared/services/booking.service');
-var booking_1 = require('../../shared/model/booking');
 var MyBookingsComponent = (function () {
     function MyBookingsComponent(bookingService) {
         this.bookingService = bookingService;
         this.bookings = [];
-        this.curBooking = new booking_1.Booking(null, null, null, null);
+        this.bookingObject = {};
+        this.bookingObject['title'] = '';
+        this.bookingObject['address'] = '';
+        this.bookingObject['rate'] = '';
+        this.bookingObject['date'] = '';
+        this.bookingObject['startTime'] = '';
     }
     MyBookingsComponent.prototype.ngOnInit = function () {
         this.getAddedBookings();
-        // this.getCurrentBooking();
+        this.getCurrentBooking();
     };
     MyBookingsComponent.prototype.getAddedBookings = function () {
         var _this = this;
@@ -34,7 +38,14 @@ var MyBookingsComponent = (function () {
         var _this = this;
         this.bookingService.getCurrentBooking()
             .subscribe(function (booking) {
-            _this.curBooking = booking;
+            console.log('Before assigning', _this.bookingObject);
+            console.log(booking);
+            _this.bookingObject['title'] = booking.parkingStation.title;
+            _this.bookingObject['address'] = booking.parkingStation.address;
+            _this.bookingObject['rate'] = booking.parkingStation.rate;
+            _this.bookingObject['date'] = booking.date;
+            _this.bookingObject['startTime'] = booking.startTime;
+            console.log(_this.bookingObject);
         }, function (err) {
             console.error("Unable to get current booking -", err);
         });

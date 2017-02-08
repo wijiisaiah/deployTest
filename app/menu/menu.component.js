@@ -39,6 +39,15 @@ var MenuComponent = (function () {
     MenuComponent.prototype.signOut = function () {
         this.uas.signOut();
     };
+    MenuComponent.prototype.getCurrentBooking = function () {
+        var _this = this;
+        this.BookingService.getCurrentBooking()
+            .subscribe(function (booking) {
+            _this.currentBooking = booking;
+        }, function (err) {
+            console.error("Unable to get current user -", err);
+        });
+    };
     MenuComponent.prototype.getCurrentUser = function () {
         var _this = this;
         this.uas.getCurrentUser()

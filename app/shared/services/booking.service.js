@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var firebase_config_service_1 = require('../../core/service/firebase-config.service');
 var user_service_1 = require("./user.service");
+var parkingStation_1 = require("../model/parkingStation");
 var booking_1 = require("../model/booking");
 var Time_1 = require("../util/Time");
 var Observable_1 = require("rxjs/Observable");
@@ -67,6 +68,13 @@ var BookingService = (function () {
                 var curBooking = booking.val();
                 curBooking.parkingStation = parkingStation;
                 obs.next(curBooking);
+            }, function (err) {
+                obs.throw(err);
+            });
+            bookingsRef.on('child_removed', function (booking) {
+                console.log('childremoved', booking);
+                var parking = new parkingStation_1.ParkingStation('', '', '', 0, 0, 0, 0, true, 0);
+                obs.next(new booking_1.Booking(parking, '', '', 0));
             }, function (err) {
                 obs.throw(err);
             });

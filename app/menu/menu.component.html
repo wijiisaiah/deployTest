@@ -9,15 +9,15 @@
             <a (click)="replaceMenuContent('menu','booking')">My Bookings</a>
         </div>
         <div id="myAccount" [hidden]="userAccountHidden">
-            <a href=# (click)="replaceMenuContent('account','menu')">Menu</a>
+            <a (click)="replaceMenuContent('account','menu')">Menu</a>
             <user-account></user-account>
         </div>
         <div id="myBookings" [hidden]="userBookingsHidden">
-            <a href=# (click)="replaceMenuContent('booking','menu')">Menu</a>
+            <a (click)="replaceMenuContent('booking','menu')">Menu</a>
             <my-bookings></my-bookings>
         </div>
         <div [hidden]="userMenuHidden">
-            <a href=# (click)="signOut()">Sign Out</a>
+            <a (click)="signOut()">Sign Out</a>
         </div>
     </div>
 </div>

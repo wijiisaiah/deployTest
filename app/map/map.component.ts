@@ -1,10 +1,9 @@
-import { ParkingStation } from './../shared/model/parkingStation';
+
 import { Observable } from 'rxjs/Rx';
 import { ParkingService } from './../shared/services/parkingStation.service';
 import { Component, OnInit, NgZone, HostListener, OnDestroy } from '@angular/core';
 import { ParkingStation } from "../shared/model/parkingStation";
 import { UserService } from "../shared/services/user.service";
-import { MenuComponent } from "../menu/menu.component";
 import { BookingService } from "../shared/services/booking.service";
 import { Booking } from "../shared/model/booking";
 import { Router } from "@angular/router";

@@ -19,6 +19,7 @@ declare let $:any;
 export class MenuComponent implements OnInit {
 
     private currentUser = new User(null, null, null, null, null);
+    private currentBooking;
     private userAccountHidden = true;
     private userBookingsHidden = true;
     private userMenuHidden = false;
@@ -40,6 +41,16 @@ export class MenuComponent implements OnInit {
 
     signOut() {
         this.uas.signOut();
+    }
+
+    getCurrentBooking() {
+        this.BookingService.getCurrentBooking()
+            .subscribe(booking => {
+                    this.currentBooking = booking;
+                },
+                err => {
+                    console.error("Unable to get current user -", err);
+                });
     }
 
     getCurrentUser() {

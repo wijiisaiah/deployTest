@@ -1,17 +1,26 @@
 <div class="modal-dialog">
     <div class="loginmodal-container">
-
+        <div [hidden]="bookingObject['title'] === '' ">
+            <h1>Current Booking</h1>
+            <ul class="list-group">
+                <li class="list-group-item"><b>Title</b>: {{ bookingObject['title'] }}</li>
+                <li class="list-group-item"><b>Address</b>: {{ bookingObject['address'] }}</li>
+                <li class="list-group-item"><b>Rate</b>: {{ bookingObject['rate'] }}</li>
+                <li class="list-group-item"><b>Date</b>: {{ bookingObject['date'] }}</li>
+                <li class="list-group-item"><b>Start Time</b>: {{ bookingObject['startTime'] }}</li>
+            </ul>
+        </div>
         <ul class="list-group">
-            <h1>My Bookings</h1>
+            <h1>Past Bookings</h1>
             <li *ngFor="let booking of bookings" class="list-group-item">
-                <ul class="list-group-dark">
-                    <li class="list-group-item"> <b>Title</b>: {{ booking.title }}</li>
-                    <li class="list-group-item"> <b>Address</b>: {{ booking.address }}</li>
-                    <li class="list-group-item"> <b>Rate</b>: {{ booking.rate }}</li>
-                    <li class="list-group-item"> <b>Date</b>: {{ booking.date }}</li>
-                    <li class="list-group-item"> <b>Start Time</b>: {{ booking.startTime }}</li>
-                    <li class="list-group-item"> <b>End Time</b>: {{ booking.endTime }}</li>
-                    <li class="list-group-item"> <b>Total Cost</b>: {{ booking.totalCost }}</li>
+                <ul class="list-group">
+                    <li class="list-group-item"><b>Title</b>: {{ booking.title }}</li>
+                    <li class="list-group-item"><b>Address</b>: {{ booking.address }}</li>
+                    <li class="list-group-item"><b>Rate</b>: {{ booking.rate }}</li>
+                    <li class="list-group-item"><b>Date</b>: {{ booking.date }}</li>
+                    <li class="list-group-item"><b>Start Time</b>: {{ booking.startTime }}</li>
+                    <li class="list-group-item"><b>End Time</b>: {{ booking.endTime }}</li>
+                    <li class="list-group-item"><b>Total Cost</b>: {{ booking.totalCost }}</li>
                 </ul>
             </li>
         </ul>
