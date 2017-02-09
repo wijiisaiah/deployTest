@@ -81,7 +81,7 @@ var MapComponent = (function () {
             var parkingIndex = _this.parkingStations.map(function (index) { return index.title; }).indexOf(updatedParkingStation['title']);
             _this.parkingStations[parkingIndex] = updatedParkingStation;
             console.log("Update works: ", _this.parkingStations);
-            _this.assignMarkersToParking();
+            _this.updateMarker(updatedParkingStation);
         }, function (err) {
             console.log("Unable to get updated bug - ", err);
         });
@@ -138,6 +138,31 @@ var MapComponent = (function () {
             var marker = _a[_i];
             marker.setMap(this.map);
         }
+    };
+    MapComponent.prototype.updateMarker = function (parking) {
+        var content = "\n                <head>\n                   <script>\n                        function myFunction(){\n                            console.log('message');\n                        }\n                    </script>\n                </head>\n                <body>\n                    <div id=\"infoWindow\">\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Availabiliy: " + parking.availableSpots + "/" + parking.size + "<br>\n                         Rate: " + parking.rate + " \n                     </p>\n                     <br>\n                    <button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"reserve\", {detail: \"Reservation Started\"}));'>Reserve</button>\n                    <button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"complete\", {detail: \"End Booking\"}));'>Complete</button>\n                </div>\n                </body>\n                  ";
+        var infowindow = new google.maps.InfoWindow({
+            content: content,
+        });
+        var _loop_1 = function(marker) {
+            if (marker.title === parking.title) {
+                marker.addListener('click', function () {
+                    document.getElementById('myNav').style.width = "0";
+                    infowindow.open(this.map, marker);
+                });
+                // Closes the info window if a click occurs on the map
+                this_1.map.addListener('click', function () {
+                    document.getElementById('myNav').style.width = "0";
+                    infowindow.close(this.map, marker);
+                });
+            }
+        };
+        var this_1 = this;
+        for (var _i = 0, _a = this.markers; _i < _a.length; _i++) {
+            var marker = _a[_i];
+            _loop_1(marker);
+        }
+        console.log("number of markers: ", this.markers);
     };
     MapComponent.prototype.createMarker = function (parking) {
         // Creating marker

@@ -57,7 +57,6 @@ var ParkingService = (function () {
             })
                 .catch(function (err) { return console.error("Unable to increment", err); });
         });
-        // let temp: number = booking.parkingStation.availableSpots--;
     };
     ParkingService.prototype.decrementAvailability = function (booking) {
         var title = booking.parkingStation.title;
@@ -72,7 +71,6 @@ var ParkingService = (function () {
             })
                 .catch(function (err) { return console.error("Unable to decrement", err); });
         });
-        // let temp: number = booking.parkingStation.availableSpots--;
     };
     ParkingService = __decorate([
         core_1.Injectable(), 

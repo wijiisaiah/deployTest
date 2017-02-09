@@ -57,7 +57,6 @@ export class ParkingService {
             })
                 .catch(err => console.error("Unable to increment", err));
         });
-        // let temp: number = booking.parkingStation.availableSpots--;
 
 
     }
@@ -77,6 +76,6 @@ export class ParkingService {
             })
                 .catch(err => console.error("Unable to decrement", err));
         });
-        // let temp: number = booking.parkingStation.availableSpots--;
     }
+
 }

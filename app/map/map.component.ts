@@ -1,4 +1,3 @@
-
 import { Observable } from 'rxjs/Rx';
 import { ParkingService } from './../shared/services/parkingStation.service';
 import { Component, OnInit, NgZone, HostListener, OnDestroy } from '@angular/core';
@@ -110,7 +109,7 @@ export class MapComponent implements OnInit, OnDestroy {
                 const parkingIndex = this.parkingStations.map(index => index.title).indexOf(updatedParkingStation['title']);
                 this.parkingStations[parkingIndex] = updatedParkingStation;
                 console.log("Update works: ", this.parkingStations);
-                this.assignMarkersToParking();
+                this.updateMarker(updatedParkingStation);
             },
             err => {
                 console.log("Unable to get updated bug - ", err);
@@ -167,12 +166,63 @@ export class MapComponent implements OnInit, OnDestroy {
         for (let parking of this.parkingStations) {
             this.markers.push(this.createMarker(parking))
         }
+
     }
 
     private setMarkersToMap() {
         for (let marker of this.markers) {
             marker.setMap(this.map);
         }
+    }
+
+    private updateMarker(parking: ParkingStation) {
+
+        let content = `
+                <head>
+                   <script>
+                        function myFunction(){
+                            console.log('message');
+                        }
+                    </script>
+                </head>
+                <body>
+                    <div id="infoWindow">
+                     <h3>` + parking.title + `</h3><br>
+                     <p> Address: ` + parking.address + `<br>
+                         Type: ` + parking.type + ` <br>
+                         Size: ` + parking.size + `<br>
+                         Availabiliy: ` + parking.availableSpots + "/" + parking.size + `<br>
+                         Rate: ` + parking.rate + ` 
+                     </p>
+                     <br>
+                    <button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("reserve", {detail: "Reservation Started"}));'>Reserve</button>
+                    <button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("complete", {detail: "End Booking"}));'>Complete</button>
+                </div>
+                </body>
+                  `;
+
+        let infowindow = new google.maps.InfoWindow({
+            content: content,
+        });
+
+        for (let marker of this.markers) {
+            if (marker.title === parking.title) {
+                marker.addListener('click', function () {
+                    document.getElementById('myNav').style.width = "0";
+
+                    infowindow.open(this.map, marker);
+
+                });
+
+                // Closes the info window if a click occurs on the map
+                this.map.addListener('click', function () {
+                    document.getElementById('myNav').style.width = "0";
+                    infowindow.close(this.map, marker);
+                });
+            }
+        }
+
+        console.log("number of markers: ", this.markers);
     }
 
     private createMarker(parking: ParkingStation) {
@@ -184,6 +234,7 @@ export class MapComponent implements OnInit, OnDestroy {
             map: this.map,
             title: parking.title
         });
+
         let content = `
                 <head>
                    <script>
