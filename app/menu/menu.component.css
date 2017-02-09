@@ -48,8 +48,8 @@
 .overlay .closebtn {
     position: absolute;
     top: 20px;
-    right: 45px;
-    font-size: 60px;
+    left: 45px;
+    font-size: 40px;
 }
 
 .menu-container{
@@ -108,4 +108,28 @@
         top: 15px;
         right: 35px;
     }
+}
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+    z-index: 1;
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(239, 239, 239, 0.8);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(0,0,0,0.4);
 }

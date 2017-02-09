@@ -32,7 +32,7 @@ var UserService = (function () {
             that.addUser(temp);
             that.currentUser = user;
             console.log(user);
-            this.router.navigate(['/map']);
+            that.router.navigate(['/map']);
         })
             .catch(function (err) {
             console.error("Registration Error", err);
