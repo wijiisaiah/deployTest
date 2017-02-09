@@ -37,8 +37,8 @@ var ParkingService = (function () {
         var _this = this;
         return Rx_1.Observable.create(function (obs) {
             _this.parkingStationsRef.on('child_changed', function (parkingStation) {
-                var updatedBug = parkingStation.val();
-                obs.next(updatedBug);
+                var updatedParkingStation = parkingStation.val();
+                obs.next(updatedParkingStation);
             }, function (err) {
                 obs.throw(err);
             });

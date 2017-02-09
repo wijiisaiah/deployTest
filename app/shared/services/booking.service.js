@@ -57,6 +57,15 @@ var BookingService = (function () {
         })
             .catch(function (err) { return console.error("Unable to add Booking", err); });
     };
+    BookingService.prototype.completeBooking = function (currentBooking) {
+        this.updateCurrentBooking(currentBooking);
+        console.log("CurrentBooking updated", currentBooking);
+        console.log("Parking station: ", currentBooking.parkingStation);
+        this.addBooking(currentBooking);
+        console.log("Current booking added to bookings");
+        this.removeCurrentBooking();
+        console.log("Current booking removed");
+    };
     /* Listens for bookings added to user -> current booking in the database
     * Returns an Observable with the newly added current booking
     */

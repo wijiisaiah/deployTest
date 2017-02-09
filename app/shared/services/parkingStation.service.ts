@@ -34,8 +34,8 @@ export class ParkingService {
      getUpdatedParkingStation(): Observable<any> {
         return Observable.create(obs => {
             this.parkingStationsRef.on('child_changed', parkingStation => {
-                const updatedBug = parkingStation.val() as ParkingStation;
-                obs.next(updatedBug);
+                const updatedParkingStation = parkingStation.val() as ParkingStation;
+                obs.next(updatedParkingStation);
             },
             err => {
                 obs.throw(err);

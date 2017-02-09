@@ -60,9 +60,19 @@ export class BookingService {
             startTimeMs: startTimeMs
         })
             .catch(err => console.error("Unable to add Booking", err));
+    }
 
-       
+    public completeBooking(currentBooking: Booking){
+        this.updateCurrentBooking(currentBooking);
+        console.log("CurrentBooking updated", currentBooking);
 
+        console.log("Parking station: ", currentBooking.parkingStation);
+
+        this.addBooking(currentBooking);
+        console.log("Current booking added to bookings");
+
+        this.removeCurrentBooking();
+        console.log("Current booking removed");
     }
 
     /* Listens for bookings added to user -> current booking in the database
