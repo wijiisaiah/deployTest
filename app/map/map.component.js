@@ -117,14 +117,14 @@ var MapComponent = (function () {
         }
         for (var _i = 0, _a = this.markers; _i < _a.length; _i++) {
             var marker = _a[_i];
-            for (var _b = 0, _c = this.infowindows; _b < _c.length; _b++) {
-                var infoWindow = _c[_b];
-                if (infoWindow.title === marker.title) {
-                    console.log(infoWindow);
-                    infoWindow.setContent(content);
-                }
-            }
             if (marker.title === parking.title) {
+                for (var _b = 0, _c = this.infowindows; _b < _c.length; _b++) {
+                    var infoWindow = _c[_b];
+                    if (infoWindow.title === marker.title) {
+                        console.log(infoWindow);
+                        infoWindow.setContent(content);
+                    }
+                }
                 marker.setMap(null);
                 console.log(marker);
                 console.log(marker.icon);

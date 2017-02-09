@@ -150,13 +150,15 @@ export class MapComponent implements OnInit {
         }
 
         for (let marker of this.markers) {
-            for (let infoWindow of this.infowindows) {
-                if (infoWindow.title === marker.title) {
-                    console.log(infoWindow);
-                    infoWindow.setContent(content);
-                }
-            }
             if (marker.title === parking.title) {
+
+                for (let infoWindow of this.infowindows) {
+                    if (infoWindow.title === marker.title) {
+                        console.log(infoWindow);
+                        infoWindow.setContent(content);
+                    }
+                }
+
                 marker.setMap(null);
                 console.log(marker);
                 console.log(marker.icon);
