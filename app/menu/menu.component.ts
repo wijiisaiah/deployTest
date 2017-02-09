@@ -6,6 +6,7 @@ import { UserService } from "../shared/services/user.service";
 import { User } from "../shared/model/user";
 import {BookingService} from "../shared/services/booking.service";
 import {Router} from "@angular/router";
+import {MenuService} from "../shared/services/menu.service";
 declare let $:any;
 
 
@@ -24,7 +25,7 @@ export class MenuComponent implements OnInit {
     private userBookingsHidden = true;
     private userMenuHidden = false;
 
-    constructor(private uas: UserService, private BookingService: BookingService, private router: Router) {
+    constructor(private uas: UserService, private BookingService: BookingService, private router: Router, private menuService: MenuService) {
     }
 
     ngOnInit() {
@@ -32,12 +33,6 @@ export class MenuComponent implements OnInit {
     }
 
     /* Close when someone clicks on the "x" symbol inside the overlay */
-    public closeNav() {
-        document.getElementById("myNav").style.width = "0%";
-    }
-    public openNav(){
-        document.getElementById("myNav").style.width = "75%";
-    }
 
     signOut() {
         this.uas.signOut();
@@ -88,5 +83,10 @@ export class MenuComponent implements OnInit {
     reRoute(){
         this.router.navigate(['/login']);
     }
+
+    changeMenu() {
+        this.menuService.changeMenu();
+    }
+
 
 }

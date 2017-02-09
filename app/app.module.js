@@ -25,6 +25,7 @@ var user_service_1 = require("./shared/services/user.service");
 var booking_service_1 = require("./shared/services/booking.service");
 var parkingStation_service_1 = require("./shared/services/parkingStation.service");
 var auth_guard_1 = require("./shared/services/auth.guard");
+var menu_service_1 = require("./shared/services/menu.service");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -43,7 +44,7 @@ var AppModule = (function () {
                 user_account_component_1.UserAccountComponent,
                 my_bookings_component_1.MyBookingsComponent
             ],
-            providers: [user_service_1.UserService, booking_service_1.BookingService, parkingStation_service_1.ParkingService, auth_guard_1.AuthGuard],
+            providers: [user_service_1.UserService, booking_service_1.BookingService, parkingStation_service_1.ParkingService, auth_guard_1.AuthGuard, menu_service_1.MenuService],
             bootstrap: [app_component_1.AppComponent]
         }), 
         __metadata('design:paramtypes', [])

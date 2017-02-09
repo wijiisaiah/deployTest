@@ -1,3 +1,4 @@
+///<reference path="../menu/menu.component.ts"/>
 
 import { Observable } from 'rxjs/Rx';
 import { ParkingService } from './../shared/services/parkingStation.service';
@@ -7,6 +8,8 @@ import { UserService } from "../shared/services/user.service";
 import { BookingService } from "../shared/services/booking.service";
 import { Booking } from "../shared/model/booking";
 import { Router } from "@angular/router";
+import {MenuComponent} from "../menu/menu.component";
+import {MenuService} from "../shared/services/menu.service";
 declare let google: any;
 
 @Component({
@@ -22,10 +25,10 @@ declare let google: any;
          }
 `]
 })
-export class MapComponent implements OnInit, OnDestroy {
+export class MapComponent implements OnInit {
     @HostListener('window:reserve', ['$event'])
     reserveEventListener(event) {
-        console.log(event.detail)
+        console.log(event.detail);
         this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
         console.log("Current booking created")
     }
@@ -64,7 +67,11 @@ export class MapComponent implements OnInit, OnDestroy {
     private infowindows: any;
     private selectedParkingStation: ParkingStation;
 
-    constructor(private bookingService: BookingService, private userService: UserService, private parkingService: ParkingService, private router: Router) {
+    constructor(private bookingService: BookingService,
+                private userService: UserService,
+                private parkingService: ParkingService,
+                private router: Router,
+                private menuService: MenuService) {
 
     }
 
@@ -80,14 +87,7 @@ export class MapComponent implements OnInit, OnDestroy {
         this.createMap();
         this.getAddedParkingStations();
         this.getUpdatedParkingStations();
-        //
-        // this.menu = new MenuComponent();
 
-        let centerControlDiv = document.createElement('div');
-        let centerControl = new this.CenterControl(centerControlDiv, this.map);
-
-        centerControlDiv.tabIndex = 1;
-        this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(centerControlDiv);
 
     }
 
@@ -110,46 +110,15 @@ export class MapComponent implements OnInit, OnDestroy {
                 const parkingIndex = this.parkingStations.map(index => index.title).indexOf(updatedParkingStation['title']);
                 this.parkingStations[parkingIndex] = updatedParkingStation;
                 console.log("Update works: ", this.parkingStations);
+                console.log(updatedParkingStation);
+                console.log(this.parkingStations[parkingIndex]);
+                const markerIndex = this.markers.map(index =>index.title).indexOf(updatedParkingStation['title']);
                 this.assignMarkersToParking();
+
             },
             err => {
                 console.log("Unable to get updated bug - ", err);
             });
-    }
-
-    CenterControl(controlDiv, map) {
-        let that = this;
-        // Set CSS for the control border.
-        let controlUI = document.createElement('div');
-        controlUI.style.backgroundColor = '#fff';
-        controlUI.style.border = '2px solid #fff';
-        controlUI.style.borderRadius = '3px';
-        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-        controlUI.style.cursor = 'pointer';
-        controlUI.style.marginTop = '5px';
-        controlUI.style.marginLeft = '10px';
-        controlUI.style.textAlign = 'center';
-        controlUI.title = 'Open Menu';
-        controlDiv.appendChild(controlUI);
-
-        // Set CSS for the control interior.
-        let controlText = document.createElement('div');
-        controlText.style.color = 'rgb(25,25,25)';
-        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-        controlText.style.fontSize = '16px';
-        controlText.style.lineHeight = '38px';
-        controlText.style.paddingLeft = '5px';
-        controlText.style.paddingRight = '5px';
-        controlText.innerHTML =
-            '<div style="width: 35px;height: 5px;background-color: black;margin: 6px 0;"></div>' +
-            '<div style="width: 35px;height: 5px;background-color: black;margin: 6px 0;"></div>' +
-            '<div style="width: 35px;height: 5px;background-color: black;margin: 6px 0;"></div>';
-        controlUI.appendChild(controlText);
-
-        // Setup the click event listeners: simply set the map to Chicago.
-        controlUI.addEventListener('click', function () {
-            document.getElementById("myNav").style.width = "75%";
-        });
     }
 
 
@@ -164,9 +133,14 @@ export class MapComponent implements OnInit, OnDestroy {
     }
 
     private assignMarkersToParking() {
+        for (let marker of this.markers){
+            marker.setMap(null);
+        }
+        this.markers = [];
         for (let parking of this.parkingStations) {
             this.markers.push(this.createMarker(parking))
         }
+        console.log(this.markers);
     }
 
     private setMarkersToMap() {
@@ -176,15 +150,60 @@ export class MapComponent implements OnInit, OnDestroy {
     }
 
     private createMarker(parking: ParkingStation) {
+        console.log('creating marker', parking);
         // Creating marker
         let that = this;
+
+        // Creating Info Window which is related to this Parking Station
+        let infowindow = new google.maps.InfoWindow({
+            content: this.getHTMLcontent(parking),
+        });
 
         let marker = new google.maps.Marker({
             position: { lat: parking.lat, lng: parking.lng },
             map: this.map,
-            title: parking.title
+            title: parking.title,
+            parking: parking,
+            infowindow: infowindow
+
         });
-        let content = `
+
+
+        // function myFunction(){
+        //     console.log('reserve');
+        // }
+
+        // Pushes the newly created Info Window to the array of info windows
+        this.infowindows.push(infowindow);
+
+        // Listener made to open InfoWindow when user clicks on a marker
+        marker.addListener('click', function () {
+            document.getElementById('myNav').style.width = "0";
+            // Closes all Info Windows before opening new one
+            for (let i = 0; i < that.infowindows.length; i++) {
+                that.infowindows[i].close();
+            }
+            infowindow.open(this.map, marker);
+            that.selectedParkingStation = parking;
+        });
+
+        // Closes the info window if a click occurs on the map
+        this.map.addListener('click', function () {
+            this.menuService.changeMenu();
+            infowindow.close(this.map, marker);
+        });
+
+        return marker;
+    }
+
+    updateMarker(marker, parking: ParkingStation){
+        console.log(marker);
+        marker.getAttribute['parking'] = parking;
+        marker.getAttribute['infowindow'].content = this.getHTMLcontent(parking);
+    }
+
+    getHTMLcontent(parking: ParkingStation){
+        return `
                 <head>
                    <script>
                         function myFunction(){
@@ -207,47 +226,7 @@ export class MapComponent implements OnInit, OnDestroy {
                 </div>
                 </body>
                   `;
-
-        // Creating Info Window which is related to this Parking Station
-        let infowindow = new google.maps.InfoWindow({
-
-            content: content,
-
-        });
-
-        // function myFunction(){
-        //     console.log('reserve');
-        // }
-
-        // Pushes the newly created Info Window to the array of info windows
-        this.infowindows.push(infowindow);
-
-        // Listener made to open InfoWindow when user clicks on a marker
-        marker.addListener('click', function () {
-            document.getElementById('myNav').style.width = "0";
-            // Closes all Info Windows before opening new one
-            for (let i = 0; i < that.infowindows.length; i++) {
-                that.infowindows[i].close();
-            }
-            infowindow.open(this.map, marker);
-            that.selectedParkingStation = parking;
-        });
-
-        // Closes the info window if a click occurs on the map
-        this.map.addListener('click', function () {
-            document.getElementById('myNav').style.width = "0";
-            infowindow.close(this.map, marker);
-        });
-
-        return marker;
     }
-
-    ngOnDestroy() {
-    }
-
-    // myFunction() {
-    //     console.log("Button worked!!");
-    // }
 
 
 }

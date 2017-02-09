@@ -1,3 +1,4 @@
+///<reference path="../menu/menu.component.ts"/>
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -14,12 +15,14 @@ var user_service_1 = require("../shared/services/user.service");
 var booking_service_1 = require("../shared/services/booking.service");
 var booking_1 = require("../shared/model/booking");
 var router_1 = require("@angular/router");
+var menu_service_1 = require("../shared/services/menu.service");
 var MapComponent = (function () {
-    function MapComponent(bookingService, userService, parkingService, router) {
+    function MapComponent(bookingService, userService, parkingService, router, menuService) {
         this.bookingService = bookingService;
         this.userService = userService;
         this.parkingService = parkingService;
         this.router = router;
+        this.menuService = menuService;
         this.parkingStations = [];
     }
     MapComponent.prototype.reserveEventListener = function (event) {
@@ -57,12 +60,6 @@ var MapComponent = (function () {
         this.createMap();
         this.getAddedParkingStations();
         this.getUpdatedParkingStations();
-        //
-        // this.menu = new MenuComponent();
-        var centerControlDiv = document.createElement('div');
-        var centerControl = new this.CenterControl(centerControlDiv, this.map);
-        centerControlDiv.tabIndex = 1;
-        this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(centerControlDiv);
     };
     MapComponent.prototype.getAddedParkingStations = function () {
         var _this = this;
@@ -81,41 +78,12 @@ var MapComponent = (function () {
             var parkingIndex = _this.parkingStations.map(function (index) { return index.title; }).indexOf(updatedParkingStation['title']);
             _this.parkingStations[parkingIndex] = updatedParkingStation;
             console.log("Update works: ", _this.parkingStations);
+            console.log(updatedParkingStation);
+            console.log(_this.parkingStations[parkingIndex]);
+            var markerIndex = _this.markers.map(function (index) { return index.title; }).indexOf(updatedParkingStation['title']);
             _this.assignMarkersToParking();
         }, function (err) {
             console.log("Unable to get updated bug - ", err);
-        });
-    };
-    MapComponent.prototype.CenterControl = function (controlDiv, map) {
-        var that = this;
-        // Set CSS for the control border.
-        var controlUI = document.createElement('div');
-        controlUI.style.backgroundColor = '#fff';
-        controlUI.style.border = '2px solid #fff';
-        controlUI.style.borderRadius = '3px';
-        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-        controlUI.style.cursor = 'pointer';
-        controlUI.style.marginTop = '5px';
-        controlUI.style.marginLeft = '10px';
-        controlUI.style.textAlign = 'center';
-        controlUI.title = 'Open Menu';
-        controlDiv.appendChild(controlUI);
-        // Set CSS for the control interior.
-        var controlText = document.createElement('div');
-        controlText.style.color = 'rgb(25,25,25)';
-        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-        controlText.style.fontSize = '16px';
-        controlText.style.lineHeight = '38px';
-        controlText.style.paddingLeft = '5px';
-        controlText.style.paddingRight = '5px';
-        controlText.innerHTML =
-            '<div style="width: 35px;height: 5px;background-color: black;margin: 6px 0;"></div>' +
-                '<div style="width: 35px;height: 5px;background-color: black;margin: 6px 0;"></div>' +
-                '<div style="width: 35px;height: 5px;background-color: black;margin: 6px 0;"></div>';
-        controlUI.appendChild(controlText);
-        // Setup the click event listeners: simply set the map to Chicago.
-        controlUI.addEventListener('click', function () {
-            document.getElementById("myNav").style.width = "75%";
         });
     };
     MapComponent.prototype.createMap = function () {
@@ -128,10 +96,16 @@ var MapComponent = (function () {
         this.map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
     };
     MapComponent.prototype.assignMarkersToParking = function () {
-        for (var _i = 0, _a = this.parkingStations; _i < _a.length; _i++) {
-            var parking = _a[_i];
+        for (var _i = 0, _a = this.markers; _i < _a.length; _i++) {
+            var marker = _a[_i];
+            marker.setMap(null);
+        }
+        this.markers = [];
+        for (var _b = 0, _c = this.parkingStations; _b < _c.length; _b++) {
+            var parking = _c[_b];
             this.markers.push(this.createMarker(parking));
         }
+        console.log(this.markers);
     };
     MapComponent.prototype.setMarkersToMap = function () {
         for (var _i = 0, _a = this.markers; _i < _a.length; _i++) {
@@ -140,17 +114,19 @@ var MapComponent = (function () {
         }
     };
     MapComponent.prototype.createMarker = function (parking) {
+        console.log('creating marker', parking);
         // Creating marker
         var that = this;
+        // Creating Info Window which is related to this Parking Station
+        var infowindow = new google.maps.InfoWindow({
+            content: this.getHTMLcontent(parking),
+        });
         var marker = new google.maps.Marker({
             position: { lat: parking.lat, lng: parking.lng },
             map: this.map,
-            title: parking.title
-        });
-        var content = "\n                <head>\n                   <script>\n                        function myFunction(){\n                            console.log('message');\n                        }\n                    </script>\n                </head>\n                <body>\n                    <div id=\"infoWindow\">\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Availabiliy: " + parking.availableSpots + "/" + parking.size + "<br>\n                         Rate: " + parking.rate + " \n                     </p>\n                     <br>\n                    <button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"reserve\", {detail: \"Reservation Started\"}));'>Reserve</button>\n                    <button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"complete\", {detail: \"End Booking\"}));'>Complete</button>\n                </div>\n                </body>\n                  ";
-        // Creating Info Window which is related to this Parking Station
-        var infowindow = new google.maps.InfoWindow({
-            content: content,
+            title: parking.title,
+            parking: parking,
+            infowindow: infowindow
         });
         // function myFunction(){
         //     console.log('reserve');
@@ -169,12 +145,18 @@ var MapComponent = (function () {
         });
         // Closes the info window if a click occurs on the map
         this.map.addListener('click', function () {
-            document.getElementById('myNav').style.width = "0";
+            this.menuService.changeMenu();
             infowindow.close(this.map, marker);
         });
         return marker;
     };
-    MapComponent.prototype.ngOnDestroy = function () {
+    MapComponent.prototype.updateMarker = function (marker, parking) {
+        console.log(marker);
+        marker.getAttribute['parking'] = parking;
+        marker.getAttribute['infowindow'].content = this.getHTMLcontent(parking);
+    };
+    MapComponent.prototype.getHTMLcontent = function (parking) {
+        return "\n                <head>\n                   <script>\n                        function myFunction(){\n                            console.log('message');\n                        }\n                    </script>\n                </head>\n                <body>\n                    <div id=\"infoWindow\">\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Availabiliy: " + parking.availableSpots + "/" + parking.size + "<br>\n                         Rate: " + parking.rate + " \n                     </p>\n                     <br>\n                    <button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"reserve\", {detail: \"Reservation Started\"}));'>Reserve</button>\n                    <button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"complete\", {detail: \"End Booking\"}));'>Complete</button>\n                </div>\n                </body>\n                  ";
     };
     __decorate([
         core_1.HostListener('window:reserve', ['$event']), 
@@ -195,7 +177,7 @@ var MapComponent = (function () {
             template: '<user-menu></user-menu><div id="googleMap"></div>',
             styles: ["\n    #googleMap {\n        width: 100%;\n        height:100%;\n        padding: 0;\n         }\n"]
         }), 
-        __metadata('design:paramtypes', [booking_service_1.BookingService, user_service_1.UserService, parkingStation_service_1.ParkingService, router_1.Router])
+        __metadata('design:paramtypes', [booking_service_1.BookingService, user_service_1.UserService, parkingStation_service_1.ParkingService, router_1.Router, menu_service_1.MenuService])
     ], MapComponent);
     return MapComponent;
 }());

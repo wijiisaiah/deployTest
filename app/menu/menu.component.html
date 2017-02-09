@@ -1,5 +1,11 @@
+<div id="wrapper" class="menu-container">
+    <div id="my-menu-icon" (click)="changeMenu()">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
+</div>
 <div id="myNav" class="overlay">
-    <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
     <div class="overlay-content">
         <div *ngIf="currentUser">
             <h1>Welcome {{currentUser.name}}</h1>
@@ -21,4 +27,5 @@
         </div>
     </div>
 </div>
+
 

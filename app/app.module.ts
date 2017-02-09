@@ -18,6 +18,7 @@ import { UserService } from "./shared/services/user.service";
 import { BookingService } from "./shared/services/booking.service";
 import { ParkingService } from "./shared/services/parkingStation.service";
 import { AuthGuard } from "./shared/services/auth.guard";
+import {MenuService} from "./shared/services/menu.service";
 
 @NgModule({
     imports: [ 
@@ -33,7 +34,7 @@ import { AuthGuard } from "./shared/services/auth.guard";
         UserAccountComponent,
         MyBookingsComponent
     ],
-    providers:[ UserService, BookingService, ParkingService, AuthGuard ],
+    providers:[ UserService, BookingService, ParkingService, AuthGuard, MenuService ],
     bootstrap: [ AppComponent ]
 })
 

@@ -16,11 +16,13 @@ var user_service_1 = require("../shared/services/user.service");
 var user_1 = require("../shared/model/user");
 var booking_service_1 = require("../shared/services/booking.service");
 var router_1 = require("@angular/router");
+var menu_service_1 = require("../shared/services/menu.service");
 var MenuComponent = (function () {
-    function MenuComponent(uas, BookingService, router) {
+    function MenuComponent(uas, BookingService, router, menuService) {
         this.uas = uas;
         this.BookingService = BookingService;
         this.router = router;
+        this.menuService = menuService;
         this.currentUser = new user_1.User(null, null, null, null, null);
         this.userAccountHidden = true;
         this.userBookingsHidden = true;
@@ -30,12 +32,6 @@ var MenuComponent = (function () {
         this.getCurrentUser();
     };
     /* Close when someone clicks on the "x" symbol inside the overlay */
-    MenuComponent.prototype.closeNav = function () {
-        document.getElementById("myNav").style.width = "0%";
-    };
-    MenuComponent.prototype.openNav = function () {
-        document.getElementById("myNav").style.width = "75%";
-    };
     MenuComponent.prototype.signOut = function () {
         this.uas.signOut();
     };
@@ -82,6 +78,9 @@ var MenuComponent = (function () {
     MenuComponent.prototype.reRoute = function () {
         this.router.navigate(['/login']);
     };
+    MenuComponent.prototype.changeMenu = function () {
+        this.menuService.changeMenu();
+    };
     MenuComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -89,7 +88,7 @@ var MenuComponent = (function () {
             templateUrl: 'menu.component.html',
             styleUrls: ['menu.component.css']
         }), 
-        __metadata('design:paramtypes', [user_service_1.UserService, booking_service_1.BookingService, router_1.Router])
+        __metadata('design:paramtypes', [user_service_1.UserService, booking_service_1.BookingService, router_1.Router, menu_service_1.MenuService])
     ], MenuComponent);
     return MenuComponent;
 }());
