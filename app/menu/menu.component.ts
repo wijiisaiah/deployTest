@@ -20,7 +20,7 @@ declare let $:any;
 export class MenuComponent implements OnInit {
 
     private currentUser = new User(null, null, null, null, null);
-    private currentBooking;
+    private currentBooking = null;
     private userAccountHidden = true;
     private userBookingsHidden = true;
     private userMenuHidden = false;
@@ -30,6 +30,7 @@ export class MenuComponent implements OnInit {
 
     ngOnInit() {
         this.getCurrentUser();
+        this.getCurrentBooking();
     }
 
     /* Close when someone clicks on the "x" symbol inside the overlay */
