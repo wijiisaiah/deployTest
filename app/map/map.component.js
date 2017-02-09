@@ -46,10 +46,6 @@ var MapComponent = (function () {
         this.bookingService.completeBooking(currentBooking);
     };
     MapComponent.prototype.ngOnInit = function () {
-        // let testParking: ParkingStation = new ParkingStation('Mazdis - UBC Sub', '606 Something drive', 'MazDome', 49.2827, -123.1207, 100, 100, true, 100);
-        // let testParking2: ParkingStation = new ParkingStation('Mazdis - Waterfront', '601 W Cordova St', 'MazDome', 49.2860, -123.1117, 100, 100, true, 100);
-        // this.getAddedParkingStations();
-        // this.parkingStations = [testParking, testParking2];
         this.markers = [];
         this.infowindows = [];
         this.createMap();

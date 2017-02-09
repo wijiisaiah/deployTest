@@ -24,12 +24,14 @@ var MenuComponent = (function () {
         this.router = router;
         this.menuService = menuService;
         this.currentUser = new user_1.User(null, null, null, null, null);
+        this.currentBooking = null;
         this.userAccountHidden = true;
         this.userBookingsHidden = true;
         this.userMenuHidden = false;
     }
     MenuComponent.prototype.ngOnInit = function () {
         this.getCurrentUser();
+        this.getCurrentBooking();
     };
     /* Close when someone clicks on the "x" symbol inside the overlay */
     MenuComponent.prototype.signOut = function () {

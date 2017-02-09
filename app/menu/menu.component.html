@@ -6,13 +6,14 @@
     </div>
 </div>
 <div id="myNav" class="overlay">
-    <a href="javascript:void(0)" [hidden]="!userMenuHidden" class="closebtn" (click)="replaceMenuContent('','menu')">Menu</a>
+    <a [hidden]="!userMenuHidden" class="closebtn" (click)="replaceMenuContent('','menu')">Menu</a>
 
     <div class="overlay-content">
         <div *ngIf="currentUser">
             <h1>Welcome {{currentUser.name}}</h1>
         </div>
         <div id="menu" [hidden]="userMenuHidden">
+            <a [hidden]="currentBooking" (click)="replaceMenuContent('menu','account')">My Current Booking</a>
             <a (click)="replaceMenuContent('menu','account')">My Account</a>
             <a (click)="replaceMenuContent('menu','booking')">My Bookings</a>
         </div>
