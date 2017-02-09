@@ -60,7 +60,13 @@
     z-index: 1;
     transition: 0.5s;
 }
-#my-menu-icon{
+.my-menu-icon{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    cursor: pointer;
+}
+.my-menu-icon:hover{
     position: absolute;
     left: 10px;
     top: 10px;
@@ -68,6 +74,7 @@
 }
 
 .bar1, .bar2, .bar3 {
+    border-radius: 2px;
     width: 35px;
     height: 5px;
     background-color: #333;

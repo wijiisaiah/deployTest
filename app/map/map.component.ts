@@ -85,6 +85,10 @@ export class MapComponent implements OnInit {
         this.createMap();
         this.getAddedParkingStations();
         this.getUpdatedParkingStations();
+        let that = this;
+        this.map.addListener('click', function(){
+            that.menuService.closeNav();
+        });
 
 
     }
@@ -173,6 +177,7 @@ export class MapComponent implements OnInit {
         let infowindow = new google.maps.InfoWindow({
             content: content,
         });
+        let that = this;
 
         for (let marker of this.markers) {
             if (marker.title === parking.title) {
@@ -185,7 +190,6 @@ export class MapComponent implements OnInit {
 
                 // Closes the info window if a click occurs on the map
                 this.map.addListener('click', function () {
-                    document.getElementById('myNav').style.width = "0";
                     infowindow.close(this.map, marker);
                 });
             }
@@ -250,7 +254,6 @@ export class MapComponent implements OnInit {
 
         // Closes the info window if a click occurs on the map
         this.map.addListener('click', function () {
-            this.menuService.changeMenu();
             infowindow.close(this.map, marker);
         });
 

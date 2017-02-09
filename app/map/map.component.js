@@ -59,6 +59,10 @@ var MapComponent = (function () {
         this.createMap();
         this.getAddedParkingStations();
         this.getUpdatedParkingStations();
+        var that = this;
+        this.map.addListener('click', function () {
+            that.menuService.closeNav();
+        });
     };
     MapComponent.prototype.getAddedParkingStations = function () {
         var _this = this;
@@ -114,6 +118,7 @@ var MapComponent = (function () {
         var infowindow = new google.maps.InfoWindow({
             content: content,
         });
+        var that = this;
         var _loop_1 = function(marker) {
             if (marker.title === parking.title) {
                 marker.addListener('click', function () {
@@ -122,7 +127,6 @@ var MapComponent = (function () {
                 });
                 // Closes the info window if a click occurs on the map
                 this_1.map.addListener('click', function () {
-                    document.getElementById('myNav').style.width = "0";
                     infowindow.close(this.map, marker);
                 });
             }
@@ -162,7 +166,6 @@ var MapComponent = (function () {
         });
         // Closes the info window if a click occurs on the map
         this.map.addListener('click', function () {
-            this.menuService.changeMenu();
             infowindow.close(this.map, marker);
         });
         return marker;
