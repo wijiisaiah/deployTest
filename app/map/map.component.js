@@ -48,12 +48,25 @@ var MapComponent = (function () {
     MapComponent.prototype.ngOnInit = function () {
         this.markers = [];
         this.infowindows = [];
+        this.getCurrentBooking();
         this.createMap();
         this.getAddedParkingStations();
         this.getUpdatedParkingStations();
+        this.setUserLocation();
         var that = this;
+        var mapDiv = document.getElementById('googleMap');
+        console.log(mapDiv);
         this.map.addListener('click', function () {
             that.menuService.closeNav();
+        });
+    };
+    MapComponent.prototype.getCurrentBooking = function () {
+        var _this = this;
+        this.bookingService.getCurrentBooking()
+            .subscribe(function (booking) {
+            _this.currentBooking = booking;
+        }, function (err) {
+            console.error("Unable to get current user -", err);
         });
     };
     MapComponent.prototype.getAddedParkingStations = function () {
@@ -87,22 +100,6 @@ var MapComponent = (function () {
         };
         this.map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
     };
-    // private assignMarkersToParking() {
-    //     for (let marker of this.markers) {
-    //         marker.setMap(null);
-    //     }
-    //     for (let parking of this.parkingStations) {
-    //         this.markers.push(this.createMarker(parking))
-    //     }
-    //     console.log(this.markers);
-    //
-    // }
-    //
-    // private setMarkersToMap() {
-    //     for (let marker of this.markers) {
-    //         marker.setMap(this.map);
-    //     }
-    // }
     MapComponent.prototype.updateMarker = function (parking) {
         var that = this;
         var valid = parking.availableSpots > 0;
@@ -114,6 +111,9 @@ var MapComponent = (function () {
         }
         else {
             icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+        }
+        if (parking.title === this.currentBooking.parkingStation.title) {
+            icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
         }
         for (var _i = 0, _a = this.markers; _i < _a.length; _i++) {
             var marker = _a[_i];
@@ -145,6 +145,11 @@ var MapComponent = (function () {
         }
         else {
             icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+        }
+        if (this.currentBooking !== undefined) {
+            if (parking.title === this.currentBooking.parkingStation.title) {
+                icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+            }
         }
         var marker = new google.maps.Marker({
             position: { lat: parking.lat, lng: parking.lng },
@@ -178,6 +183,74 @@ var MapComponent = (function () {
         for (var i = 0; i < this.infowindows.length; i++) {
             this.infowindows[i].close();
         }
+    };
+    MapComponent.prototype.setUserLocation = function () {
+        var that = this;
+        var controlDiv = document.createElement('div');
+        var firstChild = document.createElement('button');
+        firstChild.style.backgroundColor = '#fff';
+        firstChild.style.border = 'none';
+        firstChild.style.outline = 'none';
+        firstChild.style.width = '28px';
+        firstChild.style.height = '28px';
+        firstChild.style.borderRadius = '2px';
+        firstChild.style.boxShadow = '0 1px 4px rgba(0,0,0,0.3)';
+        firstChild.style.cursor = 'pointer';
+        firstChild.style.marginRight = '10px';
+        firstChild.style.padding = '0px';
+        firstChild.title = 'Your Location';
+        controlDiv.appendChild(firstChild);
+        var secondChild = document.createElement('div');
+        secondChild.style.margin = '5px';
+        secondChild.style.width = '18px';
+        secondChild.style.height = '18px';
+        secondChild.style.backgroundImage = 'url(https://maps.gstatic.com/tactile/mylocation/mylocation-sprite-1x.png)';
+        secondChild.style.backgroundSize = '180px 18px';
+        secondChild.style.backgroundPosition = '0px 0px';
+        secondChild.style.backgroundRepeat = 'no-repeat';
+        secondChild.id = 'you_location_img';
+        firstChild.appendChild(secondChild);
+        google.maps.event.addListener(that.map, 'dragend', function () {
+            $('#you_location_img').css('background-position', '0px 0px');
+        });
+        firstChild.addEventListener('click', function () {
+            if (that.userLocationMarker) {
+                that.userLocationMarker.setMap(null);
+            }
+            var imgX = '0';
+            var animationInterval = setInterval(function () {
+                if (imgX == '-18')
+                    imgX = '0';
+                else
+                    imgX = '-18';
+                $('#you_location_img').css('background-position', imgX + 'px 0px');
+            }, 500);
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var latlng = { lat: position.coords.latitude, lng: position.coords.longitude };
+                    that.userLocationMarker = new google.maps.Marker({
+                        position: latlng,
+                        icon: 'http://www.robotwoods.com/dev/misc/bluecircle.png'
+                    });
+                    that.userLocationMarker.setMap(that.map);
+                    that.map.setCenter(latlng);
+                    that.map.setZoom(14);
+                    clearInterval(animationInterval);
+                    $('#you_location_img').css('background-position', '-144px 0px');
+                }, function () {
+                    that.handleLocationError();
+                });
+            }
+            else {
+                clearInterval(animationInterval);
+                $('#you_location_img').css('background-position', '0px 0px');
+            }
+        });
+        controlDiv.tabIndex = 1;
+        that.map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
+    };
+    MapComponent.prototype.handleLocationError = function () {
+        console.log('no access to geolocation');
     };
     MapComponent.prototype.getHTMLcontent = function (parking, valid) {
         var html;

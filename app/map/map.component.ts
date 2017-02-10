@@ -8,7 +8,9 @@ import {Booking} from "../shared/model/booking";
 import {Router} from "@angular/router";
 import {MenuComponent} from "../menu/menu.component";
 import {MenuService} from "../shared/services/menu.service";
+import {User} from "../shared/model/user";
 declare let google: any;
+declare let $: any;
 
 @Component({
     moduleId: module.id,
@@ -53,10 +55,12 @@ export class MapComponent implements OnInit {
     }
 
     private map: any;
+    private currentBooking: Booking;
     private parkingStations: ParkingStation[] = [];
     private markers: any;
     private infowindows: any;
     private selectedParkingStation: ParkingStation;
+    private userLocationMarker;
 
     constructor(private bookingService: BookingService,
                 private userService: UserService,
@@ -70,15 +74,29 @@ export class MapComponent implements OnInit {
 
         this.markers = [];
         this.infowindows = [];
+        this.getCurrentBooking();
         this.createMap();
         this.getAddedParkingStations();
         this.getUpdatedParkingStations();
+        this.setUserLocation();
         let that = this;
+        let mapDiv = document.getElementById('googleMap');
+        console.log(mapDiv);
+
         this.map.addListener('click', function () {
             that.menuService.closeNav();
         });
 
+    }
 
+    getCurrentBooking() {
+        this.bookingService.getCurrentBooking()
+            .subscribe(booking => {
+                    this.currentBooking = booking;
+                },
+                err => {
+                    console.error("Unable to get current user -", err);
+                });
     }
 
     getAddedParkingStations() {
@@ -118,22 +136,6 @@ export class MapComponent implements OnInit {
         this.map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
     }
 
-    // private assignMarkersToParking() {
-    //     for (let marker of this.markers) {
-    //         marker.setMap(null);
-    //     }
-    //     for (let parking of this.parkingStations) {
-    //         this.markers.push(this.createMarker(parking))
-    //     }
-    //     console.log(this.markers);
-    //
-    // }
-    //
-    // private setMarkersToMap() {
-    //     for (let marker of this.markers) {
-    //         marker.setMap(this.map);
-    //     }
-    // }
 
     private updateMarker(parking: ParkingStation) {
 
@@ -147,6 +149,9 @@ export class MapComponent implements OnInit {
             icon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
         } else {
             icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+        }
+        if (parking.title === this.currentBooking.parkingStation.title) {
+            icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
         }
 
         for (let marker of this.markers) {
@@ -181,6 +186,11 @@ export class MapComponent implements OnInit {
             icon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
         } else {
             icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+        }
+        if (this.currentBooking !== undefined) {
+            if (parking.title === this.currentBooking.parkingStation.title) {
+                icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+            }
         }
 
         let marker = new google.maps.Marker({
@@ -224,7 +234,86 @@ export class MapComponent implements OnInit {
         }
     }
 
-    getHTMLcontent(parking: ParkingStation, valid: Boolean) {
+    private setUserLocation() {
+
+        let that = this;
+
+        let controlDiv = document.createElement('div');
+
+        let firstChild = document.createElement('button');
+        firstChild.style.backgroundColor = '#fff';
+        firstChild.style.border = 'none';
+        firstChild.style.outline = 'none';
+        firstChild.style.width = '28px';
+        firstChild.style.height = '28px';
+        firstChild.style.borderRadius = '2px';
+        firstChild.style.boxShadow = '0 1px 4px rgba(0,0,0,0.3)';
+        firstChild.style.cursor = 'pointer';
+        firstChild.style.marginRight = '10px';
+        firstChild.style.padding = '0px';
+        firstChild.title = 'Your Location';
+        controlDiv.appendChild(firstChild);
+
+        let secondChild = document.createElement('div');
+        secondChild.style.margin = '5px';
+        secondChild.style.width = '18px';
+        secondChild.style.height = '18px';
+        secondChild.style.backgroundImage = 'url(https://maps.gstatic.com/tactile/mylocation/mylocation-sprite-1x.png)';
+        secondChild.style.backgroundSize = '180px 18px';
+        secondChild.style.backgroundPosition = '0px 0px';
+        secondChild.style.backgroundRepeat = 'no-repeat';
+        secondChild.id = 'you_location_img';
+        firstChild.appendChild(secondChild);
+
+        google.maps.event.addListener(that.map, 'dragend', function () {
+            $('#you_location_img').css('background-position', '0px 0px');
+        });
+
+        firstChild.addEventListener('click', function () {
+            if (that.userLocationMarker) {
+                that.userLocationMarker.setMap(null);
+            }
+            let imgX = '0';
+            let animationInterval = setInterval(function () {
+                if (imgX == '-18') imgX = '0';
+                else imgX = '-18';
+                $('#you_location_img').css('background-position', imgX + 'px 0px');
+            }, 500);
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+
+                        let latlng = {lat: position.coords.latitude, lng: position.coords.longitude};
+                        that.userLocationMarker = new google.maps.Marker({
+                            position: latlng,
+                            icon: 'http://www.robotwoods.com/dev/misc/bluecircle.png'
+                        });
+                        that.userLocationMarker.setMap(that.map);
+                        that.map.setCenter(latlng);
+                        that.map.setZoom(14);
+                        clearInterval(animationInterval);
+                        $('#you_location_img').css('background-position', '-144px 0px');
+                    },
+                    function () {
+                        that.handleLocationError();
+                    });
+            }
+            else {
+                clearInterval(animationInterval);
+                $('#you_location_img').css('background-position', '0px 0px');
+            }
+        });
+
+        controlDiv.tabIndex = 1;
+        that.map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
+    }
+
+
+    private handleLocationError() {
+        console.log('no access to geolocation');
+    }
+
+    private getHTMLcontent(parking: ParkingStation, valid: Boolean) {
+
         let html;
         if (valid) {
             html = `
