@@ -9,13 +9,18 @@ import {Router} from "@angular/router";
 import {MenuComponent} from "../menu/menu.component";
 import {MenuService} from "../shared/services/menu.service";
 import {User} from "../shared/model/user";
+import lpad = require("core-js/library/fn/string/lpad");
 declare let google: any;
 declare let $: any;
 
 @Component({
     moduleId: module.id,
     selector: 'map-map',
-    template: '<user-menu></user-menu><div id="googleMap"></div>',
+    template: `
+    <div id="timer"></div>
+    <user-menu></user-menu> 
+    <div id="googleMap"></div>
+    `,
 
     styles: [`
     #googleMap {
@@ -23,6 +28,12 @@ declare let $: any;
         height:100%;
         padding: 0;
          }
+    #timer {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        z-index: 1;
+    }
 `]
 })
 export class MapComponent implements OnInit {
@@ -39,6 +50,13 @@ export class MapComponent implements OnInit {
         }
 
     }
+    @HostListener('window:cancel', ['$event'])
+    cancelEventListener(event) {
+        this.bookingService.removeCurrentBooking(this.currentBooking.parkingStation.title);
+        this.currentBooking = undefined;
+        this.closeInfoWindows();
+    }
+
 
     @HostListener('window:complete', ['$event'])
     completeEventListener(event) {
@@ -61,12 +79,14 @@ export class MapComponent implements OnInit {
     }
 
     private map: any;
+    private reserveEndTime = 0;
     private currentBooking: Booking;
     private parkingStations: ParkingStation[] = [];
     private markers: any;
     private infowindows: any;
     private selectedParkingStation: ParkingStation;
     private userLocationMarker;
+    private timeOut;
 
     constructor(private bookingService: BookingService,
                 private userService: UserService,
@@ -85,6 +105,7 @@ export class MapComponent implements OnInit {
         this.getAddedParkingStations();
         this.getUpdatedParkingStations();
         this.setUserLocation();
+        this.getReservationTimer();
         let that = this;
         let mapDiv = document.getElementById('googleMap');
         console.log(mapDiv);
@@ -93,6 +114,34 @@ export class MapComponent implements OnInit {
             that.menuService.closeNav();
         });
 
+
+    }
+
+    getReservationTimer(){
+        let that = this;
+        this.bookingService.getReservationTimer()
+            .subscribe(endTime => {
+                if (endTime !== undefined) {
+                    that.reserveEndTime = endTime;
+                    that.timeOut = setInterval(() => {
+                        let that = this;
+                        let remaining = Math.max(0, that.reserveEndTime - new Date().getTime());
+                        let minutes = Math.floor((remaining / 1000)  / 60);
+                        let seconds = (Math.round((remaining / 1000)) % 60).toString();
+                        if (seconds.length < 2){
+                            seconds = "0" + seconds;
+                        }
+                        document.getElementById('timer').innerText = minutes + ':' + seconds;
+                        if( that.reserveEndTime <=  new Date().getTime() ){
+                            clearInterval(this.timeOut);
+                            document.getElementById('timer').innerText = '';
+                        }
+                    }, 1000);
+                } else{
+                    that.reserveEndTime = 0;
+                }
+
+            });
     }
 
     getCurrentBooking() {
@@ -140,6 +189,7 @@ export class MapComponent implements OnInit {
             mapTypeControl: false
         };
         this.map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
     }
 
 
@@ -321,6 +371,7 @@ export class MapComponent implements OnInit {
         console.log('no access to geolocation');
     }
 
+
     private getHTMLcontent(parking: ParkingStation, valid: Boolean) {
         let buttons;
         console.log(this.currentBooking);
@@ -353,6 +404,9 @@ export class MapComponent implements OnInit {
                 </body>
                   `;
     }
+
+
+
 
 
 }

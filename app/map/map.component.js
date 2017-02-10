@@ -22,6 +22,7 @@ var MapComponent = (function () {
         this.parkingService = parkingService;
         this.router = router;
         this.menuService = menuService;
+        this.reserveEndTime = 0;
         this.parkingStations = [];
     }
     MapComponent.prototype.reserveEventListener = function (event) {
@@ -35,6 +36,11 @@ var MapComponent = (function () {
             console.log(this.currentBooking);
             alert('Cannot have more than 1 reservation at a time');
         }
+    };
+    MapComponent.prototype.cancelEventListener = function (event) {
+        this.bookingService.removeCurrentBooking(this.currentBooking.parkingStation.title);
+        this.currentBooking = undefined;
+        this.closeInfoWindows();
     };
     MapComponent.prototype.completeEventListener = function (event) {
         console.log(event.detail);
@@ -59,11 +65,39 @@ var MapComponent = (function () {
         this.getAddedParkingStations();
         this.getUpdatedParkingStations();
         this.setUserLocation();
+        this.getReservationTimer();
         var that = this;
         var mapDiv = document.getElementById('googleMap');
         console.log(mapDiv);
         this.map.addListener('click', function () {
             that.menuService.closeNav();
+        });
+    };
+    MapComponent.prototype.getReservationTimer = function () {
+        var _this = this;
+        var that = this;
+        this.bookingService.getReservationTimer()
+            .subscribe(function (endTime) {
+            if (endTime !== undefined) {
+                that.reserveEndTime = endTime;
+                that.timeOut = setInterval(function () {
+                    var that = _this;
+                    var remaining = Math.max(0, that.reserveEndTime - new Date().getTime());
+                    var minutes = Math.floor((remaining / 1000) / 60);
+                    var seconds = (Math.round((remaining / 1000)) % 60).toString();
+                    if (seconds.length < 2) {
+                        seconds = "0" + seconds;
+                    }
+                    document.getElementById('timer').innerText = minutes + ':' + seconds;
+                    if (that.reserveEndTime <= new Date().getTime()) {
+                        clearInterval(_this.timeOut);
+                        document.getElementById('timer').innerText = '';
+                    }
+                }, 1000);
+            }
+            else {
+                that.reserveEndTime = 0;
+            }
         });
     };
     MapComponent.prototype.getCurrentBooking = function () {
@@ -283,6 +317,12 @@ var MapComponent = (function () {
         __metadata('design:returntype', void 0)
     ], MapComponent.prototype, "reserveEventListener", null);
     __decorate([
+        core_1.HostListener('window:cancel', ['$event']), 
+        __metadata('design:type', Function), 
+        __metadata('design:paramtypes', [Object]), 
+        __metadata('design:returntype', void 0)
+    ], MapComponent.prototype, "cancelEventListener", null);
+    __decorate([
         core_1.HostListener('window:complete', ['$event']), 
         __metadata('design:type', Function), 
         __metadata('design:paramtypes', [Object]), 
@@ -292,8 +332,8 @@ var MapComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'map-map',
-            template: '<user-menu></user-menu><div id="googleMap"></div>',
-            styles: ["\n    #googleMap {\n        width: 100%;\n        height:100%;\n        padding: 0;\n         }\n"]
+            template: "\n    <div id=\"timer\"></div>\n    <user-menu></user-menu> \n    <div id=\"googleMap\"></div>\n    ",
+            styles: ["\n    #googleMap {\n        width: 100%;\n        height:100%;\n        padding: 0;\n         }\n    #timer {\n        position: absolute;\n        right: 10px;\n        top: 10px;\n        z-index: 1;\n    }\n"]
         }), 
         __metadata('design:paramtypes', [booking_service_1.BookingService, user_service_1.UserService, parkingStation_service_1.ParkingService, router_1.Router, menu_service_1.MenuService])
     ], MapComponent);

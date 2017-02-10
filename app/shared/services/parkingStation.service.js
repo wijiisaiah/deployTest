@@ -44,8 +44,7 @@ var ParkingService = (function () {
             });
         });
     };
-    ParkingService.prototype.incrementAvailability = function (booking) {
-        var title = booking.parkingStation.title;
+    ParkingService.prototype.incrementAvailability = function (title) {
         var availability;
         var parkingStationsRef = this.parkingStationsRef.child(title);
         parkingStationsRef.once('value').then(function (snapshot) {
@@ -58,8 +57,7 @@ var ParkingService = (function () {
                 .catch(function (err) { return console.error("Unable to increment", err); });
         });
     };
-    ParkingService.prototype.decrementAvailability = function (booking) {
-        var title = booking.parkingStation.title;
+    ParkingService.prototype.decrementAvailability = function (title) {
         var availability;
         var parkingStationsRef = this.parkingStationsRef.child(title);
         parkingStationsRef.once('value').then(function (snapshot) {
