@@ -36,12 +36,18 @@ var UserAuthenticationComponent = (function () {
     };
     UserAuthenticationComponent.prototype.register = function () {
         var that = this;
+        document.getElementById('loader').style.display = 'block';
+        document.getElementById('form-wrapper').style.display = 'none';
         this.user.name = document.getElementById('RegisterName').value;
         this.user.email = document.getElementById('RegisterEmail').value;
         var password = document.getElementById('RegisterPass').value;
         var confirmPassword = document.getElementById('ConfirmPass').value;
         if (this.isMatchingPassword(password, confirmPassword)) {
-            this.userService.register(this.user.name, this.user.email, password);
+            this.userService.register(this.user.name, this.user.email, password)
+                .then(function () {
+                document.getElementById('loader').style.display = 'none';
+                that.router.navigate(['/map']);
+            });
             console.log("User Registered");
         }
         else {
@@ -49,10 +55,16 @@ var UserAuthenticationComponent = (function () {
         }
     };
     UserAuthenticationComponent.prototype.login = function () {
+        document.getElementById('loader').style.display = 'block';
+        document.getElementById('form-wrapper').style.display = 'none';
         var that = this;
         var email = document.getElementById('LoginEmail').value;
         var password = document.getElementById('LoginPass').value;
         this.userService.login(email, password)
+            .then(function () {
+            document.getElementById('loader').style.display = 'none';
+            that.router.navigate(['/map']);
+        })
             .catch((function (err) {
             alert('Login Failed');
         }));

@@ -32,7 +32,6 @@ var UserService = (function () {
             that.addUser(temp);
             that.currentUser = user;
             console.log(user);
-            that.router.navigate(['/map']);
         })
             .catch(function (err) {
             console.error("Registration Error", err);
@@ -44,7 +43,6 @@ var UserService = (function () {
             .then(function (user) {
             that.currentUser = user;
             console.log(that.currentUser);
-            that.router.navigate(['/map']);
         })
             .catch(function (err) {
             console.error("Login Error", err);
