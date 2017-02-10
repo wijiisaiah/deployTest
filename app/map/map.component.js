@@ -25,10 +25,16 @@ var MapComponent = (function () {
         this.parkingStations = [];
     }
     MapComponent.prototype.reserveEventListener = function (event) {
-        console.log(event.detail);
-        this.closeInfoWindows();
-        this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
-        console.log("Current booking created");
+        if (!this.currentBooking) {
+            console.log(event.detail);
+            this.closeInfoWindows();
+            this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
+            console.log("Current booking created");
+        }
+        else {
+            console.log(this.currentBooking);
+            alert('Cannot have more than 1 reservation at a time');
+        }
     };
     MapComponent.prototype.completeEventListener = function (event) {
         console.log(event.detail);
@@ -112,8 +118,10 @@ var MapComponent = (function () {
         else {
             icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
         }
-        if (parking.title === this.currentBooking.parkingStation.title) {
-            icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+        if (this.currentBooking) {
+            if (parking.title === this.currentBooking.parkingStation.title) {
+                icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+            }
         }
         for (var _i = 0, _a = this.markers; _i < _a.length; _i++) {
             var marker = _a[_i];
@@ -253,14 +261,20 @@ var MapComponent = (function () {
         console.log('no access to geolocation');
     };
     MapComponent.prototype.getHTMLcontent = function (parking, valid) {
-        var html;
+        var buttons;
+        console.log(this.currentBooking);
         if (valid) {
-            html = "\n                <body>\n                    <div id=\"infoWindow\">\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Availabiliy: " + parking.availableSpots + "/" + parking.size + "<br>\n                         Rate: " + parking.rate + " \n                     </p>\n                     <br>\n                    <button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"reserve\", {detail: \"Reservation Started\"}));'>Reserve</button>\n                    <button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"complete\", {detail: \"End Booking\"}));'>Complete</button>\n                </div>\n                </body>\n                  ";
+            buttons = "<button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"reserve\", {detail: \"Reservation Started\"}));'>Reserve</button>";
         }
         else {
-            html = "\n                <body>\n                    <div id=\"infoWindow\">\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Availabiliy: " + parking.availableSpots + "/" + parking.size + "<br>\n                         Rate: " + parking.rate + " \n                     </p>\n                     <br>\n                    <button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"complete\", {detail: \"End Booking\"}));'>Complete</button>\n                </div>\n                </body>\n                  ";
+            buttons = "Module is Full";
         }
-        return html;
+        if (this.currentBooking) {
+            if (this.currentBooking.parkingStation.title === parking.title) {
+                buttons = "<button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"complete\", {detail: \"End Booking\"}));'>Complete</button>\n                        <button class=\"btn btn-warning\" onclick='window.dispatchEvent(new CustomEvent(\"cancel\", {detail: \"Cancel Booking\"}));'>Cancel</button>";
+            }
+        }
+        return "\n                <body>\n                    <div id=\"infoWindow\">\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Availabiliy: " + parking.availableSpots + "/" + parking.size + "<br>\n                         Rate: " + parking.rate + " \n                     </p>\n                     <br>\n                    " + buttons + "\n                </div>\n                </body>\n                  ";
     };
     __decorate([
         core_1.HostListener('window:reserve', ['$event']), 

@@ -83,7 +83,7 @@ var BookingService = (function () {
             bookingsRef.on('child_removed', function (booking) {
                 console.log('childremoved', booking);
                 var parking = new parkingStation_1.ParkingStation('', '', '', 0, 0, 0, 0, true, 0);
-                obs.next(new booking_1.Booking(parking, '', '', 0));
+                obs.next(undefined);
             }, function (err) {
                 obs.throw(err);
             });

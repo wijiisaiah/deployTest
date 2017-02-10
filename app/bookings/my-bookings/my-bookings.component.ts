@@ -15,14 +15,10 @@ import {ParkingStation} from "../../shared/model/parkingStation";
 export class MyBookingsComponent implements OnInit {
 
     private bookings: Booking[] = [];
-    private bookingObject = {};
+    private currentBooking = undefined;
 
     constructor(private bookingService: BookingService) {
-        this.bookingObject['title'] = '';
-        this.bookingObject['address'] = '';
-        this.bookingObject['rate'] = '';
-        this.bookingObject['date'] = '';
-        this.bookingObject['startTime'] = '';
+
     }
 
     ngOnInit() {
@@ -43,14 +39,10 @@ export class MyBookingsComponent implements OnInit {
     getCurrentBooking() {
         this.bookingService.getCurrentBooking()
             .subscribe((booking: Booking) => {
-                    console.log('Before assigning', this.bookingObject);
-                    console.log(booking);
-                    this.bookingObject['title'] = booking.parkingStation.title;
-                    this.bookingObject['address'] = booking.parkingStation.address;
-                    this.bookingObject['rate'] = booking.parkingStation.rate;
-                    this.bookingObject['date'] = booking.date;
-                    this.bookingObject['startTime'] = booking.startTime;
-                    console.log(this.bookingObject);
+                    this.currentBooking = booking;
+                    if (booking === undefined){
+
+                    }
                 },
                 err => {
                     console.error("Unable to get current booking -", err);

@@ -14,12 +14,7 @@ var MyBookingsComponent = (function () {
     function MyBookingsComponent(bookingService) {
         this.bookingService = bookingService;
         this.bookings = [];
-        this.bookingObject = {};
-        this.bookingObject['title'] = '';
-        this.bookingObject['address'] = '';
-        this.bookingObject['rate'] = '';
-        this.bookingObject['date'] = '';
-        this.bookingObject['startTime'] = '';
+        this.currentBooking = undefined;
     }
     MyBookingsComponent.prototype.ngOnInit = function () {
         this.getAddedBookings();
@@ -38,14 +33,9 @@ var MyBookingsComponent = (function () {
         var _this = this;
         this.bookingService.getCurrentBooking()
             .subscribe(function (booking) {
-            console.log('Before assigning', _this.bookingObject);
-            console.log(booking);
-            _this.bookingObject['title'] = booking.parkingStation.title;
-            _this.bookingObject['address'] = booking.parkingStation.address;
-            _this.bookingObject['rate'] = booking.parkingStation.rate;
-            _this.bookingObject['date'] = booking.date;
-            _this.bookingObject['startTime'] = booking.startTime;
-            console.log(_this.bookingObject);
+            _this.currentBooking = booking;
+            if (booking === undefined) {
+            }
         }, function (err) {
             console.error("Unable to get current booking -", err);
         });

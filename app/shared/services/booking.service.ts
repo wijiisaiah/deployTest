@@ -96,7 +96,7 @@ export class BookingService {
             bookingsRef.on('child_removed', booking => {
                     console.log('childremoved', booking);
                     let parking = new ParkingStation('', '', '', 0, 0, 0, 0, true, 0);
-                    obs.next(new Booking(parking,'','', 0));
+                    obs.next(undefined);
                 },
                 err => {
                     obs.throw(err);

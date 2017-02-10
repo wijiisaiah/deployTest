@@ -28,10 +28,16 @@ declare let $: any;
 export class MapComponent implements OnInit {
     @HostListener('window:reserve', ['$event'])
     reserveEventListener(event) {
-        console.log(event.detail);
-        this.closeInfoWindows();
-        this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
-        console.log("Current booking created");
+        if (!this.currentBooking) {
+            console.log(event.detail);
+            this.closeInfoWindows();
+            this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
+            console.log("Current booking created");
+        }else {
+            console.log(this.currentBooking);
+            alert('Cannot have more than 1 reservation at a time');
+        }
+
     }
 
     @HostListener('window:complete', ['$event'])
@@ -150,8 +156,11 @@ export class MapComponent implements OnInit {
         } else {
             icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
         }
-        if (parking.title === this.currentBooking.parkingStation.title) {
-            icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+
+        if (this.currentBooking) {
+            if (parking.title === this.currentBooking.parkingStation.title) {
+                icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+            }
         }
 
         for (let marker of this.markers) {
@@ -313,10 +322,22 @@ export class MapComponent implements OnInit {
     }
 
     private getHTMLcontent(parking: ParkingStation, valid: Boolean) {
+        let buttons;
+        console.log(this.currentBooking);
+        if (valid){
+            buttons = `<button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("reserve", {detail: "Reservation Started"}));'>Reserve</button>`;
+        } else {
+            buttons =  `Module is Full`;
+        }
 
-        let html;
-        if (valid) {
-            html = `
+        if (this.currentBooking) {
+            if (this.currentBooking.parkingStation.title === parking.title) {
+                buttons = `<button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("complete", {detail: "End Booking"}));'>Complete</button>
+                        <button class="btn btn-warning" onclick='window.dispatchEvent(new CustomEvent("cancel", {detail: "Cancel Booking"}));'>Cancel</button>`
+            }
+        }
+
+        return `
                 <body>
                     <div id="infoWindow">
                      <h3>` + parking.title + `</h3><br>
@@ -327,30 +348,10 @@ export class MapComponent implements OnInit {
                          Rate: ` + parking.rate + ` 
                      </p>
                      <br>
-                    <button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("reserve", {detail: "Reservation Started"}));'>Reserve</button>
-                    <button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("complete", {detail: "End Booking"}));'>Complete</button>
+                    ` +  buttons  + `
                 </div>
                 </body>
                   `;
-        }
-        else {
-            html = `
-                <body>
-                    <div id="infoWindow">
-                     <h3>` + parking.title + `</h3><br>
-                     <p> Address: ` + parking.address + `<br>
-                         Type: ` + parking.type + ` <br>
-                         Size: ` + parking.size + `<br>
-                         Availabiliy: ` + parking.availableSpots + "/" + parking.size + `<br>
-                         Rate: ` + parking.rate + ` 
-                     </p>
-                     <br>
-                    <button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("complete", {detail: "End Booking"}));'>Complete</button>
-                </div>
-                </body>
-                  `;
-        }
-        return html
     }
 
 
