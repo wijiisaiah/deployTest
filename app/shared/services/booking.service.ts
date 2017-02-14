@@ -71,7 +71,7 @@ export class BookingService {
     }
 
     public completeBooking(currentBooking: Booking) {
-        this.updateCurrentBooking(currentBooking);
+        this.endCurrentBooking(currentBooking);
         console.log("CurrentBooking updated", currentBooking);
 
         // console.log("Parking station: ", currentBooking.parkingStation);
@@ -155,7 +155,7 @@ export class BookingService {
         curBooking.cost = cost;
     }
 
-    updateCurrentBooking(curBooking: Booking) {
+    updateCurrentBooking() {
 
         let startTime = Time.getCurrentTime();
         const currentBookingRef = this.currentUserRef.child('reservation').child('curBooking');

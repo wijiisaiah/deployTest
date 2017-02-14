@@ -37,6 +37,14 @@ declare let $: any;
 `]
 })
 export class MapComponent implements OnInit {
+
+    @HostListener('window:parkBike', ['$event'])
+    parkBikeListener(event) {
+        console.log('bike parked');
+        this.reserveEndTime = 0;
+        this.bookingService.updateCurrentBooking();
+    }
+
     @HostListener('window:reserve', ['$event'])
     reserveEventListener(event) {
         if (!this.currentBooking) {
@@ -44,12 +52,13 @@ export class MapComponent implements OnInit {
             this.closeInfoWindows();
             this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
             console.log("Current booking created");
-        }else {
+        } else {
             console.log(this.currentBooking);
             alert('Cannot have more than 1 reservation at a time');
         }
 
     }
+
     @HostListener('window:cancel', ['$event'])
     cancelEventListener(event) {
         this.bookingService.removeCurrentBooking(this.currentBooking.parkingStation.title);
@@ -62,19 +71,7 @@ export class MapComponent implements OnInit {
     completeEventListener(event) {
         console.log(event.detail);
         this.closeInfoWindows();
-        let currentBooking = new Booking(null, null, null, null);
-        //get the current booking from Firebase and set it to currentBooking
-        this.bookingService.getCurrentBooking()
-            .subscribe(booking => {
-                    currentBooking = booking;
-                },
-                err => {
-                    console.error("Unable to get current booking", err);
-                });
-        // console.log("Current booking retrieved", currentBooking);
-
-        //update currentBooking with end time and cost
-        this.bookingService.completeBooking(currentBooking);
+        this.bookingService.completeBooking(this.currentBooking);
 
     }
 
@@ -117,7 +114,7 @@ export class MapComponent implements OnInit {
 
     }
 
-    getReservationTimer(){
+    getReservationTimer() {
         let that = this;
         this.bookingService.getReservationTimer()
             .subscribe(endTime => {
@@ -126,18 +123,21 @@ export class MapComponent implements OnInit {
                     that.timeOut = setInterval(() => {
                         let that = this;
                         let remaining = Math.max(0, that.reserveEndTime - new Date().getTime());
-                        let minutes = Math.floor((remaining / 1000)  / 60);
+                        let minutes = Math.floor((remaining / 1000) / 60);
                         let seconds = (Math.round((remaining / 1000)) % 60).toString();
-                        if (seconds.length < 2){
+                        if (seconds.length < 2) {
                             seconds = "0" + seconds;
                         }
                         document.getElementById('timer').innerText = minutes + ':' + seconds;
-                        if( that.reserveEndTime <=  new Date().getTime() ){
+                        if (that.reserveEndTime <= new Date().getTime()) {
+                            this.bookingService.removeCurrentBooking(this.currentBooking.parkingStation.title);
+                            this.currentBooking = undefined;
+                            this.closeInfoWindows();
                             clearInterval(this.timeOut);
                             document.getElementById('timer').innerText = '';
                         }
                     }, 1000);
-                } else{
+                } else {
                     that.reserveEndTime = 0;
                 }
 
@@ -207,9 +207,12 @@ export class MapComponent implements OnInit {
             icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
         }
 
-        if (this.currentBooking) {
-            if (parking.title === this.currentBooking.parkingStation.title) {
+        if (this.currentBooking !== undefined) {
+            if (this.currentBooking.parkingStation.title === parking.title) {
                 icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+                if (this.reserveEndTime !== 0) {
+                    icon = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
+                }
             }
         }
 
@@ -246,11 +249,17 @@ export class MapComponent implements OnInit {
         } else {
             icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
         }
+
         if (this.currentBooking !== undefined) {
-            if (parking.title === this.currentBooking.parkingStation.title) {
+            if (this.currentBooking.parkingStation.title === parking.title) {
                 icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+                if (this.reserveEndTime !== 0) {
+                    icon = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
+                }
             }
         }
+        console.log(this.reserveEndTime);
+
 
         let marker = new google.maps.Marker({
             position: {lat: parking.lat, lng: parking.lng},
@@ -375,18 +384,23 @@ export class MapComponent implements OnInit {
     private getHTMLcontent(parking: ParkingStation, valid: Boolean) {
         let buttons;
         console.log(this.currentBooking);
-        if (valid){
+        if (valid) {
             buttons = `<button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("reserve", {detail: "Reservation Started"}));'>Reserve</button>`;
         } else {
-            buttons =  `Module is Full`;
+            buttons = `Module is Full`;
         }
 
-        if (this.currentBooking) {
+        if (this.currentBooking !== undefined) {
             if (this.currentBooking.parkingStation.title === parking.title) {
                 buttons = `<button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("complete", {detail: "End Booking"}));'>Complete</button>
+                        <button class="btn btn-warning" onclick='window.dispatchEvent(new CustomEvent("cancel", {detail: "Cancel Booking"}));'>Cancel</button>`;
+                if (this.reserveEndTime !== 0) {
+                    buttons = `<button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("parkBike", {detail: "Park Bike"}));'>Park Bike</button>
                         <button class="btn btn-warning" onclick='window.dispatchEvent(new CustomEvent("cancel", {detail: "Cancel Booking"}));'>Cancel</button>`
+                }
             }
         }
+
 
         return `
                 <body>
@@ -399,14 +413,11 @@ export class MapComponent implements OnInit {
                          Rate: ` + parking.rate + ` 
                      </p>
                      <br>
-                    ` +  buttons  + `
+                    ` + buttons + `
                 </div>
                 </body>
                   `;
     }
-
-
-
 
 
 }

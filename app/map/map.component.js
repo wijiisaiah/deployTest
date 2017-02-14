@@ -12,7 +12,6 @@ var parkingStation_service_1 = require('./../shared/services/parkingStation.serv
 var core_1 = require('@angular/core');
 var user_service_1 = require("../shared/services/user.service");
 var booking_service_1 = require("../shared/services/booking.service");
-var booking_1 = require("../shared/model/booking");
 var router_1 = require("@angular/router");
 var menu_service_1 = require("../shared/services/menu.service");
 var MapComponent = (function () {
@@ -25,6 +24,11 @@ var MapComponent = (function () {
         this.reserveEndTime = 0;
         this.parkingStations = [];
     }
+    MapComponent.prototype.parkBikeListener = function (event) {
+        console.log('bike parked');
+        this.reserveEndTime = 0;
+        this.bookingService.updateCurrentBooking();
+    };
     MapComponent.prototype.reserveEventListener = function (event) {
         if (!this.currentBooking) {
             console.log(event.detail);
@@ -45,17 +49,7 @@ var MapComponent = (function () {
     MapComponent.prototype.completeEventListener = function (event) {
         console.log(event.detail);
         this.closeInfoWindows();
-        var currentBooking = new booking_1.Booking(null, null, null, null);
-        //get the current booking from Firebase and set it to currentBooking
-        this.bookingService.getCurrentBooking()
-            .subscribe(function (booking) {
-            currentBooking = booking;
-        }, function (err) {
-            console.error("Unable to get current booking", err);
-        });
-        // console.log("Current booking retrieved", currentBooking);
-        //update currentBooking with end time and cost
-        this.bookingService.completeBooking(currentBooking);
+        this.bookingService.completeBooking(this.currentBooking);
     };
     MapComponent.prototype.ngOnInit = function () {
         this.markers = [];
@@ -90,6 +84,9 @@ var MapComponent = (function () {
                     }
                     document.getElementById('timer').innerText = minutes + ':' + seconds;
                     if (that.reserveEndTime <= new Date().getTime()) {
+                        _this.bookingService.removeCurrentBooking(_this.currentBooking.parkingStation.title);
+                        _this.currentBooking = undefined;
+                        _this.closeInfoWindows();
                         clearInterval(_this.timeOut);
                         document.getElementById('timer').innerText = '';
                     }
@@ -152,9 +149,12 @@ var MapComponent = (function () {
         else {
             icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
         }
-        if (this.currentBooking) {
-            if (parking.title === this.currentBooking.parkingStation.title) {
+        if (this.currentBooking !== undefined) {
+            if (this.currentBooking.parkingStation.title === parking.title) {
                 icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+                if (this.reserveEndTime !== 0) {
+                    icon = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
+                }
             }
         }
         for (var _i = 0, _a = this.markers; _i < _a.length; _i++) {
@@ -189,10 +189,14 @@ var MapComponent = (function () {
             icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
         }
         if (this.currentBooking !== undefined) {
-            if (parking.title === this.currentBooking.parkingStation.title) {
+            if (this.currentBooking.parkingStation.title === parking.title) {
                 icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+                if (this.reserveEndTime !== 0) {
+                    icon = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
+                }
             }
         }
+        console.log(this.reserveEndTime);
         var marker = new google.maps.Marker({
             position: { lat: parking.lat, lng: parking.lng },
             map: this.map,
@@ -303,13 +307,22 @@ var MapComponent = (function () {
         else {
             buttons = "Module is Full";
         }
-        if (this.currentBooking) {
+        if (this.currentBooking !== undefined) {
             if (this.currentBooking.parkingStation.title === parking.title) {
                 buttons = "<button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"complete\", {detail: \"End Booking\"}));'>Complete</button>\n                        <button class=\"btn btn-warning\" onclick='window.dispatchEvent(new CustomEvent(\"cancel\", {detail: \"Cancel Booking\"}));'>Cancel</button>";
+                if (this.reserveEndTime !== 0) {
+                    buttons = "<button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"parkBike\", {detail: \"Park Bike\"}));'>Park Bike</button>\n                        <button class=\"btn btn-warning\" onclick='window.dispatchEvent(new CustomEvent(\"cancel\", {detail: \"Cancel Booking\"}));'>Cancel</button>";
+                }
             }
         }
         return "\n                <body>\n                    <div id=\"infoWindow\">\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Availabiliy: " + parking.availableSpots + "/" + parking.size + "<br>\n                         Rate: " + parking.rate + " \n                     </p>\n                     <br>\n                    " + buttons + "\n                </div>\n                </body>\n                  ";
     };
+    __decorate([
+        core_1.HostListener('window:parkBike', ['$event']), 
+        __metadata('design:type', Function), 
+        __metadata('design:paramtypes', [Object]), 
+        __metadata('design:returntype', void 0)
+    ], MapComponent.prototype, "parkBikeListener", null);
     __decorate([
         core_1.HostListener('window:reserve', ['$event']), 
         __metadata('design:type', Function), 

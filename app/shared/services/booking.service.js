@@ -65,7 +65,7 @@ var BookingService = (function () {
             .catch(function (err) { return console.error("Unable to add Booking", err); });
     };
     BookingService.prototype.completeBooking = function (currentBooking) {
-        this.updateCurrentBooking(currentBooking);
+        this.endCurrentBooking(currentBooking);
         console.log("CurrentBooking updated", currentBooking);
         // console.log("Parking station: ", currentBooking.parkingStation);
         this.addBooking(currentBooking);
@@ -127,7 +127,7 @@ var BookingService = (function () {
         curBooking.endTime = endTime;
         curBooking.cost = cost;
     };
-    BookingService.prototype.updateCurrentBooking = function (curBooking) {
+    BookingService.prototype.updateCurrentBooking = function () {
         var startTime = Time_1.Time.getCurrentTime();
         var currentBookingRef = this.currentUserRef.child('reservation').child('curBooking');
         currentBookingRef.update({
