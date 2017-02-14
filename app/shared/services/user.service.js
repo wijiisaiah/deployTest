@@ -97,6 +97,21 @@ var UserService = (function () {
             return false;
         }
     };
+    UserService.prototype.getCurrentLocation = function () {
+        if (navigator.geolocation) {
+            return Rx_1.Observable.create(function (observer) {
+                navigator.geolocation.getCurrentPosition(function (pos) {
+                    observer.next(pos);
+                }),
+                    function (err) {
+                        return Rx_1.Observable.throw(err);
+                    };
+            });
+        }
+        else {
+            return Rx_1.Observable.throw("Geolocation not available");
+        }
+    };
     UserService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [firebase_config_service_1.FirebaseConfigService, router_1.Router])

@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {FirebaseConfigService} from '../../core/service/firebase-config.service';
+import { Injectable } from '@angular/core';
+import { FirebaseConfigService } from '../../core/service/firebase-config.service';
 
-import {User} from '../model/user';
-import {Subject, Observable} from "rxjs/Rx";
-import {Router} from "@angular/router";
+import { User } from '../model/user';
+import { Subject, Observable } from "rxjs/Rx";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class UserService {
@@ -92,9 +92,9 @@ export class UserService {
             const currentUserRef = this.databaseRef.child(uid);
 
             currentUserRef.on('value', user => {
-                    const newUser = user.val() as User;
-                    obs.next(newUser);
-                },
+                const newUser = user.val() as User;
+                obs.next(newUser);
+            },
                 err => {
                     obs.throw(err);
                 });
@@ -107,6 +107,21 @@ export class UserService {
             return true;
         } else {
             return false;
+        }
+    }
+
+    getCurrentLocation(): Observable<any> {
+        if (navigator.geolocation) {
+            return Observable.create(observer => {
+                navigator.geolocation.getCurrentPosition(pos => {
+                    observer.next(pos);
+                }),
+                    err => {
+                        return Observable.throw(err);
+                    }
+            });
+        } else {
+            return Observable.throw("Geolocation not available");
         }
     }
 }
