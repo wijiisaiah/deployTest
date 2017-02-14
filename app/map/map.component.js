@@ -57,6 +57,7 @@ var MapComponent = (function () {
     MapComponent.prototype.ngOnInit = function () {
         this.markers = [];
         this.infowindows = [];
+        this.getCurrentLocation();
         this.getCurrentBooking();
         this.createMap();
         this.getAddedParkingStations();
@@ -68,6 +69,13 @@ var MapComponent = (function () {
         console.log(mapDiv);
         this.map.addListener('click', function () {
             that.menuService.closeNav();
+        });
+    };
+    MapComponent.prototype.getCurrentLocation = function () {
+        var _this = this;
+        this.userService.getCurrentLocation()
+            .subscribe(function (pos) {
+            _this.userLocation = pos;
         });
     };
     MapComponent.prototype.getReservationTimer = function () {
@@ -276,21 +284,17 @@ var MapComponent = (function () {
                     imgX = '-18';
                 $('#you_location_img').css('background-position', imgX + 'px 0px');
             }, 500);
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    var latlng = { lat: position.coords.latitude, lng: position.coords.longitude };
-                    that.userLocationMarker = new google.maps.Marker({
-                        position: latlng,
-                        icon: 'http://www.robotwoods.com/dev/misc/bluecircle.png'
-                    });
-                    that.userLocationMarker.setMap(that.map);
-                    that.map.setCenter(latlng);
-                    that.map.setZoom(14);
-                    clearInterval(animationInterval);
-                    $('#you_location_img').css('background-position', '-144px 0px');
-                }, function () {
-                    that.handleLocationError();
+            if (that.userLocation) {
+                var latlng = { lat: that.userLocation.coords.latitude, lng: that.userLocation.coords.longitude };
+                that.userLocationMarker = new google.maps.Marker({
+                    position: latlng,
+                    icon: 'http://www.robotwoods.com/dev/misc/bluecircle.png'
                 });
+                that.userLocationMarker.setMap(that.map);
+                that.map.setCenter(latlng);
+                that.map.setZoom(14);
+                clearInterval(animationInterval);
+                $('#you_location_img').css('background-position', '-144px 0px');
             }
             else {
                 clearInterval(animationInterval);

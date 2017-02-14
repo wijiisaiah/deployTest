@@ -88,6 +88,7 @@ export class MapComponent implements OnInit {
     private selectedParkingStation: ParkingStation;
     private userLocationMarker;
     private timeOut;
+    private userLocation;
 
     constructor(private bookingService: BookingService,
                 private userService: UserService,
@@ -101,6 +102,7 @@ export class MapComponent implements OnInit {
 
         this.markers = [];
         this.infowindows = [];
+        this.getCurrentLocation();
         this.getCurrentBooking();
         this.createMap();
         this.getAddedParkingStations();
@@ -114,10 +116,14 @@ export class MapComponent implements OnInit {
         this.map.addListener('click', function () {
             that.menuService.closeNav();
         });
-
-
     }
 
+    getCurrentLocation(){
+        this.userService.getCurrentLocation()
+            .subscribe(pos => {
+                this.userLocation = pos;
+            });
+    }
     getReservationTimer() {
         let that = this;
         this.bookingService.getReservationTimer()
@@ -310,7 +316,6 @@ export class MapComponent implements OnInit {
     }
 
     private setUserLocation() {
-
         let that = this;
 
         let controlDiv = document.createElement('div');
@@ -354,25 +359,20 @@ export class MapComponent implements OnInit {
                 else imgX = '-18';
                 $('#you_location_img').css('background-position', imgX + 'px 0px');
             }, 500);
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
+            if (that.userLocation) {
 
-                        let latlng = {lat: position.coords.latitude, lng: position.coords.longitude};
-                        that.userLocationMarker = new google.maps.Marker({
-                            position: latlng,
-                            icon: 'http://www.robotwoods.com/dev/misc/bluecircle.png'
-                        });
-                        that.userLocationMarker.setMap(that.map);
-                        that.map.setCenter(latlng);
-                        that.map.setZoom(14);
-                        clearInterval(animationInterval);
-                        $('#you_location_img').css('background-position', '-144px 0px');
-                    },
-                    function () {
-                        that.handleLocationError();
-                    });
-            }
-            else {
+                let latlng = {lat: that.userLocation.coords.latitude, lng: that.userLocation.coords.longitude};
+                that.userLocationMarker = new google.maps.Marker({
+                    position: latlng,
+                    icon: 'http://www.robotwoods.com/dev/misc/bluecircle.png'
+                });
+
+                that.userLocationMarker.setMap(that.map);
+                that.map.setCenter(latlng);
+                that.map.setZoom(14);
+                clearInterval(animationInterval);
+                $('#you_location_img').css('background-position', '-144px 0px');
+            }else {
                 clearInterval(animationInterval);
                 $('#you_location_img').css('background-position', '0px 0px');
             }
