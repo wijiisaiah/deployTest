@@ -22,13 +22,25 @@ var MapComponent = (function () {
         this.parkingService = parkingService;
         this.router = router;
         this.menuService = menuService;
+        this.reserveEndTime = 0;
         this.parkingStations = [];
     }
     MapComponent.prototype.reserveEventListener = function (event) {
-        console.log(event.detail);
+        if (!this.currentBooking) {
+            console.log(event.detail);
+            this.closeInfoWindows();
+            this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
+            console.log("Current booking created");
+        }
+        else {
+            console.log(this.currentBooking);
+            alert('Cannot have more than 1 reservation at a time');
+        }
+    };
+    MapComponent.prototype.cancelEventListener = function (event) {
+        this.bookingService.removeCurrentBooking(this.currentBooking.parkingStation.title);
+        this.currentBooking = undefined;
         this.closeInfoWindows();
-        this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
-        console.log("Current booking created");
     };
     MapComponent.prototype.completeEventListener = function (event) {
         console.log(event.detail);
@@ -48,12 +60,53 @@ var MapComponent = (function () {
     MapComponent.prototype.ngOnInit = function () {
         this.markers = [];
         this.infowindows = [];
+        this.getCurrentBooking();
         this.createMap();
         this.getAddedParkingStations();
         this.getUpdatedParkingStations();
+        this.setUserLocation();
+        this.getReservationTimer();
         var that = this;
+        var mapDiv = document.getElementById('googleMap');
+        console.log(mapDiv);
         this.map.addListener('click', function () {
             that.menuService.closeNav();
+        });
+    };
+    MapComponent.prototype.getReservationTimer = function () {
+        var _this = this;
+        var that = this;
+        this.bookingService.getReservationTimer()
+            .subscribe(function (endTime) {
+            if (endTime !== undefined) {
+                that.reserveEndTime = endTime;
+                that.timeOut = setInterval(function () {
+                    var that = _this;
+                    var remaining = Math.max(0, that.reserveEndTime - new Date().getTime());
+                    var minutes = Math.floor((remaining / 1000) / 60);
+                    var seconds = (Math.round((remaining / 1000)) % 60).toString();
+                    if (seconds.length < 2) {
+                        seconds = "0" + seconds;
+                    }
+                    document.getElementById('timer').innerText = minutes + ':' + seconds;
+                    if (that.reserveEndTime <= new Date().getTime()) {
+                        clearInterval(_this.timeOut);
+                        document.getElementById('timer').innerText = '';
+                    }
+                }, 1000);
+            }
+            else {
+                that.reserveEndTime = 0;
+            }
+        });
+    };
+    MapComponent.prototype.getCurrentBooking = function () {
+        var _this = this;
+        this.bookingService.getCurrentBooking()
+            .subscribe(function (booking) {
+            _this.currentBooking = booking;
+        }, function (err) {
+            console.error("Unable to get current user -", err);
         });
     };
     MapComponent.prototype.getAddedParkingStations = function () {
@@ -87,22 +140,6 @@ var MapComponent = (function () {
         };
         this.map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
     };
-    // private assignMarkersToParking() {
-    //     for (let marker of this.markers) {
-    //         marker.setMap(null);
-    //     }
-    //     for (let parking of this.parkingStations) {
-    //         this.markers.push(this.createMarker(parking))
-    //     }
-    //     console.log(this.markers);
-    //
-    // }
-    //
-    // private setMarkersToMap() {
-    //     for (let marker of this.markers) {
-    //         marker.setMap(this.map);
-    //     }
-    // }
     MapComponent.prototype.updateMarker = function (parking) {
         var that = this;
         var valid = parking.availableSpots > 0;
@@ -114,6 +151,11 @@ var MapComponent = (function () {
         }
         else {
             icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+        }
+        if (this.currentBooking) {
+            if (parking.title === this.currentBooking.parkingStation.title) {
+                icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+            }
         }
         for (var _i = 0, _a = this.markers; _i < _a.length; _i++) {
             var marker = _a[_i];
@@ -145,6 +187,11 @@ var MapComponent = (function () {
         }
         else {
             icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+        }
+        if (this.currentBooking !== undefined) {
+            if (parking.title === this.currentBooking.parkingStation.title) {
+                icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+            }
         }
         var marker = new google.maps.Marker({
             position: { lat: parking.lat, lng: parking.lng },
@@ -179,15 +226,89 @@ var MapComponent = (function () {
             this.infowindows[i].close();
         }
     };
+    MapComponent.prototype.setUserLocation = function () {
+        var that = this;
+        var controlDiv = document.createElement('div');
+        var firstChild = document.createElement('button');
+        firstChild.style.backgroundColor = '#fff';
+        firstChild.style.border = 'none';
+        firstChild.style.outline = 'none';
+        firstChild.style.width = '28px';
+        firstChild.style.height = '28px';
+        firstChild.style.borderRadius = '2px';
+        firstChild.style.boxShadow = '0 1px 4px rgba(0,0,0,0.3)';
+        firstChild.style.cursor = 'pointer';
+        firstChild.style.marginRight = '10px';
+        firstChild.style.padding = '0px';
+        firstChild.title = 'Your Location';
+        controlDiv.appendChild(firstChild);
+        var secondChild = document.createElement('div');
+        secondChild.style.margin = '5px';
+        secondChild.style.width = '18px';
+        secondChild.style.height = '18px';
+        secondChild.style.backgroundImage = 'url(https://maps.gstatic.com/tactile/mylocation/mylocation-sprite-1x.png)';
+        secondChild.style.backgroundSize = '180px 18px';
+        secondChild.style.backgroundPosition = '0px 0px';
+        secondChild.style.backgroundRepeat = 'no-repeat';
+        secondChild.id = 'you_location_img';
+        firstChild.appendChild(secondChild);
+        google.maps.event.addListener(that.map, 'dragend', function () {
+            $('#you_location_img').css('background-position', '0px 0px');
+        });
+        firstChild.addEventListener('click', function () {
+            if (that.userLocationMarker) {
+                that.userLocationMarker.setMap(null);
+            }
+            var imgX = '0';
+            var animationInterval = setInterval(function () {
+                if (imgX == '-18')
+                    imgX = '0';
+                else
+                    imgX = '-18';
+                $('#you_location_img').css('background-position', imgX + 'px 0px');
+            }, 500);
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var latlng = { lat: position.coords.latitude, lng: position.coords.longitude };
+                    that.userLocationMarker = new google.maps.Marker({
+                        position: latlng,
+                        icon: 'http://www.robotwoods.com/dev/misc/bluecircle.png'
+                    });
+                    that.userLocationMarker.setMap(that.map);
+                    that.map.setCenter(latlng);
+                    that.map.setZoom(14);
+                    clearInterval(animationInterval);
+                    $('#you_location_img').css('background-position', '-144px 0px');
+                }, function () {
+                    that.handleLocationError();
+                });
+            }
+            else {
+                clearInterval(animationInterval);
+                $('#you_location_img').css('background-position', '0px 0px');
+            }
+        });
+        controlDiv.tabIndex = 1;
+        that.map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
+    };
+    MapComponent.prototype.handleLocationError = function () {
+        console.log('no access to geolocation');
+    };
     MapComponent.prototype.getHTMLcontent = function (parking, valid) {
-        var html;
+        var buttons;
+        console.log(this.currentBooking);
         if (valid) {
-            html = "\n                <body>\n                    <div id=\"infoWindow\">\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Availabiliy: " + parking.availableSpots + "/" + parking.size + "<br>\n                         Rate: " + parking.rate + " \n                     </p>\n                     <br>\n                    <button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"reserve\", {detail: \"Reservation Started\"}));'>Reserve</button>\n                    <button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"complete\", {detail: \"End Booking\"}));'>Complete</button>\n                </div>\n                </body>\n                  ";
+            buttons = "<button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"reserve\", {detail: \"Reservation Started\"}));'>Reserve</button>";
         }
         else {
-            html = "\n                <body>\n                    <div id=\"infoWindow\">\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Availabiliy: " + parking.availableSpots + "/" + parking.size + "<br>\n                         Rate: " + parking.rate + " \n                     </p>\n                     <br>\n                    <button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"complete\", {detail: \"End Booking\"}));'>Complete</button>\n                </div>\n                </body>\n                  ";
+            buttons = "Module is Full";
         }
-        return html;
+        if (this.currentBooking) {
+            if (this.currentBooking.parkingStation.title === parking.title) {
+                buttons = "<button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"complete\", {detail: \"End Booking\"}));'>Complete</button>\n                        <button class=\"btn btn-warning\" onclick='window.dispatchEvent(new CustomEvent(\"cancel\", {detail: \"Cancel Booking\"}));'>Cancel</button>";
+            }
+        }
+        return "\n                <body>\n                    <div id=\"infoWindow\">\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Availabiliy: " + parking.availableSpots + "/" + parking.size + "<br>\n                         Rate: " + parking.rate + " \n                     </p>\n                     <br>\n                    " + buttons + "\n                </div>\n                </body>\n                  ";
     };
     __decorate([
         core_1.HostListener('window:reserve', ['$event']), 
@@ -195,6 +316,12 @@ var MapComponent = (function () {
         __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], MapComponent.prototype, "reserveEventListener", null);
+    __decorate([
+        core_1.HostListener('window:cancel', ['$event']), 
+        __metadata('design:type', Function), 
+        __metadata('design:paramtypes', [Object]), 
+        __metadata('design:returntype', void 0)
+    ], MapComponent.prototype, "cancelEventListener", null);
     __decorate([
         core_1.HostListener('window:complete', ['$event']), 
         __metadata('design:type', Function), 
@@ -205,8 +332,8 @@ var MapComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'map-map',
-            template: '<user-menu></user-menu><div id="googleMap"></div>',
-            styles: ["\n    #googleMap {\n        width: 100%;\n        height:100%;\n        padding: 0;\n         }\n"]
+            template: "\n    <div id=\"timer\"></div>\n    <user-menu></user-menu> \n    <div id=\"googleMap\"></div>\n    ",
+            styles: ["\n    #googleMap {\n        width: 100%;\n        height:100%;\n        padding: 0;\n         }\n    #timer {\n        position: absolute;\n        right: 10px;\n        top: 10px;\n        z-index: 1;\n    }\n"]
         }), 
         __metadata('design:paramtypes', [booking_service_1.BookingService, user_service_1.UserService, parkingStation_service_1.ParkingService, router_1.Router, menu_service_1.MenuService])
     ], MapComponent);

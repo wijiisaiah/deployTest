@@ -43,9 +43,8 @@ export class ParkingService {
         });
     }
 
-    incrementAvailability(booking: Booking) {
+    incrementAvailability(title: string) {
 
-        const title = booking.parkingStation.title;
         let availability;
         const parkingStationsRef = this.parkingStationsRef.child(title);
         parkingStationsRef.once('value').then(snapshot => {
@@ -61,10 +60,9 @@ export class ParkingService {
 
     }
 
-    decrementAvailability(booking: Booking) {
+    decrementAvailability(title: string) {
 
 
-        const title = booking.parkingStation.title;
         let availability;
         const parkingStationsRef = this.parkingStationsRef.child(title);
         parkingStationsRef.once('value').then(snapshot => {

@@ -60,12 +60,17 @@ export class MenuComponent implements OnInit {
     }
 
     replaceMenuContent(replaceThis: string, withThis: string){
+
         switch (replaceThis){
             case 'menu': {
                 this.userMenuHidden = true;
                 switch (withThis){
-                    case 'account': this.userAccountHidden = false; return;
+                    case 'account': {
+                        this.userAccountHidden = false;
+                        this.menuService.changeMenu(50);
+                    } return;
                     case 'booking': {
+                        this.menuService.changeMenu(75);
                         this.userBookingsHidden = false;
                         console.log("call update here");
                     }
@@ -73,6 +78,7 @@ export class MenuComponent implements OnInit {
                 return;
             }
             default:{
+                this.menuService.changeMenu(25);
                 this.userAccountHidden = true;
                 this.userBookingsHidden = true;
                 this.userMenuHidden = false;
