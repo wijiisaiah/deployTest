@@ -91,8 +91,6 @@ var MapComponent = (function () {
                         _this.bookingService.removeCurrentBooking(_this.currentBooking.parkingStation.title);
                         _this.currentBooking = undefined;
                         _this.closeInfoWindows();
-                        clearInterval(_this.timeOut);
-                        document.getElementById('timer').innerText = '';
                     }
                 }, 1000);
             }

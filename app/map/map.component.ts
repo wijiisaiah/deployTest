@@ -46,6 +46,7 @@ export class MapComponent implements OnInit {
         this.closeInfoWindows();
         clearInterval(this.timeOut);
         document.getElementById('timer').innerText = '';
+
     }
 
     @HostListener('window:reserve', ['$event'])
@@ -137,13 +138,12 @@ export class MapComponent implements OnInit {
                             this.bookingService.removeCurrentBooking(this.currentBooking.parkingStation.title);
                             this.currentBooking = undefined;
                             this.closeInfoWindows();
-                            clearInterval(this.timeOut);
-                            document.getElementById('timer').innerText = '';
                         }
                     }, 1000);
                 } else {
                     that.reserveEndTime = null;
                 }
+
 
             });
     }
