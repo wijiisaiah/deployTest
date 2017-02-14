@@ -57,7 +57,7 @@ var BookingService = (function () {
         })
             .catch(function (err) { return console.error("Unable to set reservation", err); });
         currentBookingRef.set({
-            ParkingStation: parkingStation,
+            parkingStation: parkingStation,
             date: date,
             startTime: startTime,
             startTimeMs: startTimeMs
@@ -81,7 +81,18 @@ var BookingService = (function () {
         return Observable_1.Observable.create(function (obs) {
             bookingsRef.on('child_added', function (booking) {
                 if (booking.key === 'curBooking') {
-                    var parkingStation = booking.child('ParkingStation').val();
+                    var parkingStation = booking.child('parkingStation').val();
+                    var curBooking = booking.val();
+                    curBooking.parkingStation = parkingStation;
+                    obs.next(curBooking);
+                }
+            }, function (err) {
+                obs.throw(err);
+            });
+            bookingsRef.on('child_changed', function (booking) {
+                if (booking.key === 'curBooking') {
+                    console.log('CHILD CHANGED');
+                    var parkingStation = booking.child('parkingStation').val();
                     var curBooking = booking.val();
                     curBooking.parkingStation = parkingStation;
                     obs.next(curBooking);
@@ -127,12 +138,13 @@ var BookingService = (function () {
         curBooking.endTime = endTime;
         curBooking.cost = cost;
     };
-    BookingService.prototype.updateCurrentBooking = function () {
+    BookingService.prototype.updateCurrentBooking = function (curBooking) {
         var startTime = Time_1.Time.getCurrentTime();
+        var startTimeMs = new Date().getTime();
+        curBooking.startTime = startTime;
+        curBooking.startTimeMs = startTimeMs;
         var currentBookingRef = this.currentUserRef.child('reservation').child('curBooking');
-        currentBookingRef.update({
-            startTime: startTime
-        });
+        currentBookingRef.update(curBooking);
     };
     /* Takes a booking as an argument and adds it to the database
      *  under user -> bookings.

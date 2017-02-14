@@ -41,8 +41,11 @@ export class MapComponent implements OnInit {
     @HostListener('window:parkBike', ['$event'])
     parkBikeListener(event) {
         console.log('bike parked');
-        this.reserveEndTime = 0;
-        this.bookingService.updateCurrentBooking();
+        this.reserveEndTime = null;
+        this.bookingService.updateCurrentBooking(this.currentBooking);
+        this.closeInfoWindows();
+        clearInterval(this.timeOut);
+        document.getElementById('timer').innerText = '';
     }
 
     @HostListener('window:reserve', ['$event'])
@@ -76,7 +79,7 @@ export class MapComponent implements OnInit {
     }
 
     private map: any;
-    private reserveEndTime = 0;
+    private reserveEndTime = null;
     private currentBooking: Booking;
     private parkingStations: ParkingStation[] = [];
     private markers: any;
@@ -129,7 +132,8 @@ export class MapComponent implements OnInit {
                             seconds = "0" + seconds;
                         }
                         document.getElementById('timer').innerText = minutes + ':' + seconds;
-                        if (that.reserveEndTime <= new Date().getTime()) {
+                        if (that.reserveEndTime <= new Date().getTime() && that.reserveEndTime !== null) {
+                            this.reserveEndTime = null;
                             this.bookingService.removeCurrentBooking(this.currentBooking.parkingStation.title);
                             this.currentBooking = undefined;
                             this.closeInfoWindows();
@@ -138,7 +142,7 @@ export class MapComponent implements OnInit {
                         }
                     }, 1000);
                 } else {
-                    that.reserveEndTime = 0;
+                    that.reserveEndTime = null;
                 }
 
             });
@@ -148,9 +152,12 @@ export class MapComponent implements OnInit {
         this.bookingService.getCurrentBooking()
             .subscribe(booking => {
                     this.currentBooking = booking;
+                    if (booking) {
+                        this.updateMarker(booking.parkingStation);
+                    }
                 },
                 err => {
-                    console.error("Unable to get current user -", err);
+                    console.error("Unable to get current booking -", err);
                 });
     }
 
@@ -210,7 +217,7 @@ export class MapComponent implements OnInit {
         if (this.currentBooking !== undefined) {
             if (this.currentBooking.parkingStation.title === parking.title) {
                 icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
-                if (this.reserveEndTime !== 0) {
+                if (this.reserveEndTime !== null) {
                     icon = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
                 }
             }
@@ -253,7 +260,7 @@ export class MapComponent implements OnInit {
         if (this.currentBooking !== undefined) {
             if (this.currentBooking.parkingStation.title === parking.title) {
                 icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
-                if (this.reserveEndTime !== 0) {
+                if (this.reserveEndTime !== null) {
                     icon = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
                 }
             }
@@ -394,7 +401,7 @@ export class MapComponent implements OnInit {
             if (this.currentBooking.parkingStation.title === parking.title) {
                 buttons = `<button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("complete", {detail: "End Booking"}));'>Complete</button>
                         <button class="btn btn-warning" onclick='window.dispatchEvent(new CustomEvent("cancel", {detail: "Cancel Booking"}));'>Cancel</button>`;
-                if (this.reserveEndTime !== 0) {
+                if (this.reserveEndTime !== null) {
                     buttons = `<button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("parkBike", {detail: "Park Bike"}));'>Park Bike</button>
                         <button class="btn btn-warning" onclick='window.dispatchEvent(new CustomEvent("cancel", {detail: "Cancel Booking"}));'>Cancel</button>`
                 }

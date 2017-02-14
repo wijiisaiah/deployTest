@@ -21,13 +21,16 @@ var MapComponent = (function () {
         this.parkingService = parkingService;
         this.router = router;
         this.menuService = menuService;
-        this.reserveEndTime = 0;
+        this.reserveEndTime = null;
         this.parkingStations = [];
     }
     MapComponent.prototype.parkBikeListener = function (event) {
         console.log('bike parked');
-        this.reserveEndTime = 0;
-        this.bookingService.updateCurrentBooking();
+        this.reserveEndTime = null;
+        this.bookingService.updateCurrentBooking(this.currentBooking);
+        this.closeInfoWindows();
+        clearInterval(this.timeOut);
+        document.getElementById('timer').innerText = '';
     };
     MapComponent.prototype.reserveEventListener = function (event) {
         if (!this.currentBooking) {
@@ -83,7 +86,8 @@ var MapComponent = (function () {
                         seconds = "0" + seconds;
                     }
                     document.getElementById('timer').innerText = minutes + ':' + seconds;
-                    if (that.reserveEndTime <= new Date().getTime()) {
+                    if (that.reserveEndTime <= new Date().getTime() && that.reserveEndTime !== null) {
+                        _this.reserveEndTime = null;
                         _this.bookingService.removeCurrentBooking(_this.currentBooking.parkingStation.title);
                         _this.currentBooking = undefined;
                         _this.closeInfoWindows();
@@ -93,7 +97,7 @@ var MapComponent = (function () {
                 }, 1000);
             }
             else {
-                that.reserveEndTime = 0;
+                that.reserveEndTime = null;
             }
         });
     };
@@ -102,8 +106,11 @@ var MapComponent = (function () {
         this.bookingService.getCurrentBooking()
             .subscribe(function (booking) {
             _this.currentBooking = booking;
+            if (booking) {
+                _this.updateMarker(booking.parkingStation);
+            }
         }, function (err) {
-            console.error("Unable to get current user -", err);
+            console.error("Unable to get current booking -", err);
         });
     };
     MapComponent.prototype.getAddedParkingStations = function () {
@@ -152,7 +159,7 @@ var MapComponent = (function () {
         if (this.currentBooking !== undefined) {
             if (this.currentBooking.parkingStation.title === parking.title) {
                 icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
-                if (this.reserveEndTime !== 0) {
+                if (this.reserveEndTime !== null) {
                     icon = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
                 }
             }
@@ -191,7 +198,7 @@ var MapComponent = (function () {
         if (this.currentBooking !== undefined) {
             if (this.currentBooking.parkingStation.title === parking.title) {
                 icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
-                if (this.reserveEndTime !== 0) {
+                if (this.reserveEndTime !== null) {
                     icon = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
                 }
             }
@@ -310,7 +317,7 @@ var MapComponent = (function () {
         if (this.currentBooking !== undefined) {
             if (this.currentBooking.parkingStation.title === parking.title) {
                 buttons = "<button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"complete\", {detail: \"End Booking\"}));'>Complete</button>\n                        <button class=\"btn btn-warning\" onclick='window.dispatchEvent(new CustomEvent(\"cancel\", {detail: \"Cancel Booking\"}));'>Cancel</button>";
-                if (this.reserveEndTime !== 0) {
+                if (this.reserveEndTime !== null) {
                     buttons = "<button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"parkBike\", {detail: \"Park Bike\"}));'>Park Bike</button>\n                        <button class=\"btn btn-warning\" onclick='window.dispatchEvent(new CustomEvent(\"cancel\", {detail: \"Cancel Booking\"}));'>Cancel</button>";
                 }
             }
