@@ -163,5 +163,4 @@ export class BookingService {
 
     }
 
-
 }
