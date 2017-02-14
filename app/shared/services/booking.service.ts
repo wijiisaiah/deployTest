@@ -62,7 +62,7 @@ export class BookingService {
             .catch(err => console.error("Unable to set reservation", err));
 
         currentBookingRef.set({
-            ParkingStation: parkingStation,
+            parkingStation: parkingStation,
             date: date,
             startTime: startTime,
             startTimeMs: startTimeMs
@@ -93,7 +93,7 @@ export class BookingService {
         return Observable.create(obs => {
             bookingsRef.on('child_added', booking => {
                     if (booking.key === 'curBooking') {
-                        const parkingStation = booking.child('ParkingStation').val() as ParkingStation;
+                        const parkingStation = booking.child('parkingStation').val() as ParkingStation;
                         const curBooking = booking.val() as Booking;
                         curBooking.parkingStation = parkingStation;
                         obs.next(curBooking);
@@ -155,13 +155,14 @@ export class BookingService {
         curBooking.cost = cost;
     }
 
-    updateCurrentBooking() {
+    updateCurrentBooking(curBooking: Booking) {
 
         let startTime = Time.getCurrentTime();
+        let startTimeMs = new Date().getTime();
+        curBooking.startTime = startTime;
+        curBooking.startTimeMs = startTimeMs;
         const currentBookingRef = this.currentUserRef.child('reservation').child('curBooking');
-        currentBookingRef.update({
-            startTime: startTime
-        });
+        currentBookingRef.update(curBooking);
     }
 
     /* Takes a booking as an argument and adds it to the database

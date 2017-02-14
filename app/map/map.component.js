@@ -27,7 +27,7 @@ var MapComponent = (function () {
     MapComponent.prototype.parkBikeListener = function (event) {
         console.log('bike parked');
         this.reserveEndTime = 0;
-        this.bookingService.updateCurrentBooking();
+        this.bookingService.updateCurrentBooking(this.currentBooking);
     };
     MapComponent.prototype.reserveEventListener = function (event) {
         if (!this.currentBooking) {
@@ -84,9 +84,6 @@ var MapComponent = (function () {
                     }
                     document.getElementById('timer').innerText = minutes + ':' + seconds;
                     if (that.reserveEndTime <= new Date().getTime()) {
-                        _this.bookingService.removeCurrentBooking(_this.currentBooking.parkingStation.title);
-                        _this.currentBooking = undefined;
-                        _this.closeInfoWindows();
                         clearInterval(_this.timeOut);
                         document.getElementById('timer').innerText = '';
                     }

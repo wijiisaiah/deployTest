@@ -42,7 +42,7 @@ export class MapComponent implements OnInit {
     parkBikeListener(event) {
         console.log('bike parked');
         this.reserveEndTime = 0;
-        this.bookingService.updateCurrentBooking();
+        this.bookingService.updateCurrentBooking(this.currentBooking);
     }
 
     @HostListener('window:reserve', ['$event'])
@@ -130,9 +130,6 @@ export class MapComponent implements OnInit {
                         }
                         document.getElementById('timer').innerText = minutes + ':' + seconds;
                         if (that.reserveEndTime <= new Date().getTime()) {
-                            this.bookingService.removeCurrentBooking(this.currentBooking.parkingStation.title);
-                            this.currentBooking = undefined;
-                            this.closeInfoWindows();
                             clearInterval(this.timeOut);
                             document.getElementById('timer').innerText = '';
                         }
