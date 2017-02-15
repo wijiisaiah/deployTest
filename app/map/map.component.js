@@ -368,9 +368,10 @@ var MapComponent = (function () {
             template: "\n    <div id=\"timer\"></div>\n    <user-menu></user-menu> \n    <div id=\"googleMap\"></div>\n    ",
             styles: ["\n    #googleMap {\n        width: 100%;\n        height:100%;\n        padding: 0;\n         }\n    #timer {\n        position: absolute;\n        right: 10px;\n        top: 10px;\n        z-index: 1;\n    }\n"]
         }), 
-        __metadata('design:paramtypes', [booking_service_1.BookingService, user_service_1.UserService, parkingStation_service_1.ParkingService, email_service_1.EmailService, router_1.Router, menu_service_1.MenuService])
+        __metadata('design:paramtypes', [booking_service_1.BookingService, user_service_1.UserService, parkingStation_service_1.ParkingService, (typeof (_a = typeof email_service_1.EmailService !== 'undefined' && email_service_1.EmailService) === 'function' && _a) || Object, router_1.Router, menu_service_1.MenuService])
     ], MapComponent);
     return MapComponent;
+    var _a;
 }());
 exports.MapComponent = MapComponent;
 //# sourceMappingURL=map.component.js.map
