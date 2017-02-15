@@ -22,7 +22,6 @@ export class ParkingService {
             
             this.parkingStationsRef.on('child_added', parking => {
                     const newParking = parking.val() as ParkingStation;
-                    console.log(newParking);
                     obs.next(newParking);
                 },
                 err => {
@@ -49,7 +48,6 @@ export class ParkingService {
         const parkingStationsRef = this.parkingStationsRef.child(title);
         parkingStationsRef.once('value').then(snapshot => {
             availability = snapshot.val().availableSpots;
-            console.log(availability);
             availability++;
             parkingStationsRef.update({
                 availableSpots: availability
@@ -67,7 +65,6 @@ export class ParkingService {
         const parkingStationsRef = this.parkingStationsRef.child(title);
         parkingStationsRef.once('value').then(snapshot => {
             availability = snapshot.val().availableSpots;
-            console.log(availability);
             availability--;
             parkingStationsRef.update({
                 availableSpots: availability

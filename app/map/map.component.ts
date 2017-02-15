@@ -42,7 +42,6 @@ export class MapComponent implements OnInit {
 
     @HostListener('window:parkBike', ['$event'])
     parkBikeListener(event) {
-        console.log('bike parked');
         this.reserveEndTime = null;
         this.bookingService.updateCurrentBooking(this.currentBooking);
         this.closeInfoWindows();
@@ -54,23 +53,28 @@ export class MapComponent implements OnInit {
     @HostListener('window:reserve', ['$event'])
     reserveEventListener(event) {
         if (!this.currentBooking) {
-            console.log(event.detail);
             this.closeInfoWindows();
             this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
-            console.log("Current booking created");
 
             let email = new Email(null, null, null, null);
-            this.emailService.createEmail('booking confirmation').
-                subscribe(newEmail => {
-                    email = newEmail;
-                });
-            console.log('Email created', email);
-            
-            this.emailService.sendEmail(email);
-            console.log('Email sent', email);
+            // this.emailService.createEmail('booking confirmation').
+            //     subscribe(newEmail => {
+            //         email = newEmail;
+
+            //     });
+
+            this.emailService.createEmail('booking confirmation')
+                .then((createdEmail) => {
+                    console.log('created email', createdEmail);
+                    // this.emailService.sendEmail(createdEmail);
+                })
+            // console.log('Email created', email);
+
+
+            // console.log('Email sent', email);
+
 
         } else {
-            console.log(this.currentBooking);
             alert('Cannot have more than 1 reservation at a time');
         }
 
@@ -86,7 +90,6 @@ export class MapComponent implements OnInit {
 
     @HostListener('window:complete', ['$event'])
     completeEventListener(event) {
-        console.log(event.detail);
         this.closeInfoWindows();
         this.bookingService.completeBooking(this.currentBooking);
 
@@ -124,7 +127,6 @@ export class MapComponent implements OnInit {
         this.getReservationTimer();
         let that = this;
         let mapDiv = document.getElementById('googleMap');
-        console.log(mapDiv);
 
         this.map.addListener('click', function () {
             that.menuService.closeNav();
@@ -198,11 +200,10 @@ export class MapComponent implements OnInit {
             .subscribe(updatedParkingStation => {
                 const parkingIndex = this.parkingStations.map(index => index.title).indexOf(updatedParkingStation['title']);
                 this.parkingStations[parkingIndex] = updatedParkingStation;
-                console.log("Update works: ", this.parkingStations);
                 this.updateMarker(updatedParkingStation);
             },
             err => {
-                console.log("Unable to get updated parking station - ", err);
+                console.error("Unable to get updated parking station - ", err);
             });
     }
 
@@ -247,14 +248,11 @@ export class MapComponent implements OnInit {
 
                 for (let infoWindow of this.infowindows) {
                     if (infoWindow.title === marker.title) {
-                        console.log(infoWindow);
                         infoWindow.setContent(content);
                     }
                 }
 
                 marker.setMap(null);
-                console.log(marker);
-                console.log(marker.icon);
                 marker.icon = icon;
                 marker.setMap(that.map);
             }
@@ -264,7 +262,6 @@ export class MapComponent implements OnInit {
     }
 
     private createMarker(parking: ParkingStation) {
-        console.log('creating marker', parking);
         // Creating marker
         let that = this;
         let icon;
@@ -284,7 +281,6 @@ export class MapComponent implements OnInit {
                 }
             }
         }
-        console.log(this.reserveEndTime);
 
 
         let marker = new google.maps.Marker({
@@ -403,7 +399,6 @@ export class MapComponent implements OnInit {
 
     private getHTMLcontent(parking: ParkingStation, valid: Boolean) {
         let buttons;
-        console.log(this.currentBooking);
         if (valid) {
             buttons = `<button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("reserve", {detail: "Reservation Started"}));'>Reserve</button>`;
         } else {

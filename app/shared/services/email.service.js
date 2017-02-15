@@ -8,35 +8,47 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var Rx_1 = require('rxjs/Rx');
 var core_1 = require('@angular/core');
 var firebase_config_service_1 = require('../../core/service/firebase-config.service');
 var email_1 = require('../model/email');
 var EmailService = (function () {
     function EmailService(fire) {
         this.fire = fire;
-        this.databaseRef = this.fire.database.ref('/users');
+        this.databaseRef = this.fire.database.ref('/emails');
         var currentUser = this.fire.auth.currentUser;
         this.userEmail = currentUser.email;
     }
     EmailService.prototype.createEmail = function (emailType) {
-        var email = new email_1.Email(null, this.userEmail, null, null);
-        var emailRef = this.databaseRef.child('emails').child('email information').child('details').child(emailType);
-        return Rx_1.Observable.create(function (obs) {
+        var _this = this;
+        var email = new email_1.Email(null, null, null, null);
+        var emailRef = this.databaseRef.child('email information').child('details').child(emailType);
+        // return Observable.create(obs => {
+        //     emailRef.on('value', emailInfo => {
+        //         email = emailInfo.val() as Email;
+        //         console.log('raw data', emailInfo);
+        //         obs.next(email);
+        //         console.log('obs next set', email);
+        //     },
+        //         err => {
+        //             obs.throw(err);
+        //         });
+        // });
+        return new Promise(function (fulfill) {
             emailRef.on('value', function (emailInfo) {
                 email = emailInfo.val();
-                obs.next(email);
-            }, function (err) {
-                obs.throw(err);
+                console.log('raw data', emailInfo);
+                console.log('obs next set', email);
+                _this.sendEmail(email);
             });
         });
     };
     EmailService.prototype.sendEmail = function (email) {
-        var newEmailRef = this.databaseRef.child('emails').child('email to send');
-        var ref = newEmailRef.push();
-        ref.set({
+        var newEmailRef = this.databaseRef.child('email to send');
+        // const ref = newEmailRef.push();
+        console.log('pushed to newEmailRef');
+        newEmailRef.set({
             from: email.from,
-            to: email.to,
+            to: this.userEmail,
             subject: email.subject,
             body: email.body
         })

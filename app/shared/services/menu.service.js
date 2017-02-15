@@ -23,7 +23,6 @@ var MenuService = (function () {
             document.getElementById("wrapper").style.width = "100%";
             document.getElementById("myNav").style.width = "0%";
             this.isOpen = false;
-            console.log('close');
         }
     };
     MenuService.prototype.openNav = function () {
@@ -31,7 +30,6 @@ var MenuService = (function () {
         document.getElementById("wrapper").style.width = this.formatSize(100 - this.menuSize);
         document.getElementById("myNav").style.width = this.formatSize(this.menuSize);
         this.isOpen = true;
-        console.log('open');
     };
     MenuService.prototype.changeMenu = function (size) {
         if (size) {

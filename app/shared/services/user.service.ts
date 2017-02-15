@@ -22,8 +22,6 @@ export class UserService {
         let that = this;
         let temp = new User(name, null, email, null, null);
 
-        console.log(name, email, password);
-
         return this.authRef.createUserWithEmailAndPassword(email, password)
             .then(function (user) {
                 temp.uid = user.uid;
@@ -43,7 +41,6 @@ export class UserService {
         return this.authRef.signInWithEmailAndPassword(email, password)
             .then(function (user) {
                 that.currentUser = user;
-                console.log(that.currentUser);
 
             })
             .catch(function (err) {
@@ -55,7 +52,6 @@ export class UserService {
     signOut() {
         this.authRef.signOut();
         this.currentUser = null;
-        console.log('signed out');
         this.router.navigate(['/login']);
     }
 

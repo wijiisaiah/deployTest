@@ -72,15 +72,11 @@ export class BookingService {
 
     public completeBooking(currentBooking: Booking) {
         this.endCurrentBooking(currentBooking);
-        console.log("CurrentBooking updated", currentBooking);
-
-        // console.log("Parking station: ", currentBooking.parkingStation);
-
+      
         this.addBooking(currentBooking);
-        // console.log("Current booking added to bookings");
 
         this.removeCurrentBooking(currentBooking.parkingStation.title);
-        // console.log("Current booking removed");
+
     }
 
     /* Listens for bookings added to user -> current booking in the database
@@ -105,7 +101,6 @@ export class BookingService {
 
             bookingsRef.on('child_changed', booking => {
                     if (booking.key === 'curBooking') {
-                        console.log('CHILD CHANGED');
                         const parkingStation = booking.child('parkingStation').val() as ParkingStation;
                         const curBooking = booking.val() as Booking;
                         curBooking.parkingStation = parkingStation;
@@ -120,7 +115,6 @@ export class BookingService {
             bookingsRef.on('child_removed', booking => {
 
                     if (booking.key === 'curBooking') {
-                        console.log('childremoved', booking);
                         let parking = new ParkingStation('', '', '', 0, 0, 0, 0, true, 0);
                         obs.next(undefined);
                     }
@@ -147,7 +141,6 @@ export class BookingService {
 
             bookingsRef.on('child_removed', booking => {
                     if (booking.key === 'reserveEndTime') {
-                        console.log('childremoved', booking);
                         obs.next(undefined);
                     }
                 },
@@ -185,9 +178,7 @@ export class BookingService {
     public addBooking(booking: Booking) {
 
         const bookingsRef = this.currentUserRef.child('bookings');
-        console.log("bookingsRef created");
         const ref = bookingsRef.push();
-        console.log("Pushed to bookingsRef");
 
         ref.set({
             title: booking.parkingStation.title,
@@ -209,7 +200,6 @@ export class BookingService {
         const reservationRef = this.currentUserRef.child('reservation');
         reservationRef.ref.remove();
         this.parkingService.incrementAvailability(title);
-        console.log("Removed");
     }
 
     calculateCost(booking: Booking): string {

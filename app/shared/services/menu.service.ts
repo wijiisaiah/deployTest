@@ -20,7 +20,6 @@ export class MenuService {
             document.getElementById("wrapper").style.width = "100%";
             document.getElementById("myNav").style.width = "0%";
             this.isOpen = false;
-            console.log('close')
         }
     }
     public openNav(){
@@ -28,7 +27,6 @@ export class MenuService {
             document.getElementById("wrapper").style.width = this.formatSize(100 - this.menuSize);
             document.getElementById("myNav").style.width = this.formatSize(this.menuSize);
             this.isOpen = true;
-            console.log('open');
     }
 
     public changeMenu(size?) {

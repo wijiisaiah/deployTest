@@ -66,12 +66,8 @@ var BookingService = (function () {
     };
     BookingService.prototype.completeBooking = function (currentBooking) {
         this.endCurrentBooking(currentBooking);
-        console.log("CurrentBooking updated", currentBooking);
-        // console.log("Parking station: ", currentBooking.parkingStation);
         this.addBooking(currentBooking);
-        // console.log("Current booking added to bookings");
         this.removeCurrentBooking(currentBooking.parkingStation.title);
-        // console.log("Current booking removed");
     };
     /* Listens for bookings added to user -> current booking in the database
      * Returns an Observable with the newly added current booking
@@ -91,7 +87,6 @@ var BookingService = (function () {
             });
             bookingsRef.on('child_changed', function (booking) {
                 if (booking.key === 'curBooking') {
-                    console.log('CHILD CHANGED');
                     var parkingStation = booking.child('parkingStation').val();
                     var curBooking = booking.val();
                     curBooking.parkingStation = parkingStation;
@@ -102,7 +97,6 @@ var BookingService = (function () {
             });
             bookingsRef.on('child_removed', function (booking) {
                 if (booking.key === 'curBooking') {
-                    console.log('childremoved', booking);
                     var parking = new parkingStation_1.ParkingStation('', '', '', 0, 0, 0, 0, true, 0);
                     obs.next(undefined);
                 }
@@ -123,7 +117,6 @@ var BookingService = (function () {
             });
             bookingsRef.on('child_removed', function (booking) {
                 if (booking.key === 'reserveEndTime') {
-                    console.log('childremoved', booking);
                     obs.next(undefined);
                 }
             }, function (err) {
@@ -151,9 +144,7 @@ var BookingService = (function () {
      */
     BookingService.prototype.addBooking = function (booking) {
         var bookingsRef = this.currentUserRef.child('bookings');
-        console.log("bookingsRef created");
         var ref = bookingsRef.push();
-        console.log("Pushed to bookingsRef");
         ref.set({
             title: booking.parkingStation.title,
             address: booking.parkingStation.address,
@@ -172,7 +163,6 @@ var BookingService = (function () {
         var reservationRef = this.currentUserRef.child('reservation');
         reservationRef.ref.remove();
         this.parkingService.incrementAvailability(title);
-        console.log("Removed");
     };
     BookingService.prototype.calculateCost = function (booking) {
         var endTime = new Date().getTime();

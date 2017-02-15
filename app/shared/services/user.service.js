@@ -25,7 +25,6 @@ var UserService = (function () {
     UserService.prototype.register = function (name, email, password) {
         var that = this;
         var temp = new user_1.User(name, null, email, null, null);
-        console.log(name, email, password);
         return this.authRef.createUserWithEmailAndPassword(email, password)
             .then(function (user) {
             temp.uid = user.uid;
@@ -42,7 +41,6 @@ var UserService = (function () {
         return this.authRef.signInWithEmailAndPassword(email, password)
             .then(function (user) {
             that.currentUser = user;
-            console.log(that.currentUser);
         })
             .catch(function (err) {
             console.error("Login Error", err);
@@ -51,7 +49,6 @@ var UserService = (function () {
     UserService.prototype.signOut = function () {
         this.authRef.signOut();
         this.currentUser = null;
-        console.log('signed out');
         this.router.navigate(['/login']);
     };
     UserService.prototype.addUser = function (user) {

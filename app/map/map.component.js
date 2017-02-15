@@ -28,7 +28,6 @@ var MapComponent = (function () {
         this.parkingStations = [];
     }
     MapComponent.prototype.parkBikeListener = function (event) {
-        console.log('bike parked');
         this.reserveEndTime = null;
         this.bookingService.updateCurrentBooking(this.currentBooking);
         this.closeInfoWindows();
@@ -37,21 +36,20 @@ var MapComponent = (function () {
     };
     MapComponent.prototype.reserveEventListener = function (event) {
         if (!this.currentBooking) {
-            console.log(event.detail);
             this.closeInfoWindows();
             this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
-            console.log("Current booking created");
-            var email_2 = new email_1.Email(null, null, null, null);
-            this.emailService.createEmail('booking confirmation').
-                subscribe(function (newEmail) {
-                email_2 = newEmail;
+            var email = new email_1.Email(null, null, null, null);
+            // this.emailService.createEmail('booking confirmation').
+            //     subscribe(newEmail => {
+            //         email = newEmail;
+            //     });
+            this.emailService.createEmail('booking confirmation')
+                .then(function (createdEmail) {
+                console.log('created email', createdEmail);
+                // this.emailService.sendEmail(createdEmail);
             });
-            console.log('Email created', email_2);
-            this.emailService.sendEmail(email_2);
-            console.log('Email sent', email_2);
         }
         else {
-            console.log(this.currentBooking);
             alert('Cannot have more than 1 reservation at a time');
         }
     };
@@ -61,7 +59,6 @@ var MapComponent = (function () {
         this.closeInfoWindows();
     };
     MapComponent.prototype.completeEventListener = function (event) {
-        console.log(event.detail);
         this.closeInfoWindows();
         this.bookingService.completeBooking(this.currentBooking);
     };
@@ -77,7 +74,6 @@ var MapComponent = (function () {
         this.getReservationTimer();
         var that = this;
         var mapDiv = document.getElementById('googleMap');
-        console.log(mapDiv);
         this.map.addListener('click', function () {
             that.menuService.closeNav();
         });
@@ -146,10 +142,9 @@ var MapComponent = (function () {
             .subscribe(function (updatedParkingStation) {
             var parkingIndex = _this.parkingStations.map(function (index) { return index.title; }).indexOf(updatedParkingStation['title']);
             _this.parkingStations[parkingIndex] = updatedParkingStation;
-            console.log("Update works: ", _this.parkingStations);
             _this.updateMarker(updatedParkingStation);
         }, function (err) {
-            console.log("Unable to get updated parking station - ", err);
+            console.error("Unable to get updated parking station - ", err);
         });
     };
     MapComponent.prototype.createMap = function () {
@@ -187,13 +182,10 @@ var MapComponent = (function () {
                 for (var _b = 0, _c = this.infowindows; _b < _c.length; _b++) {
                     var infoWindow = _c[_b];
                     if (infoWindow.title === marker.title) {
-                        console.log(infoWindow);
                         infoWindow.setContent(content);
                     }
                 }
                 marker.setMap(null);
-                console.log(marker);
-                console.log(marker.icon);
                 marker.icon = icon;
                 marker.setMap(that.map);
             }
@@ -201,7 +193,6 @@ var MapComponent = (function () {
         console.log("number of markers: ", this.markers);
     };
     MapComponent.prototype.createMarker = function (parking) {
-        console.log('creating marker', parking);
         // Creating marker
         var that = this;
         var icon;
@@ -220,7 +211,6 @@ var MapComponent = (function () {
                 }
             }
         }
-        console.log(this.reserveEndTime);
         var marker = new google.maps.Marker({
             position: { lat: parking.lat, lng: parking.lng },
             map: this.map,
@@ -320,7 +310,6 @@ var MapComponent = (function () {
     };
     MapComponent.prototype.getHTMLcontent = function (parking, valid) {
         var buttons;
-        console.log(this.currentBooking);
         if (valid) {
             buttons = "<button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"reserve\", {detail: \"Reservation Started\"}));'>Reserve</button>";
         }
@@ -368,10 +357,9 @@ var MapComponent = (function () {
             template: "\n    <div id=\"timer\"></div>\n    <user-menu></user-menu> \n    <div id=\"googleMap\"></div>\n    ",
             styles: ["\n    #googleMap {\n        width: 100%;\n        height:100%;\n        padding: 0;\n         }\n    #timer {\n        position: absolute;\n        right: 10px;\n        top: 10px;\n        z-index: 1;\n    }\n"]
         }), 
-        __metadata('design:paramtypes', [booking_service_1.BookingService, user_service_1.UserService, parkingStation_service_1.ParkingService, (typeof (_a = typeof email_service_1.EmailService !== 'undefined' && email_service_1.EmailService) === 'function' && _a) || Object, router_1.Router, menu_service_1.MenuService])
+        __metadata('design:paramtypes', [booking_service_1.BookingService, user_service_1.UserService, parkingStation_service_1.ParkingService, email_service_1.EmailService, router_1.Router, menu_service_1.MenuService])
     ], MapComponent);
     return MapComponent;
-    var _a;
 }());
 exports.MapComponent = MapComponent;
 //# sourceMappingURL=map.component.js.map

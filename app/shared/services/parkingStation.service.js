@@ -26,7 +26,6 @@ var ParkingService = (function () {
         return Rx_1.Observable.create(function (obs) {
             _this.parkingStationsRef.on('child_added', function (parking) {
                 var newParking = parking.val();
-                console.log(newParking);
                 obs.next(newParking);
             }, function (err) {
                 obs.throw(err);
@@ -49,7 +48,6 @@ var ParkingService = (function () {
         var parkingStationsRef = this.parkingStationsRef.child(title);
         parkingStationsRef.once('value').then(function (snapshot) {
             availability = snapshot.val().availableSpots;
-            console.log(availability);
             availability++;
             parkingStationsRef.update({
                 availableSpots: availability
@@ -62,7 +60,6 @@ var ParkingService = (function () {
         var parkingStationsRef = this.parkingStationsRef.child(title);
         parkingStationsRef.once('value').then(function (snapshot) {
             availability = snapshot.val().availableSpots;
-            console.log(availability);
             availability--;
             parkingStationsRef.update({
                 availableSpots: availability
