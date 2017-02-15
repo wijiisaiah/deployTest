@@ -1,14 +1,16 @@
-import {Observable} from 'rxjs/Rx';
-import {ParkingService} from './../shared/services/parkingStation.service';
-import {Component, OnInit, NgZone, HostListener, OnDestroy} from '@angular/core';
-import {ParkingStation} from "../shared/model/parkingStation";
-import {UserService} from "../shared/services/user.service";
-import {BookingService} from "../shared/services/booking.service";
-import {Booking} from "../shared/model/booking";
-import {Router} from "@angular/router";
-import {MenuComponent} from "../menu/menu.component";
-import {MenuService} from "../shared/services/menu.service";
-import {User} from "../shared/model/user";
+import { Email } from './../shared/model/email';
+import { Observable } from 'rxjs/Rx';
+import { ParkingService } from './../shared/services/parkingStation.service';
+import { Component, OnInit, NgZone, HostListener, OnDestroy } from '@angular/core';
+import { ParkingStation } from "../shared/model/parkingStation";
+import { UserService } from "../shared/services/user.service";
+import { EmailService } from "../shared/services/email.service";
+import { BookingService } from "../shared/services/booking.service";
+import { Booking } from "../shared/model/booking";
+import { Router } from "@angular/router";
+import { MenuComponent } from "../menu/menu.component";
+import { MenuService } from "../shared/services/menu.service";
+import { User } from "../shared/model/user";
 import lpad = require("core-js/library/fn/string/lpad");
 declare let google: any;
 declare let $: any;
@@ -56,6 +58,17 @@ export class MapComponent implements OnInit {
             this.closeInfoWindows();
             this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
             console.log("Current booking created");
+
+            let email = new Email(null, null, null, null);
+            this.emailService.createEmail('booking confirmation').
+                subscribe(newEmail => {
+                    email = newEmail;
+                });
+            console.log('Email created', email);
+            
+            this.emailService.sendEmail(email);
+            console.log('Email sent', email);
+
         } else {
             console.log(this.currentBooking);
             alert('Cannot have more than 1 reservation at a time');
@@ -91,11 +104,11 @@ export class MapComponent implements OnInit {
     private userLocation;
 
     constructor(private bookingService: BookingService,
-                private userService: UserService,
-                private parkingService: ParkingService,
-                private router: Router,
-                private menuService: MenuService) {
-
+        private userService: UserService,
+        private parkingService: ParkingService,
+        private emailService: EmailService,
+        private router: Router,
+        private menuService: MenuService) {
     }
 
     ngOnInit() {
@@ -118,7 +131,7 @@ export class MapComponent implements OnInit {
         });
     }
 
-    getCurrentLocation(){
+    getCurrentLocation() {
         this.userService.getCurrentLocation()
             .subscribe(pos => {
                 this.userLocation = pos;
@@ -157,40 +170,40 @@ export class MapComponent implements OnInit {
     getCurrentBooking() {
         this.bookingService.getCurrentBooking()
             .subscribe(booking => {
-                    this.currentBooking = booking;
-                    if (booking) {
-                        this.updateMarker(booking.parkingStation);
-                    }
-                },
-                err => {
-                    console.error("Unable to get current booking -", err);
-                });
+                this.currentBooking = booking;
+                if (booking) {
+                    this.updateMarker(booking.parkingStation);
+                }
+            },
+            err => {
+                console.error("Unable to get current booking -", err);
+            });
     }
 
     getAddedParkingStations() {
 
         this.parkingService.getAddedParkingStations()
             .subscribe(parkingStation => {
-                    this.parkingStations.push(parkingStation);
-                    this.markers.push(this.createMarker(parkingStation))
-                },
-                err => {
-                    console.error("Unable to get added parking station - ", err);
-                });
+                this.parkingStations.push(parkingStation);
+                this.markers.push(this.createMarker(parkingStation))
+            },
+            err => {
+                console.error("Unable to get added parking station - ", err);
+            });
 
     }
 
     getUpdatedParkingStations() {
         this.parkingService.getUpdatedParkingStation()
             .subscribe(updatedParkingStation => {
-                    const parkingIndex = this.parkingStations.map(index => index.title).indexOf(updatedParkingStation['title']);
-                    this.parkingStations[parkingIndex] = updatedParkingStation;
-                    console.log("Update works: ", this.parkingStations);
-                    this.updateMarker(updatedParkingStation);
-                },
-                err => {
-                    console.log("Unable to get updated parking station - ", err);
-                });
+                const parkingIndex = this.parkingStations.map(index => index.title).indexOf(updatedParkingStation['title']);
+                this.parkingStations[parkingIndex] = updatedParkingStation;
+                console.log("Update works: ", this.parkingStations);
+                this.updateMarker(updatedParkingStation);
+            },
+            err => {
+                console.log("Unable to get updated parking station - ", err);
+            });
     }
 
 
@@ -275,7 +288,7 @@ export class MapComponent implements OnInit {
 
 
         let marker = new google.maps.Marker({
-            position: {lat: parking.lat, lng: parking.lng},
+            position: { lat: parking.lat, lng: parking.lng },
             map: this.map,
             title: parking.title,
             icon: icon
@@ -361,7 +374,7 @@ export class MapComponent implements OnInit {
             }, 500);
             if (that.userLocation) {
 
-                let latlng = {lat: that.userLocation.coords.latitude, lng: that.userLocation.coords.longitude};
+                let latlng = { lat: that.userLocation.coords.latitude, lng: that.userLocation.coords.longitude };
                 that.userLocationMarker = new google.maps.Marker({
                     position: latlng,
                     icon: 'http://www.robotwoods.com/dev/misc/bluecircle.png'
@@ -372,7 +385,7 @@ export class MapComponent implements OnInit {
                 that.map.setZoom(14);
                 clearInterval(animationInterval);
                 $('#you_location_img').css('background-position', '-144px 0px');
-            }else {
+            } else {
                 clearInterval(animationInterval);
                 $('#you_location_img').css('background-position', '0px 0px');
             }

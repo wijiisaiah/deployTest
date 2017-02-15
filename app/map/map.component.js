@@ -8,17 +8,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var email_1 = require('./../shared/model/email');
 var parkingStation_service_1 = require('./../shared/services/parkingStation.service');
 var core_1 = require('@angular/core');
 var user_service_1 = require("../shared/services/user.service");
+var email_service_1 = require("../shared/services/email.service");
 var booking_service_1 = require("../shared/services/booking.service");
 var router_1 = require("@angular/router");
 var menu_service_1 = require("../shared/services/menu.service");
 var MapComponent = (function () {
-    function MapComponent(bookingService, userService, parkingService, router, menuService) {
+    function MapComponent(bookingService, userService, parkingService, emailService, router, menuService) {
         this.bookingService = bookingService;
         this.userService = userService;
         this.parkingService = parkingService;
+        this.emailService = emailService;
         this.router = router;
         this.menuService = menuService;
         this.reserveEndTime = null;
@@ -38,6 +41,14 @@ var MapComponent = (function () {
             this.closeInfoWindows();
             this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
             console.log("Current booking created");
+            var email_2 = new email_1.Email(null, null, null, null);
+            this.emailService.createEmail('booking confirmation').
+                subscribe(function (newEmail) {
+                email_2 = newEmail;
+            });
+            console.log('Email created', email_2);
+            this.emailService.sendEmail(email_2);
+            console.log('Email sent', email_2);
         }
         else {
             console.log(this.currentBooking);
@@ -357,7 +368,7 @@ var MapComponent = (function () {
             template: "\n    <div id=\"timer\"></div>\n    <user-menu></user-menu> \n    <div id=\"googleMap\"></div>\n    ",
             styles: ["\n    #googleMap {\n        width: 100%;\n        height:100%;\n        padding: 0;\n         }\n    #timer {\n        position: absolute;\n        right: 10px;\n        top: 10px;\n        z-index: 1;\n    }\n"]
         }), 
-        __metadata('design:paramtypes', [booking_service_1.BookingService, user_service_1.UserService, parkingStation_service_1.ParkingService, router_1.Router, menu_service_1.MenuService])
+        __metadata('design:paramtypes', [booking_service_1.BookingService, user_service_1.UserService, parkingStation_service_1.ParkingService, email_service_1.EmailService, router_1.Router, menu_service_1.MenuService])
     ], MapComponent);
     return MapComponent;
 }());
