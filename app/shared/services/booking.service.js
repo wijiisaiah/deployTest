@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var firebase_config_service_1 = require('../../core/service/firebase-config.service');
 var user_service_1 = require("./user.service");
-var booking_1 = require("../model/booking");
 var Time_1 = require("../util/Time");
 var Observable_1 = require("rxjs/Observable");
 var parkingStation_service_1 = require("./parkingStation.service");
@@ -21,9 +20,9 @@ var BookingService = (function () {
         this.us = us;
         this.parkingService = parkingService;
         this.reservationTimeOut = 30 * 60 * 1000;
-        this.databaseRef = this.fire.database.ref('/users');
+        this.databaseRef = this.fire.database;
         var curUser = this.fire.auth.currentUser;
-        this.currentUserRef = this.databaseRef.child(curUser.uid);
+        this.currentUserRef = this.databaseRef.ref('/users').child(curUser.uid);
     }
     /* Listens for bookings added to user -> bookings in the database
      * Returns an Observable with the newly added booking
@@ -40,16 +39,17 @@ var BookingService = (function () {
         });
     };
     /* Creates a new booking in user -> current booking in the database. It sets
-     * the bookings start time, date and parking station.
+     * the bookings start time (both in time format and in milliseconds), date, parking station,
+     * and randomely generated booking code.
      */
     BookingService.prototype.createBooking = function (parkingStation) {
         var date = Time_1.Time.getCurrentDate();
         var startTime = Time_1.Time.getCurrentTime();
         var startTimeMs = new Date().getTime();
-        var newBooking = new booking_1.Booking(parkingStation, date, startTime, startTimeMs);
+        var code = this.generateCode();
         var reservationRef = this.currentUserRef.child('reservation');
         var currentBookingRef = this.currentUserRef.child('reservation').child('curBooking');
-        this.parkingService.decrementAvailability(newBooking.parkingStation.title);
+        this.parkingService.decrementAvailability(parkingStation.title);
         reservationRef.set({
             reserveStartTime: new Date().getTime(),
             reserveEndTime: new Date().getTime() + this.reservationTimeOut
@@ -59,7 +59,8 @@ var BookingService = (function () {
             parkingStation: parkingStation,
             date: date,
             startTime: startTime,
-            startTimeMs: startTimeMs
+            startTimeMs: startTimeMs,
+            code: code
         })
             .catch(function (err) { return console.error("Unable to add Booking", err); });
     };
@@ -170,6 +171,52 @@ var BookingService = (function () {
         var cost = (durationHrs * booking.parkingStation.rate).toFixed(3);
         console.log("Cost: " + cost + " Rate: " + booking.parkingStation.rate + " Duration: " + durationHrs);
         return cost;
+    };
+    BookingService.prototype.generateCode = function () {
+        var _this = this;
+        var code;
+        var codes = [];
+        this.getBookingCodes()
+            .subscribe(function (obs) {
+            codes = obs;
+            console.log("codes", codes);
+            // code = Math.floor(Math.random() * 900000) + 100000;
+            var temp = 10;
+            var recurssiveGenerator = function () {
+                // let newCode = Math.floor(Math.random() * 900000) + 100000;
+                var newCode = temp;
+                for (var _i = 0, codes_1 = codes; _i < codes_1.length; _i++) {
+                    var key = codes_1[_i];
+                    console.log(key);
+                    console.log(codes[key]);
+                    if (codes[key] === newCode) {
+                        console.log('Found duplicate code');
+                        temp = 11;
+                        return recurssiveGenerator();
+                    }
+                }
+                return newCode;
+            };
+            code = recurssiveGenerator();
+            var ref = _this.databaseRef.ref('booking codes').child('codes');
+            ref.push(code);
+            return code;
+        }, function (err) {
+            console.error("Could not get generated codes -", err);
+        });
+    };
+    BookingService.prototype.getBookingCodes = function () {
+        var ref = this.databaseRef.ref('booking codes').child('codes');
+        return Observable_1.Observable.create(function (obs) {
+            ref.on('value', function (bookingCodes) {
+                var codes = bookingCodes.val();
+                console.log('codes', codes);
+                console.log('element of codes', codes['-Kd82nlFzyi9AeOZDKxJ']);
+                obs.next(codes);
+            }, function (err) {
+                obs.throw(err);
+            });
+        });
     };
     BookingService = __decorate([
         core_1.Injectable(), 

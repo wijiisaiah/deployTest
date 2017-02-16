@@ -8,6 +8,7 @@ export class Booking{
         public date: string,
         public startTime: string,
         public startTimeMs: number,
+        public code: number,
         public endTime?: string,
         public cost?: string
     ){}
