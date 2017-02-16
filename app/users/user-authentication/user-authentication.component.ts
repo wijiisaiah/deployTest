@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {UserService} from '../../shared/services/user.service';
+import { UserService } from '../../shared/services/user.service';
+import { EmailService } from '../../shared/services/email.service';
 
-import {User} from '../../shared/model/user';
-import {Router} from "@angular/router";
-import {userInfo} from "os";
+import { User } from '../../shared/model/user';
+import { Router } from "@angular/router";
+import { userInfo } from "os";
 declare let $: any;
 
 @Component({
@@ -16,9 +17,10 @@ declare let $: any;
 export class UserAuthenticationComponent implements OnInit {
 
     private user: User = new User(null, null, null, null, null);
+    private static REGISTRATION_CONFIRMATION = 'registration confirmation';
 
-    constructor(private userService: UserService,
-                private router: Router) {
+    constructor(private userService: UserService, private emailService: EmailService,
+        private router: Router) {
     }
 
     ngOnInit() {
@@ -54,11 +56,14 @@ export class UserAuthenticationComponent implements OnInit {
                 .then(() => {
                     document.getElementById('loader').style.display = 'none';
                     that.router.navigate(['/map']);
+                    this.emailService.createEmail(UserAuthenticationComponent.REGISTRATION_CONFIRMATION);
                 });
             console.log("User Registered");
+
         } else {
             alert('Passwords Must Match');
         }
+
     }
 
     login() {

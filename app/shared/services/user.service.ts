@@ -12,10 +12,10 @@ export class UserService {
     private databaseRef = this.fire.database.ref('/users');
     private currentUser = this.fire.auth.currentUser;
 
+
     constructor(private fire: FirebaseConfigService, private router: Router) {
         this.currentUser = this.fire.auth.currentUser;
     }
-
 
     register(name: string, email: string, password: string) {
 
@@ -28,6 +28,7 @@ export class UserService {
                 that.addUser(temp);
                 that.currentUser = user;
                 console.log(user);
+
             })
             .catch(function (err) {
                 console.error("Registration Error", err);
