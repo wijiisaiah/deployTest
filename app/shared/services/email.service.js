@@ -22,17 +22,6 @@ var EmailService = (function () {
         var _this = this;
         var email = new email_1.Email(null, null, null, null);
         var emailRef = this.databaseRef.child('email information').child('details').child(emailType);
-        // return Observable.create(obs => {
-        //     emailRef.on('value', emailInfo => {
-        //         email = emailInfo.val() as Email;
-        //         console.log('raw data', emailInfo);
-        //         obs.next(email);
-        //         console.log('obs next set', email);
-        //     },
-        //         err => {
-        //             obs.throw(err);
-        //         });
-        // });
         return new Promise(function (fulfill) {
             emailRef.on('value', function (emailInfo) {
                 email = emailInfo.val();

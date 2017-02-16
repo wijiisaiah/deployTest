@@ -22,17 +22,6 @@ export class EmailService {
         let email = new Email(null, null, null, null);
 
         const emailRef = this.databaseRef.child('email information').child('details').child(emailType);
-        // return Observable.create(obs => {
-        //     emailRef.on('value', emailInfo => {
-        //         email = emailInfo.val() as Email;
-        //         console.log('raw data', emailInfo);
-        //         obs.next(email);
-        //         console.log('obs next set', email);
-        //     },
-        //         err => {
-        //             obs.throw(err);
-        //         });
-        // });
 
         return new Promise((fulfill) => {
             emailRef.on('value', emailInfo => {
@@ -41,7 +30,7 @@ export class EmailService {
                 console.log('obs next set', email);
                 this.sendEmail(email);
             });
-        }) 
+        });
     }
 
     sendEmail(email: Email) {

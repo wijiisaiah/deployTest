@@ -10,11 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var user_service_1 = require('../../shared/services/user.service');
+var email_service_1 = require('../../shared/services/email.service');
 var user_1 = require('../../shared/model/user');
 var router_1 = require("@angular/router");
 var UserAuthenticationComponent = (function () {
-    function UserAuthenticationComponent(userService, router) {
+    function UserAuthenticationComponent(userService, emailService, router) {
         this.userService = userService;
+        this.emailService = emailService;
         this.router = router;
         this.user = new user_1.User(null, null, null, null, null);
     }
@@ -35,6 +37,7 @@ var UserAuthenticationComponent = (function () {
         });
     };
     UserAuthenticationComponent.prototype.register = function () {
+        var _this = this;
         var that = this;
         document.getElementById('loader').style.display = 'block';
         document.getElementById('form-wrapper').style.display = 'none';
@@ -47,6 +50,7 @@ var UserAuthenticationComponent = (function () {
                 .then(function () {
                 document.getElementById('loader').style.display = 'none';
                 that.router.navigate(['/map']);
+                _this.emailService.createEmail(UserAuthenticationComponent.REGISTRATION_CONFIRMATION);
             });
             console.log("User Registered");
         }
@@ -77,6 +81,7 @@ var UserAuthenticationComponent = (function () {
     UserAuthenticationComponent.prototype.isMatchingPassword = function (password, confirmPass) {
         return password === confirmPass;
     };
+    UserAuthenticationComponent.REGISTRATION_CONFIRMATION = 'registration confirmation';
     UserAuthenticationComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -84,7 +89,7 @@ var UserAuthenticationComponent = (function () {
             templateUrl: 'user-authentication.component.html',
             styleUrls: ['user-authentication.component.css']
         }), 
-        __metadata('design:paramtypes', [user_service_1.UserService, router_1.Router])
+        __metadata('design:paramtypes', [user_service_1.UserService, email_service_1.EmailService, router_1.Router])
     ], UserAuthenticationComponent);
     return UserAuthenticationComponent;
 }());

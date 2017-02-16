@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var email_1 = require('./../shared/model/email');
 var parkingStation_service_1 = require('./../shared/services/parkingStation.service');
 var core_1 = require('@angular/core');
 var user_service_1 = require("../shared/services/user.service");
@@ -39,16 +38,7 @@ var MapComponent = (function () {
         if (!this.currentBooking) {
             this.closeInfoWindows();
             this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
-            var email = new email_1.Email(null, null, null, null);
-            // this.emailService.createEmail('booking confirmation').
-            //     subscribe(newEmail => {
-            //         email = newEmail;
-            //     });
-            this.emailService.createEmail('booking confirmation')
-                .then(function (createdEmail) {
-                console.log('created email', createdEmail);
-                // this.emailService.sendEmail(createdEmail);
-            });
+            this.emailService.createEmail(MapComponent.BOOKING_CONFIRMATION);
         }
         else {
             alert('Cannot have more than 1 reservation at a time');
@@ -58,10 +48,12 @@ var MapComponent = (function () {
         this.bookingService.removeCurrentBooking(this.currentBooking.parkingStation.title);
         this.currentBooking = undefined;
         this.closeInfoWindows();
+        this.emailService.createEmail(MapComponent.BOOKING_CANCELLATION);
     };
     MapComponent.prototype.completeEventListener = function (event) {
         this.closeInfoWindows();
         this.bookingService.completeBooking(this.currentBooking);
+        this.emailService.createEmail(MapComponent.BOOKING_COMPLETION);
     };
     MapComponent.prototype.ngOnDestroy = function () {
         for (var _i = 0, _a = this.subscriptions; _i < _a.length; _i++) {
@@ -339,6 +331,9 @@ var MapComponent = (function () {
         }
         return "\n                <body>\n                    <div id=\"infoWindow\">\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Availabiliy: " + parking.availableSpots + "/" + parking.size + "<br>\n                         Rate: " + parking.rate + " \n                     </p>\n                     <br>\n                    " + buttons + "\n                </div>\n                </body>\n                  ";
     };
+    MapComponent.BOOKING_CONFIRMATION = 'booking confirmation';
+    MapComponent.BOOKING_CANCELLATION = 'booking cancellation';
+    MapComponent.BOOKING_COMPLETION = 'booking completion';
     __decorate([
         core_1.HostListener('window:parkBike', ['$event']), 
         __metadata('design:type', Function), 
