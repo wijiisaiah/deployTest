@@ -8,7 +8,8 @@ export class MenuService {
     public isOpen: boolean;
     public menuSize: number;
 
-    constructor(){
+    constructor() {
+        this.closeNav();
         this.isOpen = false;
         this.menuSize = 25;
     }
@@ -22,15 +23,18 @@ export class MenuService {
             this.isOpen = false;
         }
     }
-    public openNav(){
+
+    public openNav() {
+        if (!this.isOpen) {
             document.getElementById("my-menu-icon").classList.toggle("change");
             document.getElementById("wrapper").style.width = this.formatSize(100 - this.menuSize);
             document.getElementById("myNav").style.width = this.formatSize(this.menuSize);
             this.isOpen = true;
+        }
     }
 
     public changeMenu(size?) {
-        if (size){
+        if (size) {
             this.menuSize = size;
             this.setMenuSize()
         }
@@ -43,10 +47,11 @@ export class MenuService {
         }
     }
 
-    private formatSize(x: number): string{
+    private formatSize(x: number): string {
         return x + '%';
     }
-    private setMenuSize(){
+
+    private setMenuSize() {
         document.getElementById("wrapper").style.width = this.formatSize(100 - this.menuSize);
         document.getElementById("myNav").style.width = this.formatSize(this.menuSize);
     }

@@ -33,11 +33,13 @@ export class MenuComponent implements OnInit, OnDestroy {
         for(let subs of this.subscriptions){
             subs.unsubscribe();
         }
+        console.log('Menu Destroyed');
     }
 
     ngOnInit() {
         this.getCurrentUser();
         this.getCurrentBooking();
+        this.menuService.isOpen = false;
     }
 
     /* Close when someone clicks on the "x" symbol inside the overlay */
@@ -47,13 +49,15 @@ export class MenuComponent implements OnInit, OnDestroy {
     }
 
     getCurrentBooking() {
-        this.BookingService.getCurrentBooking()
+        let temp = this.BookingService.getCurrentBooking()
             .subscribe(booking => {
                     this.currentBooking = booking;
                 },
                 err => {
                     console.error("Unable to get current user -", err);
                 });
+
+        this.subscriptions.push(temp);
     }
 
     getCurrentUser() {

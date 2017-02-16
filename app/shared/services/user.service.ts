@@ -42,7 +42,6 @@ export class UserService {
         return this.authRef.signInWithEmailAndPassword(email, password)
             .then(function (user) {
                 that.currentUser = user;
-
             })
             .catch(function (err) {
                 console.error("Login Error", err);

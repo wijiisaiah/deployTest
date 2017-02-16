@@ -200,7 +200,7 @@ export class MapComponent implements OnInit, OnDestroy {
             .subscribe(parkingStation => {
                 this.parkingStations.push(parkingStation);
                 this.markers.push(this.createMarker(parkingStation))
-            },
+    },
             err => {
                 console.error("Unable to get added parking station - ", err);
             });

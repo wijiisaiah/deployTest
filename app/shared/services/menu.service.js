@@ -14,6 +14,7 @@ var core_1 = require("@angular/core");
  */
 var MenuService = (function () {
     function MenuService() {
+        this.closeNav();
         this.isOpen = false;
         this.menuSize = 25;
     }
@@ -26,10 +27,12 @@ var MenuService = (function () {
         }
     };
     MenuService.prototype.openNav = function () {
-        document.getElementById("my-menu-icon").classList.toggle("change");
-        document.getElementById("wrapper").style.width = this.formatSize(100 - this.menuSize);
-        document.getElementById("myNav").style.width = this.formatSize(this.menuSize);
-        this.isOpen = true;
+        if (!this.isOpen) {
+            document.getElementById("my-menu-icon").classList.toggle("change");
+            document.getElementById("wrapper").style.width = this.formatSize(100 - this.menuSize);
+            document.getElementById("myNav").style.width = this.formatSize(this.menuSize);
+            this.isOpen = true;
+        }
     };
     MenuService.prototype.changeMenu = function (size) {
         if (size) {

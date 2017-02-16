@@ -35,10 +35,12 @@ var MenuComponent = (function () {
             var subs = _a[_i];
             subs.unsubscribe();
         }
+        console.log('Menu Destroyed');
     };
     MenuComponent.prototype.ngOnInit = function () {
         this.getCurrentUser();
         this.getCurrentBooking();
+        this.menuService.isOpen = false;
     };
     /* Close when someone clicks on the "x" symbol inside the overlay */
     MenuComponent.prototype.signOut = function () {
@@ -46,12 +48,13 @@ var MenuComponent = (function () {
     };
     MenuComponent.prototype.getCurrentBooking = function () {
         var _this = this;
-        this.BookingService.getCurrentBooking()
+        var temp = this.BookingService.getCurrentBooking()
             .subscribe(function (booking) {
             _this.currentBooking = booking;
         }, function (err) {
             console.error("Unable to get current user -", err);
         });
+        this.subscriptions.push(temp);
     };
     MenuComponent.prototype.getCurrentUser = function () {
         var _this = this;
