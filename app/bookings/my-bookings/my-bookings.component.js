@@ -15,19 +15,27 @@ var MyBookingsComponent = (function () {
         this.bookingService = bookingService;
         this.bookings = [];
         this.currentBooking = undefined;
+        this.subscriptions = [];
     }
+    MyBookingsComponent.prototype.ngOnDestroy = function () {
+        for (var _i = 0, _a = this.subscriptions; _i < _a.length; _i++) {
+            var subs = _a[_i];
+            subs.unsubscribe();
+        }
+    };
     MyBookingsComponent.prototype.ngOnInit = function () {
         this.getAddedBookings();
         this.getCurrentBooking();
     };
     MyBookingsComponent.prototype.getAddedBookings = function () {
         var _this = this;
-        this.bookingService.getAddedBookings()
+        var temp = this.bookingService.getAddedBookings()
             .subscribe(function (booking) {
             _this.bookings.push(booking);
         }, function (err) {
             console.error("Unable to get added booking - ", err);
         });
+        this.subscriptions.push(temp);
     };
     MyBookingsComponent.prototype.getCurrentBooking = function () {
         var _this = this;

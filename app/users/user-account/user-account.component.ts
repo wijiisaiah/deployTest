@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 
 import { UserService } from '../../shared/services/user.service';
 
 import { User } from '../../shared/model/user';
+import {Subscription} from "rxjs";
 
 @Component({
     moduleId: module.id,
@@ -11,18 +12,26 @@ import { User } from '../../shared/model/user';
     styleUrls: ['user-account.component.css']
 
 })
-export class UserAccountComponent implements OnInit {
+export class UserAccountComponent implements OnInit, OnDestroy {
 
     private currentUser = new User(null, null, null, null, null);
+    private subscriptions: Subscription[] = [];
 
     constructor(private uas: UserService) { }
+
+
+    ngOnDestroy() {
+        for(let subs of this.subscriptions){
+            subs.unsubscribe();
+        }
+    }
 
     ngOnInit() {
         this.getCurrentUser();
     }
 
      getCurrentUser() {
-        this.uas.getCurrentUser()
+        let temp = this.uas.getCurrentUser()
             .subscribe(user => {
                 this.currentUser = user;
                 // console.log("Current user - ", this.currentUser);
@@ -30,6 +39,7 @@ export class UserAccountComponent implements OnInit {
             err => {
                 console.error("Unable to get current user -", err);
             });
+        this.subscriptions.push(temp);
     }
 
     updateUser() {

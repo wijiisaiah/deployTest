@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 
 import {BookingService} from '../../shared/services/booking.service';
 
 import {Booking} from '../../shared/model/booking';
 import {ParkingStation} from "../../shared/model/parkingStation";
+import {Subscription} from "rxjs";
 
 @Component({
     moduleId: module.id,
@@ -12,13 +13,19 @@ import {ParkingStation} from "../../shared/model/parkingStation";
     styleUrls: ['my-bookings.component.css']
 
 })
-export class MyBookingsComponent implements OnInit {
+export class MyBookingsComponent implements OnInit, OnDestroy {
 
     private bookings: Booking[] = [];
     private currentBooking = undefined;
-
+    private subscriptions: Subscription[] = [];
     constructor(private bookingService: BookingService) {
 
+    }
+
+    ngOnDestroy() {
+        for(let subs of this.subscriptions){
+            subs.unsubscribe();
+        }
     }
 
     ngOnInit() {
@@ -27,13 +34,14 @@ export class MyBookingsComponent implements OnInit {
     }
 
     getAddedBookings() {
-        this.bookingService.getAddedBookings()
+        let temp = this.bookingService.getAddedBookings()
             .subscribe(booking => {
                     this.bookings.push(booking);
                 },
                 err => {
                     console.error("Unable to get added booking - ", err);
                 });
+        this.subscriptions.push(temp);
     }
 
     getCurrentBooking() {

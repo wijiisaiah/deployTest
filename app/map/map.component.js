@@ -26,6 +26,7 @@ var MapComponent = (function () {
         this.menuService = menuService;
         this.reserveEndTime = null;
         this.parkingStations = [];
+        this.subscriptions = [];
     }
     MapComponent.prototype.parkBikeListener = function (event) {
         this.reserveEndTime = null;
@@ -62,6 +63,13 @@ var MapComponent = (function () {
         this.closeInfoWindows();
         this.bookingService.completeBooking(this.currentBooking);
     };
+    MapComponent.prototype.ngOnDestroy = function () {
+        for (var _i = 0, _a = this.subscriptions; _i < _a.length; _i++) {
+            var subs = _a[_i];
+            subs.unsubscribe();
+        }
+        clearInterval(this.timeOut);
+    };
     MapComponent.prototype.ngOnInit = function () {
         this.markers = [];
         this.infowindows = [];
@@ -80,15 +88,16 @@ var MapComponent = (function () {
     };
     MapComponent.prototype.getCurrentLocation = function () {
         var _this = this;
-        this.userService.getCurrentLocation()
+        var temp = this.userService.getCurrentLocation()
             .subscribe(function (pos) {
             _this.userLocation = pos;
         });
+        this.subscriptions.push(temp);
     };
     MapComponent.prototype.getReservationTimer = function () {
         var _this = this;
         var that = this;
-        this.bookingService.getReservationTimer()
+        var temp = this.bookingService.getReservationTimer()
             .subscribe(function (endTime) {
             if (endTime !== undefined) {
                 that.reserveEndTime = endTime;
@@ -113,10 +122,11 @@ var MapComponent = (function () {
                 that.reserveEndTime = null;
             }
         });
+        this.subscriptions.push(temp);
     };
     MapComponent.prototype.getCurrentBooking = function () {
         var _this = this;
-        this.bookingService.getCurrentBooking()
+        var temp = this.bookingService.getCurrentBooking()
             .subscribe(function (booking) {
             _this.currentBooking = booking;
             if (booking) {
@@ -125,20 +135,22 @@ var MapComponent = (function () {
         }, function (err) {
             console.error("Unable to get current booking -", err);
         });
+        this.subscriptions.push(temp);
     };
     MapComponent.prototype.getAddedParkingStations = function () {
         var _this = this;
-        this.parkingService.getAddedParkingStations()
+        var temp = this.parkingService.getAddedParkingStations()
             .subscribe(function (parkingStation) {
             _this.parkingStations.push(parkingStation);
             _this.markers.push(_this.createMarker(parkingStation));
         }, function (err) {
             console.error("Unable to get added parking station - ", err);
         });
+        this.subscriptions.push(temp);
     };
     MapComponent.prototype.getUpdatedParkingStations = function () {
         var _this = this;
-        this.parkingService.getUpdatedParkingStation()
+        var temp = this.parkingService.getUpdatedParkingStation()
             .subscribe(function (updatedParkingStation) {
             var parkingIndex = _this.parkingStations.map(function (index) { return index.title; }).indexOf(updatedParkingStation['title']);
             _this.parkingStations[parkingIndex] = updatedParkingStation;
@@ -146,6 +158,7 @@ var MapComponent = (function () {
         }, function (err) {
             console.error("Unable to get updated parking station - ", err);
         });
+        this.subscriptions.push(temp);
     };
     MapComponent.prototype.createMap = function () {
         var mapProp = {

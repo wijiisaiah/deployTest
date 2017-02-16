@@ -23,6 +23,8 @@ export class BookingService {
         this.currentUserRef = this.databaseRef.child(curUser.uid);
     }
 
+
+
     /* Listens for bookings added to user -> bookings in the database
      * Returns an Observable with the newly added booking
      */

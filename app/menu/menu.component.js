@@ -28,7 +28,14 @@ var MenuComponent = (function () {
         this.userAccountHidden = true;
         this.userBookingsHidden = true;
         this.userMenuHidden = false;
+        this.subscriptions = [];
     }
+    MenuComponent.prototype.ngOnDestroy = function () {
+        for (var _i = 0, _a = this.subscriptions; _i < _a.length; _i++) {
+            var subs = _a[_i];
+            subs.unsubscribe();
+        }
+    };
     MenuComponent.prototype.ngOnInit = function () {
         this.getCurrentUser();
         this.getCurrentBooking();
@@ -48,12 +55,13 @@ var MenuComponent = (function () {
     };
     MenuComponent.prototype.getCurrentUser = function () {
         var _this = this;
-        this.uas.getCurrentUser()
+        var temp = this.uas.getCurrentUser()
             .subscribe(function (user) {
             _this.currentUser = user;
         }, function (err) {
             console.error("Unable to get current user -", err);
         });
+        this.subscriptions.push(temp);
     };
     MenuComponent.prototype.replaceMenuContent = function (replaceThis, withThis) {
         switch (replaceThis) {

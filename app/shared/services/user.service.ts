@@ -4,6 +4,7 @@ import { FirebaseConfigService } from '../../core/service/firebase-config.servic
 import { User } from '../model/user';
 import { Subject, Observable } from "rxjs/Rx";
 import { Router } from "@angular/router";
+import {MapComponent} from "../../map/map.component";
 
 @Injectable()
 export class UserService {

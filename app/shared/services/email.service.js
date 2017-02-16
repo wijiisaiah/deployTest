@@ -43,7 +43,7 @@ var EmailService = (function () {
         });
     };
     EmailService.prototype.sendEmail = function (email) {
-        var newEmailRef = this.databaseRef.child('email to send');
+        var newEmailRef = this.databaseRef.child('email to send').child('email');
         // const ref = newEmailRef.push();
         console.log('pushed to newEmailRef');
         newEmailRef.set({

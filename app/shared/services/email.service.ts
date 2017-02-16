@@ -46,7 +46,7 @@ export class EmailService {
 
     sendEmail(email: Email) {
 
-        const newEmailRef = this.databaseRef.child('email to send');
+        const newEmailRef = this.databaseRef.child('email to send').child('email');
         // const ref = newEmailRef.push();
         console.log('pushed to newEmailRef');
         newEmailRef.set({

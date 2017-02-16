@@ -1,5 +1,5 @@
 import { Email } from './../shared/model/email';
-import { Observable } from 'rxjs/Rx';
+import {Observable, Subscription} from 'rxjs/Rx';
 import { ParkingService } from './../shared/services/parkingStation.service';
 import { Component, OnInit, NgZone, HostListener, OnDestroy } from '@angular/core';
 import { ParkingStation } from "../shared/model/parkingStation";
@@ -8,9 +8,7 @@ import { EmailService } from "../shared/services/email.service";
 import { BookingService } from "../shared/services/booking.service";
 import { Booking } from "../shared/model/booking";
 import { Router } from "@angular/router";
-import { MenuComponent } from "../menu/menu.component";
 import { MenuService } from "../shared/services/menu.service";
-import { User } from "../shared/model/user";
 import lpad = require("core-js/library/fn/string/lpad");
 declare let google: any;
 declare let $: any;
@@ -38,7 +36,8 @@ declare let $: any;
     }
 `]
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnDestroy {
+
 
     @HostListener('window:parkBike', ['$event'])
     parkBikeListener(event) {
@@ -67,7 +66,7 @@ export class MapComponent implements OnInit {
                 .then((createdEmail) => {
                     console.log('created email', createdEmail);
                     // this.emailService.sendEmail(createdEmail);
-                })
+                });
             // console.log('Email created', email);
 
 
@@ -105,6 +104,8 @@ export class MapComponent implements OnInit {
     private userLocationMarker;
     private timeOut;
     private userLocation;
+    private subscriptions: Subscription[] = [];
+
 
     constructor(private bookingService: BookingService,
         private userService: UserService,
@@ -113,6 +114,14 @@ export class MapComponent implements OnInit {
         private router: Router,
         private menuService: MenuService) {
     }
+
+    ngOnDestroy() {
+        for(let subs of this.subscriptions){
+            subs.unsubscribe();
+        }
+        clearInterval(this.timeOut);
+    }
+
 
     ngOnInit() {
 
@@ -134,14 +143,17 @@ export class MapComponent implements OnInit {
     }
 
     getCurrentLocation() {
-        this.userService.getCurrentLocation()
+
+       let temp =  this.userService.getCurrentLocation()
             .subscribe(pos => {
                 this.userLocation = pos;
             });
+
+       this.subscriptions.push(temp);
     }
     getReservationTimer() {
         let that = this;
-        this.bookingService.getReservationTimer()
+       let temp =  this.bookingService.getReservationTimer()
             .subscribe(endTime => {
                 if (endTime !== undefined) {
                     that.reserveEndTime = endTime;
@@ -164,13 +176,12 @@ export class MapComponent implements OnInit {
                 } else {
                     that.reserveEndTime = null;
                 }
-
-
             });
+        this.subscriptions.push(temp);
     }
 
     getCurrentBooking() {
-        this.bookingService.getCurrentBooking()
+        let temp = this.bookingService.getCurrentBooking()
             .subscribe(booking => {
                 this.currentBooking = booking;
                 if (booking) {
@@ -180,11 +191,12 @@ export class MapComponent implements OnInit {
             err => {
                 console.error("Unable to get current booking -", err);
             });
+        this.subscriptions.push(temp);
     }
 
     getAddedParkingStations() {
 
-        this.parkingService.getAddedParkingStations()
+        let temp = this.parkingService.getAddedParkingStations()
             .subscribe(parkingStation => {
                 this.parkingStations.push(parkingStation);
                 this.markers.push(this.createMarker(parkingStation))
@@ -192,11 +204,12 @@ export class MapComponent implements OnInit {
             err => {
                 console.error("Unable to get added parking station - ", err);
             });
+        this.subscriptions.push(temp);
 
     }
 
     getUpdatedParkingStations() {
-        this.parkingService.getUpdatedParkingStation()
+        let temp = this.parkingService.getUpdatedParkingStation()
             .subscribe(updatedParkingStation => {
                 const parkingIndex = this.parkingStations.map(index => index.title).indexOf(updatedParkingStation['title']);
                 this.parkingStations[parkingIndex] = updatedParkingStation;
@@ -205,6 +218,7 @@ export class MapComponent implements OnInit {
             err => {
                 console.error("Unable to get updated parking station - ", err);
             });
+        this.subscriptions.push(temp);
     }
 
 
