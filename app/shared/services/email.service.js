@@ -19,7 +19,6 @@ var EmailService = (function () {
         this.databaseRef = this.fire.database.ref('/emails');
         this.currentUserRef = this.fire.database.ref('/users');
         var currentUser = this.fire.auth.currentUser;
-        this.getUser();
     }
     EmailService.prototype.getUser = function () {
         var _this = this;
@@ -32,6 +31,7 @@ var EmailService = (function () {
     };
     EmailService.prototype.createEmail = function (emailType, userEmail) {
         var _this = this;
+        this.userEmail = this.fire.auth.currentUser.email;
         if (this.userEmail || userEmail) {
             if (userEmail) {
                 this.userEmail = userEmail;

@@ -20,7 +20,6 @@ export class EmailService {
 
     constructor(private userService: UserService, private fire: FirebaseConfigService) {
         let currentUser = this.fire.auth.currentUser;
-        this.getUser();
     }
 
     getUser() {
@@ -33,6 +32,7 @@ export class EmailService {
     }
 
     createEmail(emailType: string, userEmail?: string): Promise<any> {
+        this.userEmail = this.fire.auth.currentUser.email;
         if (this.userEmail || userEmail) {
             
             if (userEmail){
