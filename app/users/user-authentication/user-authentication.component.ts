@@ -17,7 +17,6 @@ declare let $: any;
 export class UserAuthenticationComponent implements OnInit {
 
     private user: User = new User(null, null, null, null, null);
-    private static REGISTRATION_CONFIRMATION = 'registration confirmation';
 
     constructor(private userService: UserService, private emailService: EmailService,
         private router: Router) {
@@ -56,7 +55,7 @@ export class UserAuthenticationComponent implements OnInit {
                 .then(() => {
                     document.getElementById('loader').style.display = 'none';
                     that.router.navigate(['/map']);
-                    this.emailService.createEmail(UserAuthenticationComponent.REGISTRATION_CONFIRMATION);
+                    this.emailService.createEmail(EmailService.REGISTRATION_CONFIRMATION, this.user.email)
                 });
             console.log("User Registered");
 

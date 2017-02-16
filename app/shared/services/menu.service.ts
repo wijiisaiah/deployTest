@@ -9,7 +9,6 @@ export class MenuService {
     public menuSize: number;
 
     constructor() {
-        this.closeNav();
         this.isOpen = false;
         this.menuSize = 25;
     }

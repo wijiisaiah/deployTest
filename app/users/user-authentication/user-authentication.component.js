@@ -50,7 +50,7 @@ var UserAuthenticationComponent = (function () {
                 .then(function () {
                 document.getElementById('loader').style.display = 'none';
                 that.router.navigate(['/map']);
-                _this.emailService.createEmail(UserAuthenticationComponent.REGISTRATION_CONFIRMATION);
+                _this.emailService.createEmail(email_service_1.EmailService.REGISTRATION_CONFIRMATION, _this.user.email);
             });
             console.log("User Registered");
         }
@@ -81,7 +81,6 @@ var UserAuthenticationComponent = (function () {
     UserAuthenticationComponent.prototype.isMatchingPassword = function (password, confirmPass) {
         return password === confirmPass;
     };
-    UserAuthenticationComponent.REGISTRATION_CONFIRMATION = 'registration confirmation';
     UserAuthenticationComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

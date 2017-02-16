@@ -54,7 +54,7 @@ export class MapComponent implements OnInit, OnDestroy {
         if (!this.currentBooking) {
             this.closeInfoWindows();
             this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
-            this.emailService.createEmail(MapComponent.BOOKING_CONFIRMATION);
+            this.emailService.createEmail(EmailService.BOOKING_CONFIRMATION);
 
         } else {
             alert('Cannot have more than 1 reservation at a time');
@@ -68,7 +68,7 @@ export class MapComponent implements OnInit, OnDestroy {
         this.currentBooking = undefined;
         this.closeInfoWindows();
 
-        this.emailService.createEmail(MapComponent.BOOKING_CANCELLATION);
+        this.emailService.createEmail(EmailService.BOOKING_CANCELLATION);
     }
 
 
@@ -77,7 +77,7 @@ export class MapComponent implements OnInit, OnDestroy {
         this.closeInfoWindows();
         this.bookingService.completeBooking(this.currentBooking);
 
-        this.emailService.createEmail(MapComponent.BOOKING_COMPLETION);
+        this.emailService.createEmail(EmailService.BOOKING_COMPLETION);
 
     }
 
@@ -92,11 +92,6 @@ export class MapComponent implements OnInit, OnDestroy {
     private timeOut;
     private userLocation;
     private subscriptions: Subscription[] = [];
-
-
-    private static BOOKING_CONFIRMATION = 'booking confirmation';
-    private static BOOKING_CANCELLATION = 'booking cancellation';
-    private static BOOKING_COMPLETION = 'booking completion';
 
     constructor(private bookingService: BookingService,
         private userService: UserService,

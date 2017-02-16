@@ -75,14 +75,19 @@ var UserService = (function () {
         var _this = this;
         this.currentUser = this.fire.auth.currentUser;
         return Rx_1.Observable.create(function (obs) {
-            var uid = _this.currentUser.uid;
-            var currentUserRef = _this.databaseRef.child(uid);
-            currentUserRef.on('value', function (user) {
-                var newUser = user.val();
-                obs.next(newUser);
-            }, function (err) {
-                obs.throw(err);
-            });
+            if (_this.currentUser) {
+                var uid = _this.currentUser.uid;
+                var currentUserRef = _this.databaseRef.child(uid);
+                currentUserRef.on('value', function (user) {
+                    var newUser = user.val();
+                    obs.next(newUser);
+                }, function (err) {
+                    obs.throw(err);
+                });
+            }
+            else {
+                obs.next(undefined);
+            }
         });
     };
     UserService.prototype.isAuthenticated = function () {

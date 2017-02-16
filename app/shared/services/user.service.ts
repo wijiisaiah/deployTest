@@ -5,6 +5,7 @@ import { User } from '../model/user';
 import { Subject, Observable } from "rxjs/Rx";
 import { Router } from "@angular/router";
 import {MapComponent} from "../../map/map.component";
+import {EmailService} from "./email.service";
 
 @Injectable()
 export class UserService {
@@ -29,7 +30,6 @@ export class UserService {
                 that.addUser(temp);
                 that.currentUser = user;
                 console.log(user);
-
             })
             .catch(function (err) {
                 console.error("Registration Error", err);
@@ -85,17 +85,23 @@ export class UserService {
     getCurrentUser(): Observable<any> {
         this.currentUser = this.fire.auth.currentUser;
         return Observable.create(obs => {
-            const uid = this.currentUser.uid;
-            const currentUserRef = this.databaseRef.child(uid);
+            if (this.currentUser) {
+                const uid = this.currentUser.uid;
+                const currentUserRef = this.databaseRef.child(uid);
 
-            currentUserRef.on('value', user => {
-                const newUser = user.val() as User;
-                obs.next(newUser);
-            },
-                err => {
-                    obs.throw(err);
-                });
+                currentUserRef.on('value', user => {
+                        const newUser = user.val() as User;
+                        obs.next(newUser);
+                    },
+                    err => {
+                        obs.throw(err);
+                    });
+
+            } else {
+                obs.next(undefined);
+            }
         });
+
     }
 
     isAuthenticated(): boolean {

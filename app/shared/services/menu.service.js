@@ -14,7 +14,6 @@ var core_1 = require("@angular/core");
  */
 var MenuService = (function () {
     function MenuService() {
-        this.closeNav();
         this.isOpen = false;
         this.menuSize = 25;
     }

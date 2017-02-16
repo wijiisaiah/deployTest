@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var firebase_config_service_1 = require('../../core/service/firebase-config.service');
 var user_service_1 = require("./user.service");
-var parkingStation_1 = require("../model/parkingStation");
 var booking_1 = require("../model/booking");
 var Time_1 = require("../util/Time");
 var Observable_1 = require("rxjs/Observable");
@@ -97,7 +96,6 @@ var BookingService = (function () {
             });
             bookingsRef.on('child_removed', function (booking) {
                 if (booking.key === 'curBooking') {
-                    var parking = new parkingStation_1.ParkingStation('', '', '', 0, 0, 0, 0, true, 0);
                     obs.next(undefined);
                 }
             }, function (err) {
@@ -172,8 +170,6 @@ var BookingService = (function () {
         var cost = (durationHrs * booking.parkingStation.rate).toFixed(3);
         console.log("Cost: " + cost + " Rate: " + booking.parkingStation.rate + " Duration: " + durationHrs);
         return cost;
-    };
-    BookingService.prototype.calculateTimeRemaining = function () {
     };
     BookingService = __decorate([
         core_1.Injectable(), 

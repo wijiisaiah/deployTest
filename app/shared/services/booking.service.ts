@@ -117,7 +117,6 @@ export class BookingService {
             bookingsRef.on('child_removed', booking => {
 
                     if (booking.key === 'curBooking') {
-                        let parking = new ParkingStation('', '', '', 0, 0, 0, 0, true, 0);
                         obs.next(undefined);
                     }
                 },
@@ -220,8 +219,5 @@ export class BookingService {
 
     }
 
-    calculateTimeRemaining(){
-
-    }
 
 }

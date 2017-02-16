@@ -38,7 +38,7 @@ var MapComponent = (function () {
         if (!this.currentBooking) {
             this.closeInfoWindows();
             this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
-            this.emailService.createEmail(MapComponent.BOOKING_CONFIRMATION);
+            this.emailService.createEmail(email_service_1.EmailService.BOOKING_CONFIRMATION);
         }
         else {
             alert('Cannot have more than 1 reservation at a time');
@@ -48,12 +48,12 @@ var MapComponent = (function () {
         this.bookingService.removeCurrentBooking(this.currentBooking.parkingStation.title);
         this.currentBooking = undefined;
         this.closeInfoWindows();
-        this.emailService.createEmail(MapComponent.BOOKING_CANCELLATION);
+        this.emailService.createEmail(email_service_1.EmailService.BOOKING_CANCELLATION);
     };
     MapComponent.prototype.completeEventListener = function (event) {
         this.closeInfoWindows();
         this.bookingService.completeBooking(this.currentBooking);
-        this.emailService.createEmail(MapComponent.BOOKING_COMPLETION);
+        this.emailService.createEmail(email_service_1.EmailService.BOOKING_COMPLETION);
     };
     MapComponent.prototype.ngOnDestroy = function () {
         for (var _i = 0, _a = this.subscriptions; _i < _a.length; _i++) {
@@ -331,9 +331,6 @@ var MapComponent = (function () {
         }
         return "\n                <body>\n                    <div id=\"infoWindow\">\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Availabiliy: " + parking.availableSpots + "/" + parking.size + "<br>\n                         Rate: " + parking.rate + " \n                     </p>\n                     <br>\n                    " + buttons + "\n                </div>\n                </body>\n                  ";
     };
-    MapComponent.BOOKING_CONFIRMATION = 'booking confirmation';
-    MapComponent.BOOKING_CANCELLATION = 'booking cancellation';
-    MapComponent.BOOKING_COMPLETION = 'booking completion';
     __decorate([
         core_1.HostListener('window:parkBike', ['$event']), 
         __metadata('design:type', Function), 
