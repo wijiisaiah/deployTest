@@ -38,23 +38,26 @@ var MapComponent = (function () {
         if (!this.currentBooking) {
             this.closeInfoWindows();
             this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
-            this.emailService.createEmail(email_service_1.EmailService.BOOKING_CONFIRMATION);
         }
         else {
             alert('Cannot have more than 1 reservation at a time');
         }
     };
     MapComponent.prototype.cancelEventListener = function (event) {
-        this.bookingService.removeCurrentBooking(this.currentBooking.parkingStation.title);
+        this.bookingService.cancelBooking(this.currentBooking);
         this.currentBooking = undefined;
         this.closeInfoWindows();
-        this.emailService.createEmail(email_service_1.EmailService.BOOKING_CANCELLATION);
+        clearInterval(this.timeOut);
+        document.getElementById('timer').innerText = '';
     };
     MapComponent.prototype.completeEventListener = function (event) {
         this.closeInfoWindows();
         this.bookingService.completeBooking(this.currentBooking);
-        this.emailService.createEmail(email_service_1.EmailService.BOOKING_COMPLETION);
     };
+    /* Upon destruction of Map:
+    *  - unsubs from all subscriptions
+    *  - clears the timeOut interval for timer
+    */
     MapComponent.prototype.ngOnDestroy = function () {
         for (var _i = 0, _a = this.subscriptions; _i < _a.length; _i++) {
             var subs = _a[_i];
@@ -62,6 +65,12 @@ var MapComponent = (function () {
         }
         clearInterval(this.timeOut);
     };
+    /* Upon Initialization of Map:
+     *  - Creates empty array of markers and infoWindows
+     *  - Initializes subscriptions to user location, current booking, parkstations etc.
+     *  - Initializes map
+     *  - Also adds a listener to whole map in order to close menu when any click occurs
+     */
     MapComponent.prototype.ngOnInit = function () {
         this.markers = [];
         this.infowindows = [];
@@ -78,6 +87,7 @@ var MapComponent = (function () {
             that.menuService.closeNav();
         });
     };
+    /* Subscribe to the user's current location */
     MapComponent.prototype.getCurrentLocation = function () {
         var _this = this;
         var temp = this.userService.getCurrentLocation()
@@ -86,6 +96,9 @@ var MapComponent = (function () {
         });
         this.subscriptions.push(temp);
     };
+    /* If a reservation exists, runs a script every 1 second that calculates
+       the time remaining for the reservation before it automatically cancels
+     */
     MapComponent.prototype.getReservationTimer = function () {
         var _this = this;
         var that = this;
@@ -116,6 +129,7 @@ var MapComponent = (function () {
         });
         this.subscriptions.push(temp);
     };
+    /* Subscribes to users current booking, updates marker upon receiving a booking */
     MapComponent.prototype.getCurrentBooking = function () {
         var _this = this;
         var temp = this.bookingService.getCurrentBooking()
@@ -129,6 +143,10 @@ var MapComponent = (function () {
         });
         this.subscriptions.push(temp);
     };
+    /* Subscribes to added parking stations (mainly for initialization)
+     * - Pushes the added station to parkingStations array
+     * - Creates a new marker and push it to marker array
+     */
     MapComponent.prototype.getAddedParkingStations = function () {
         var _this = this;
         var temp = this.parkingService.getAddedParkingStations()
@@ -140,6 +158,7 @@ var MapComponent = (function () {
         });
         this.subscriptions.push(temp);
     };
+    /* Subscribes to changes in parking stations, when stations are changed, markers are updated */
     MapComponent.prototype.getUpdatedParkingStations = function () {
         var _this = this;
         var temp = this.parkingService.getUpdatedParkingStation()
@@ -152,6 +171,7 @@ var MapComponent = (function () {
         });
         this.subscriptions.push(temp);
     };
+    /* Initializes the google maps api with specific settings */
     MapComponent.prototype.createMap = function () {
         var mapProp = {
             center: new google.maps.LatLng(49.2827, -123.1207),
@@ -161,6 +181,14 @@ var MapComponent = (function () {
         };
         this.map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
     };
+    /* Updates the marker assigned to 'parking'
+     * - Sets the correct icon depending on:
+     *      - Whether or not parking station is available
+     *      - If current booking exists
+     * - Changes content in HTML to match:
+     *      - Availibility
+     *      - Spaces available
+     */
     MapComponent.prototype.updateMarker = function (parking) {
         var that = this;
         var valid = parking.availableSpots > 0;
@@ -197,6 +225,11 @@ var MapComponent = (function () {
         }
         console.log("number of markers: ", this.markers);
     };
+    /* Creates a marker to be assigned to a parking station
+     * - Determines correct icon to set depending on validity and current booking
+     * - Creates a marker and sets its title/position/icon
+     * - Sets Content and addes event listeners to open and close windows on user clicks
+     */
     MapComponent.prototype.createMarker = function (parking) {
         // Creating marker
         var that = this;
@@ -244,11 +277,13 @@ var MapComponent = (function () {
         });
         return marker;
     };
+    /* Closes all infoWindows */
     MapComponent.prototype.closeInfoWindows = function () {
         for (var i = 0; i < this.infowindows.length; i++) {
             this.infowindows[i].close();
         }
     };
+    /* Does a lot of stuff */
     MapComponent.prototype.setUserLocation = function () {
         var that = this;
         var controlDiv = document.createElement('div');
@@ -310,9 +345,13 @@ var MapComponent = (function () {
         controlDiv.tabIndex = 1;
         that.map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
     };
+    /* Kind of unnecessary */
     MapComponent.prototype.handleLocationError = function () {
         console.log('no access to geolocation');
     };
+    /* Sets HTML content to 'parking' fields
+     * Determines buttons to place depending on state of current booking
+     */
     MapComponent.prototype.getHTMLcontent = function (parking, valid) {
         var buttons;
         if (valid) {

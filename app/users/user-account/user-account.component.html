@@ -1,8 +1,9 @@
 <div class="modal-dialog">
     <div class="loginmodal-container">
         <h1>My Account</h1><br>
-        <form>
-            <input type="text" name="name" placeholder="Name" value="{{currentUser.name}}" id="argName">
+        <input type="button" value="Edit" (click)="editInfo()">
+        <form id="account-form">
+            <input type="text" name="name" placeholder="Name" [readOnly]="true" value="{{currentUser.name}}" id="argName">
             <input type="text" name="email" placeholder="Email" value="{{currentUser.email}}" id="argEmail">
             <input type="text" name="address" placeholder="Address" value="{{currentUser.address}}" id="argAddress">
             <input type="button" name="update" class="login loginmodal-submit" value="Update" (click)="updateUser()">

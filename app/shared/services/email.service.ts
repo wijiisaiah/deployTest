@@ -4,6 +4,7 @@ import {UserService} from "./user.service";
 import {FirebaseConfigService} from '../../core/service/firebase-config.service';
 import {User} from '../model/user';
 import {Email} from '../model/email';
+import {Booking} from "../model/booking";
 
 
 @Injectable()
@@ -31,7 +32,7 @@ export class EmailService {
             })
     }
 
-    createEmail(emailType: string, userEmail?: string): Promise<any> {
+    createEmail(emailType: string, userEmail?: string, booking?: Booking): Promise<any> {
         this.userEmail = this.fire.auth.currentUser.email;
         if (this.userEmail || userEmail) {
             
@@ -46,7 +47,9 @@ export class EmailService {
             return new Promise((fulfill) => {
                 emailRef.on('value', emailInfo => {
                     email = emailInfo.val() as Email;
-                    this.sendEmail(email, userEmail);
+                    console.log('raw data', emailInfo);
+                    console.log('obs next set', email);
+                    this.sendEmail(email, userEmail, booking);
                 });
             });
         } else {
@@ -54,13 +57,19 @@ export class EmailService {
         }
     }
 
-    sendEmail(email: Email, userEmail?: string) {
+    sendEmail(email: Email, userEmail?: string, booking?: Booking) {
         if (userEmail){
             this.userEmail = userEmail;
         }
 
+        if (booking){
+            email.body = email.body + ": " + booking.parkingStation.address + '. This is your booking code, please use it to store and retrieve your bike: ' + booking.code;
+            console.log(email.body);
+        }
+
         const newEmailRef = this.databaseRef.child('email to send').child('email');
         // const ref = newEmailRef.push();
+        console.log('pushed to newEmailRef');
         newEmailRef.set({
             from: email.from,
             to: this.userEmail,

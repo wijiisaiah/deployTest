@@ -42,6 +42,10 @@ export class UserAccountComponent implements OnInit, OnDestroy {
         this.subscriptions.push(temp);
     }
 
+    editInfo(){
+        (<HTMLInputElement>document.getElementById('argName')).setAttribute('readOnly', 'false');
+    }
+
     updateUser() {
 
         this.currentUser.name = (<HTMLInputElement>document.getElementById('argName')).value;
@@ -49,6 +53,8 @@ export class UserAccountComponent implements OnInit, OnDestroy {
         this.currentUser.address = (<HTMLInputElement>document.getElementById('argAddress')).value;
 
         this.uas.updateUser(this.currentUser);
+
+        (<HTMLInputElement>document.getElementById('account-form')).setAttribute('readonly', 'false');
     }
 
 }

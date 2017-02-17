@@ -66,11 +66,21 @@ var UserService = (function () {
     };
     UserService.prototype.updateUser = function (user) {
         var userRef = this.databaseRef.child(user.uid);
-        userRef.update(user);
-        this.currentUser.updateEmail(user.email)
-            .catch(function (err) {
-            console.log("Unable to update user email (auth) -", err);
-        });
+        if (user.email != this.currentUser.email) {
+            this.currentUser.updateEmail(user.email)
+                .then(function () {
+                userRef.update(user)
+                    .catch(function (err) {
+                    console.log("Unable to update user (database)", err);
+                });
+            })
+                .catch(function (err) {
+                console.log("Unable to update user email (auth) -", err);
+            });
+        }
+        else {
+            userRef.update(user);
+        }
     };
     UserService.prototype.findUserRef = function (uid) {
         return this.databaseRef.child(uid);

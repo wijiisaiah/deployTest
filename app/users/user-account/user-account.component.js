@@ -37,11 +37,15 @@ var UserAccountComponent = (function () {
         });
         this.subscriptions.push(temp);
     };
+    UserAccountComponent.prototype.editInfo = function () {
+        document.getElementById('argName').setAttribute('readOnly', 'false');
+    };
     UserAccountComponent.prototype.updateUser = function () {
         this.currentUser.name = document.getElementById('argName').value;
         this.currentUser.email = document.getElementById('argEmail').value;
         this.currentUser.address = document.getElementById('argAddress').value;
         this.uas.updateUser(this.currentUser);
+        document.getElementById('account-form').setAttribute('readonly', 'false');
     };
     UserAccountComponent = __decorate([
         core_1.Component({

@@ -29,7 +29,7 @@ var EmailService = (function () {
             }
         });
     };
-    EmailService.prototype.createEmail = function (emailType, userEmail) {
+    EmailService.prototype.createEmail = function (emailType, userEmail, booking) {
         var _this = this;
         this.userEmail = this.fire.auth.currentUser.email;
         if (this.userEmail || userEmail) {
@@ -41,7 +41,9 @@ var EmailService = (function () {
             return new Promise(function (fulfill) {
                 emailRef_1.on('value', function (emailInfo) {
                     email_2 = emailInfo.val();
-                    _this.sendEmail(email_2, userEmail);
+                    console.log('raw data', emailInfo);
+                    console.log('obs next set', email_2);
+                    _this.sendEmail(email_2, userEmail, booking);
                 });
             });
         }
@@ -49,12 +51,17 @@ var EmailService = (function () {
             console.error('User email is undefined');
         }
     };
-    EmailService.prototype.sendEmail = function (email, userEmail) {
+    EmailService.prototype.sendEmail = function (email, userEmail, booking) {
         if (userEmail) {
             this.userEmail = userEmail;
         }
+        if (booking) {
+            email.body = email.body + ": " + booking.parkingStation.address + '. This is your booking code, please use it to store and retrieve your bike: ' + booking.code;
+            console.log(email.body);
+        }
         var newEmailRef = this.databaseRef.child('email to send').child('email');
         // const ref = newEmailRef.push();
+        console.log('pushed to newEmailRef');
         newEmailRef.set({
             from: email.from,
             to: this.userEmail,
