@@ -38,14 +38,23 @@ var UserAccountComponent = (function () {
         this.subscriptions.push(temp);
     };
     UserAccountComponent.prototype.editInfo = function () {
-        document.getElementById('argName').setAttribute('readOnly', 'false');
+        console.log("Editediteditediteditediteditediteditediteditedit");
+        document.getElementById('argName').readOnly = false;
+        document.getElementById('argEmail').readOnly = false;
+        document.getElementById('argAddress').readOnly = false;
+        document.getElementById('updateButton').hidden = false;
+        document.getElementById('editButton').hidden = true;
     };
     UserAccountComponent.prototype.updateUser = function () {
         this.currentUser.name = document.getElementById('argName').value;
         this.currentUser.email = document.getElementById('argEmail').value;
         this.currentUser.address = document.getElementById('argAddress').value;
         this.uas.updateUser(this.currentUser);
-        document.getElementById('account-form').setAttribute('readonly', 'false');
+        document.getElementById('argName').readOnly = true;
+        document.getElementById('argEmail').readOnly = true;
+        document.getElementById('argAddress').readOnly = true;
+        document.getElementById('updateButton').hidden = true;
+        document.getElementById('editButton').hidden = false;
     };
     UserAccountComponent = __decorate([
         core_1.Component({

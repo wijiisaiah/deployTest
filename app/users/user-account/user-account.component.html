@@ -1,13 +1,13 @@
 <div class="modal-dialog">
     <div class="loginmodal-container">
         <h1>My Account</h1><br>
-        <input type="button" value="Edit" (click)="editInfo()">
+      
         <form id="account-form">
             <input type="text" name="name" placeholder="Name" [readOnly]="true" value="{{currentUser.name}}" id="argName">
-            <input type="text" name="email" placeholder="Email" value="{{currentUser.email}}" id="argEmail">
-            <input type="text" name="address" placeholder="Address" value="{{currentUser.address}}" id="argAddress">
-            <input type="button" name="update" class="login loginmodal-submit" value="Update" (click)="updateUser()">
-
+            <input type="text" name="email" placeholder="Email" [readOnly]="true" value="{{currentUser.email}}" id="argEmail">
+            <input type="text" name="address" placeholder="Address" [readOnly]="true" value="{{currentUser.address}}" id="argAddress">
+            <input type="button" value="Edit" class="login loginmodal-submit"  id="editButton" (click)="editInfo()">
+            <input type="button" name="update" class="login loginmodal-submit" hidden="true" value="Update" id="updateButton" (click)="updateUser()">
         </form>
     </div>
 </div>
