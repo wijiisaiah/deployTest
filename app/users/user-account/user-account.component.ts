@@ -1,9 +1,9 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { UserService } from '../../shared/services/user.service';
 
 import { User } from '../../shared/model/user';
-import {Subscription} from "rxjs";
+import { Subscription } from "rxjs";
 
 @Component({
     moduleId: module.id,
@@ -19,9 +19,8 @@ export class UserAccountComponent implements OnInit, OnDestroy {
 
     constructor(private uas: UserService) { }
 
-
     ngOnDestroy() {
-        for(let subs of this.subscriptions){
+        for (let subs of this.subscriptions) {
             subs.unsubscribe();
         }
     }
@@ -30,7 +29,7 @@ export class UserAccountComponent implements OnInit, OnDestroy {
         this.getCurrentUser();
     }
 
-     getCurrentUser() {
+    getCurrentUser() {
         let temp = this.uas.getCurrentUser()
             .subscribe(user => {
                 this.currentUser = user;
@@ -42,8 +41,13 @@ export class UserAccountComponent implements OnInit, OnDestroy {
         this.subscriptions.push(temp);
     }
 
-    editInfo(){
-        (<HTMLInputElement>document.getElementById('argName')).setAttribute('readOnly', 'false');
+    editInfo() {
+        console.log("Editediteditediteditediteditediteditediteditedit");
+        (<HTMLInputElement>document.getElementById('argName')).readOnly = false;
+        (<HTMLInputElement>document.getElementById('argEmail')).readOnly = false;
+        (<HTMLInputElement>document.getElementById('argAddress')).readOnly = false;
+        (<HTMLInputElement>document.getElementById('updateButton')).hidden = false;
+        (<HTMLInputElement>document.getElementById('editButton')).hidden = true;
     }
 
     updateUser() {
@@ -54,7 +58,11 @@ export class UserAccountComponent implements OnInit, OnDestroy {
 
         this.uas.updateUser(this.currentUser);
 
-        (<HTMLInputElement>document.getElementById('account-form')).setAttribute('readonly', 'false');
+        (<HTMLInputElement>document.getElementById('argName')).readOnly = true;
+        (<HTMLInputElement>document.getElementById('argEmail')).readOnly = true;
+        (<HTMLInputElement>document.getElementById('argAddress')).readOnly = true;
+        (<HTMLInputElement>document.getElementById('updateButton')).hidden = true;
+        (<HTMLInputElement>document.getElementById('editButton')).hidden = false;
     }
 
 }
