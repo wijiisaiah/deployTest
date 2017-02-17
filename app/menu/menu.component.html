@@ -8,11 +8,12 @@
 <div id="myNav" class="overlay">
     <a [hidden]="!userMenuHidden" class="menubtn" (click)="replaceMenuContent('','menu')">Menu</a>
     <a [hidden]="!(this.menuService.menuSize === 100)" class="closebtn" (click)="this.menuService.closeNav()">X</a>
+    <div id="userName"*ngIf="currentUser">
+        <h1>Welcome {{currentUser.name}}</h1>
+    </div>
 
-    <div class="overlay-content">
-        <div *ngIf="currentUser">
-            <h1>Welcome {{currentUser.name}}</h1>
-        </div>
+    <div id="overlay-content" class="overlay-content">
+
         <div id="menu" [hidden]="userMenuHidden">
             <a [hidden]="!currentBooking" (click)="replaceMenuContent('menu','current booking')">My Current Booking</a>
             <a (click)="replaceMenuContent('menu','account')">My Account</a>

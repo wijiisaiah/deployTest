@@ -23,6 +23,14 @@ var MyBookingsComponent = (function () {
         }
     };
     MyBookingsComponent.prototype.ngOnInit = function () {
+        $('.accordion').find('.accordion-toggle').click(function () {
+            console.log('clickd');
+            $(this).next().slideToggle('600');
+            $(".accordion-content").not($(this).next()).slideUp('600');
+        });
+        $('.accordion-toggle').on('click', function () {
+            $(this).toggleClass('active').siblings().removeClass('active');
+        });
         this.getAddedBookings();
     };
     MyBookingsComponent.prototype.getAddedBookings = function () {

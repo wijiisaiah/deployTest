@@ -1,5 +1,6 @@
-import {Injectable} from "@angular/core";
+import {Injectable, Input} from "@angular/core";
 import {Observable} from "rxjs";
+declare let $: any;
 /**
  * Created by Isaiah on 2017-02-09.
  */
@@ -19,7 +20,6 @@ export class MenuService {
         }else {
             this.menuSize = 35;
         }
-
         this.detectScreenSizeChange();
     }
 
@@ -41,10 +41,11 @@ export class MenuService {
 
     public closeNav() {
         if (this.isOpen) {
-            document.getElementById("my-menu-icon").classList.toggle("change");
-            document.getElementById("wrapper").style.width = "100%";
-            document.getElementById("myNav").style.width = "0%";
-            this.isOpen = false;
+                document.getElementById("my-menu-icon").classList.toggle("change");
+                document.getElementById("wrapper").style.width = "100%";
+                document.getElementById("myNav").style.width = "0%";
+                this.isOpen = false;
+
         }
     }
 
