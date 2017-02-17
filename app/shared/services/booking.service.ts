@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { FirebaseConfigService } from '../../core/service/firebase-config.service';
-import { UserService } from "./user.service";
-import { User } from "../model/user";
+import {FirebaseConfigService} from '../../core/service/firebase-config.service';
+import {UserService} from "./user.service";
+import {User} from "../model/user";
 import Reference = firebase.storage.Reference;
-import { ParkingStation } from "../model/parkingStation";
-import { Booking } from "../model/booking";
-import { Time } from "../util/Time";
-import { Observable } from "rxjs/Observable";
-import { ParkingService } from "./parkingStation.service";
+import {ParkingStation} from "../model/parkingStation";
+import {Booking} from "../model/booking";
+import {Time} from "../util/Time";
+import {Observable} from "rxjs/Observable";
+import {ParkingService} from "./parkingStation.service";
 
 
 @Injectable()
@@ -32,9 +32,9 @@ export class BookingService {
 
         return Observable.create(obs => {
             bookingsRef.on('child_added', booking => {
-                const newBooking = booking.val() as Booking;
-                obs.next(newBooking);
-            },
+                    const newBooking = booking.val() as Booking;
+                    obs.next(newBooking);
+                },
                 err => {
                     obs.throw(err);
                 });
@@ -50,7 +50,6 @@ export class BookingService {
         let startTime = Time.getCurrentTime();
         let startTimeMs = new Date().getTime();
 
-        let code = this.generateCode();
 
         const reservationRef = this.currentUserRef.child('reservation');
         const currentBookingRef = this.currentUserRef.child('reservation').child('curBooking');
@@ -63,14 +62,19 @@ export class BookingService {
         })
             .catch(err => console.error("Unable to set reservation", err));
 
-        currentBookingRef.set({
-            parkingStation: parkingStation,
-            date: date,
-            startTime: startTime,
-            startTimeMs: startTimeMs,
-            code: code
-        })
-            .catch(err => console.error("Unable to add Booking", err));
+        this.generateCode()
+            .then((code) => {
+                currentBookingRef.set({
+                    parkingStation: parkingStation,
+                    date: date,
+                    startTime: startTime,
+                    startTimeMs: startTimeMs,
+                    code: code
+                })
+                    .catch(err => console.error("Unable to add Booking", err));
+            })
+
+
     }
 
     completeBooking(currentBooking: Booking) {
@@ -91,25 +95,25 @@ export class BookingService {
 
         return Observable.create(obs => {
             bookingsRef.on('child_added', booking => {
-                if (booking.key === 'curBooking') {
-                    const parkingStation = booking.child('parkingStation').val() as ParkingStation;
-                    const curBooking = booking.val() as Booking;
-                    curBooking.parkingStation = parkingStation;
-                    obs.next(curBooking);
-                }
-            },
+                    if (booking.key === 'curBooking') {
+                        const parkingStation = booking.child('parkingStation').val() as ParkingStation;
+                        const curBooking = booking.val() as Booking;
+                        curBooking.parkingStation = parkingStation;
+                        obs.next(curBooking);
+                    }
+                },
                 err => {
                     obs.throw(err);
                 });
 
             bookingsRef.on('child_changed', booking => {
-                if (booking.key === 'curBooking') {
-                    const parkingStation = booking.child('parkingStation').val() as ParkingStation;
-                    const curBooking = booking.val() as Booking;
-                    curBooking.parkingStation = parkingStation;
-                    obs.next(curBooking);
-                }
-            },
+                    if (booking.key === 'curBooking') {
+                        const parkingStation = booking.child('parkingStation').val() as ParkingStation;
+                        const curBooking = booking.val() as Booking;
+                        curBooking.parkingStation = parkingStation;
+                        obs.next(curBooking);
+                    }
+                },
                 err => {
                     obs.throw(err);
                 });
@@ -117,10 +121,10 @@ export class BookingService {
 
             bookingsRef.on('child_removed', booking => {
 
-                if (booking.key === 'curBooking') {
-                    obs.next(undefined);
-                }
-            },
+                    if (booking.key === 'curBooking') {
+                        obs.next(undefined);
+                    }
+                },
                 err => {
                     obs.throw(err);
                 });
@@ -133,19 +137,19 @@ export class BookingService {
 
         return Observable.create(obs => {
             bookingsRef.on('child_added', booking => {
-                if (booking.key === 'reserveEndTime') {
-                    obs.next(booking.val() as number);
-                }
-            },
+                    if (booking.key === 'reserveEndTime') {
+                        obs.next(booking.val() as number);
+                    }
+                },
                 err => {
                     obs.throw(err);
                 });
 
             bookingsRef.on('child_removed', booking => {
-                if (booking.key === 'reserveEndTime') {
-                    obs.next(undefined);
-                }
-            },
+                    if (booking.key === 'reserveEndTime') {
+                        obs.next(undefined);
+                    }
+                },
                 err => {
                     obs.throw(err);
                 });
@@ -219,64 +223,59 @@ export class BookingService {
 
     }
 
-    generateCode(): number {
-
+    generateCode(): Promise<number> {
+        let that = this;
         let code;
-        let codes: any = [];
 
-        this.getBookingCodes()
-            .subscribe(obs => {
-                codes = obs;
-            },
-            err => {
-                console.error("Could not get generated codes -", err);
-            });
+        return new Promise((fulfill) => {
+            this.getBookingCodes()
+                .then((codes) => {
+                    console.log("codes", codes);
 
-        //     console.log("codes",codes);
-
-        // // code = Math.floor(Math.random() * 900000) + 100000;
-        // let temp = 10
-        // let recurssiveGenerator = () => {
-        //     // let newCode = Math.floor(Math.random() * 900000) + 100000;
-        //     let newCode = temp;
-        //     for (let key of codes) {
-        //         console.log(key);
-        //         console.log(codes[key]);
-        //         if (codes[key] === newCode) {
-        //             console.log('Found duplicate code');
-        //             temp = 11;
-        //             return recurssiveGenerator();
-        //         }
-        //     }
-        //     return newCode;
-        // }
-
-        // code = recurssiveGenerator();
-
-        const ref = this.databaseRef.ref('booking codes').child('codes');
-        ref.push(code);
-
-        return code;
-    }
-
-    getBookingCodes(): Observable<any> {
-
-        const ref = this.databaseRef.ref('booking codes').child('codes');
-
-        return Observable.create(obs => {
-            ref.on('value', bookingCodes => {
-                let codes = bookingCodes.val() as Array<any>;
-                console.log('codes', codes);
-                console.log('element of codes', codes['-Kd82nlFzyi9AeOZDKxJ']);
-                obs.next(codes);
-            },
-                err => {
-                    obs.throw(err);
+                    // code = Math.floor(Math.random() * 900000) + 100000;
+                    // let temp = 10;
+                    let recurssiveGenerator = () => {
+                        let newCode = Math.floor(Math.random() * 900000) + 100000;
+                        // let newCode = temp;
+                        console.log(codes);
+                        for (let key in codes) {
+                            // console.log('KEY', key);
+                            // console.log('CODES[KEY]', codes[key]);
+                            if (codes[key] === newCode) {
+                                console.log('Found duplicate code');
+                                newCode = Math.floor(Math.random() * 900000) + 100000;
+                                return recurssiveGenerator();
+                            }
+                        }
+                        return newCode;
+                    };
+                    code = recurssiveGenerator();
+                    const ref = this.databaseRef.ref('booking codes').child('codes');
+                    ref.push(code);
+                    fulfill(code);
                 });
         });
+
     }
 
+    getBookingCodes(): Promise<any> {
 
+        const ref = this.databaseRef.ref('booking codes').child('codes');
+
+        return new Promise((fulfill) => {
+            ref.on('value', bookingCodes => {
+                console.log(bookingCodes);
+                if (bookingCodes.val() !== null) {
+                    let codes = bookingCodes.val() as Array<any>;
+                    console.log('codes', codes);
+                    fulfill(codes);
+                }else {
+                    fulfill([]);
+                }
+            })
+        });
+
+    }
 
 
 }

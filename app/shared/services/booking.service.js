@@ -46,7 +46,6 @@ var BookingService = (function () {
         var date = Time_1.Time.getCurrentDate();
         var startTime = Time_1.Time.getCurrentTime();
         var startTimeMs = new Date().getTime();
-        var code = this.generateCode();
         var reservationRef = this.currentUserRef.child('reservation');
         var currentBookingRef = this.currentUserRef.child('reservation').child('curBooking');
         this.parkingService.decrementAvailability(parkingStation.title);
@@ -55,14 +54,17 @@ var BookingService = (function () {
             reserveEndTime: new Date().getTime() + this.reservationTimeOut
         })
             .catch(function (err) { return console.error("Unable to set reservation", err); });
-        currentBookingRef.set({
-            parkingStation: parkingStation,
-            date: date,
-            startTime: startTime,
-            startTimeMs: startTimeMs,
-            code: code
-        })
-            .catch(function (err) { return console.error("Unable to add Booking", err); });
+        this.generateCode()
+            .then(function (code) {
+            currentBookingRef.set({
+                parkingStation: parkingStation,
+                date: date,
+                startTime: startTime,
+                startTimeMs: startTimeMs,
+                code: code
+            })
+                .catch(function (err) { return console.error("Unable to add Booking", err); });
+        });
     };
     BookingService.prototype.completeBooking = function (currentBooking) {
         this.endCurrentBooking(currentBooking);
@@ -174,47 +176,49 @@ var BookingService = (function () {
     };
     BookingService.prototype.generateCode = function () {
         var _this = this;
+        var that = this;
         var code;
-        var codes = [];
-        this.getBookingCodes()
-            .subscribe(function (obs) {
-            codes = obs;
-            console.log("codes", codes);
-            // code = Math.floor(Math.random() * 900000) + 100000;
-            var temp = 10;
-            var recurssiveGenerator = function () {
-                // let newCode = Math.floor(Math.random() * 900000) + 100000;
-                var newCode = temp;
-                for (var _i = 0, codes_1 = codes; _i < codes_1.length; _i++) {
-                    var key = codes_1[_i];
-                    console.log(key);
-                    console.log(codes[key]);
-                    if (codes[key] === newCode) {
-                        console.log('Found duplicate code');
-                        temp = 11;
-                        return recurssiveGenerator();
+        return new Promise(function (fulfill) {
+            _this.getBookingCodes()
+                .then(function (codes) {
+                console.log("codes", codes);
+                // code = Math.floor(Math.random() * 900000) + 100000;
+                // let temp = 10;
+                var recurssiveGenerator = function () {
+                    var newCode = Math.floor(Math.random() * 900000) + 100000;
+                    // let newCode = temp;
+                    console.log(codes);
+                    for (var key in codes) {
+                        // console.log('KEY', key);
+                        // console.log('CODES[KEY]', codes[key]);
+                        if (codes[key] === newCode) {
+                            console.log('Found duplicate code');
+                            newCode = Math.floor(Math.random() * 900000) + 100000;
+                            return recurssiveGenerator();
+                        }
                     }
-                }
-                return newCode;
-            };
-            code = recurssiveGenerator();
-            var ref = _this.databaseRef.ref('booking codes').child('codes');
-            ref.push(code);
-            return code;
-        }, function (err) {
-            console.error("Could not get generated codes -", err);
+                    return newCode;
+                };
+                code = recurssiveGenerator();
+                var ref = _this.databaseRef.ref('booking codes').child('codes');
+                ref.push(code);
+                fulfill(code);
+            });
         });
     };
     BookingService.prototype.getBookingCodes = function () {
         var ref = this.databaseRef.ref('booking codes').child('codes');
-        return Observable_1.Observable.create(function (obs) {
+        return new Promise(function (fulfill) {
             ref.on('value', function (bookingCodes) {
-                var codes = bookingCodes.val();
-                console.log('codes', codes);
-                console.log('element of codes', codes['-Kd82nlFzyi9AeOZDKxJ']);
-                obs.next(codes);
-            }, function (err) {
-                obs.throw(err);
+                console.log(bookingCodes);
+                if (bookingCodes.val() !== null) {
+                    var codes = bookingCodes.val();
+                    console.log('codes', codes);
+                    fulfill(codes);
+                }
+                else {
+                    fulfill([]);
+                }
             });
         });
     };
