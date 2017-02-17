@@ -93,14 +93,22 @@ export class MapComponent implements OnInit, OnDestroy {
         private menuService: MenuService) {
     }
 
+    /* Upon destruction of Map:
+    *  - unsubs from all subscriptions
+    *  - clears the timeOut interval for timer
+    */
     ngOnDestroy() {
         for(let subs of this.subscriptions){
             subs.unsubscribe();
         }
         clearInterval(this.timeOut);
     }
-
-
+    /* Upon Initialization of Map:
+     *  - Creates empty array of markers and infoWindows
+     *  - Initializes subscriptions to user location, current booking, parkstations etc.
+     *  - Initializes map
+     *  - Also adds a listener to whole map in order to close menu when any click occurs
+     */
     ngOnInit() {
 
         this.markers = [];
@@ -120,6 +128,7 @@ export class MapComponent implements OnInit, OnDestroy {
         });
     }
 
+    /* Subscribe to the user's current location */
     getCurrentLocation() {
 
        let temp =  this.userService.getCurrentLocation()
@@ -129,6 +138,10 @@ export class MapComponent implements OnInit, OnDestroy {
 
        this.subscriptions.push(temp);
     }
+
+    /* If a reservation exists, runs a script every 1 second that calculates
+       the time remaining for the reservation before it automatically cancels
+     */
     getReservationTimer() {
         let that = this;
        let temp =  this.bookingService.getReservationTimer()
@@ -158,6 +171,7 @@ export class MapComponent implements OnInit, OnDestroy {
         this.subscriptions.push(temp);
     }
 
+    /* Subscribes to users current booking, updates marker upon receiving a booking */
     getCurrentBooking() {
         let temp = this.bookingService.getCurrentBooking()
             .subscribe(booking => {
@@ -172,6 +186,10 @@ export class MapComponent implements OnInit, OnDestroy {
         this.subscriptions.push(temp);
     }
 
+    /* Subscribes to added parking stations (mainly for initialization)
+     * - Pushes the added station to parkingStations array
+     * - Creates a new marker and push it to marker array
+     */
     getAddedParkingStations() {
 
         let temp = this.parkingService.getAddedParkingStations()
@@ -186,6 +204,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
     }
 
+    /* Subscribes to changes in parking stations, when stations are changed, markers are updated */
     getUpdatedParkingStations() {
         let temp = this.parkingService.getUpdatedParkingStation()
             .subscribe(updatedParkingStation => {
@@ -199,7 +218,7 @@ export class MapComponent implements OnInit, OnDestroy {
         this.subscriptions.push(temp);
     }
 
-
+    /* Initializes the google maps api with specific settings */
     private createMap() {
         let mapProp = {
             center: new google.maps.LatLng(49.2827, -123.1207),
@@ -208,10 +227,16 @@ export class MapComponent implements OnInit, OnDestroy {
             mapTypeControl: false
         };
         this.map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-
     }
 
-
+    /* Updates the marker assigned to 'parking'
+     * - Sets the correct icon depending on:
+     *      - Whether or not parking station is available
+     *      - If current booking exists
+     * - Changes content in HTML to match:
+     *      - Availibility
+     *      - Spaces available
+     */
     private updateMarker(parking: ParkingStation) {
 
         let that = this;
@@ -253,6 +278,11 @@ export class MapComponent implements OnInit, OnDestroy {
         console.log("number of markers: ", this.markers);
     }
 
+    /* Creates a marker to be assigned to a parking station
+     * - Determines correct icon to set depending on validity and current booking
+     * - Creates a marker and sets its title/position/icon
+     * - Sets Content and addes event listeners to open and close windows on user clicks
+     */
     private createMarker(parking: ParkingStation) {
         // Creating marker
         let that = this;
@@ -273,7 +303,6 @@ export class MapComponent implements OnInit, OnDestroy {
                 }
             }
         }
-
 
         let marker = new google.maps.Marker({
             position: { lat: parking.lat, lng: parking.lng },
@@ -310,12 +339,14 @@ export class MapComponent implements OnInit, OnDestroy {
         return marker;
     }
 
+    /* Closes all infoWindows */
     private closeInfoWindows() {
         for (let i = 0; i < this.infowindows.length; i++) {
             this.infowindows[i].close();
         }
     }
 
+    /* Does a lot of stuff */
     private setUserLocation() {
         let that = this;
 
@@ -383,12 +414,14 @@ export class MapComponent implements OnInit, OnDestroy {
         that.map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
     }
 
-
+    /* Kind of unnecessary */
     private handleLocationError() {
         console.log('no access to geolocation');
     }
 
-
+    /* Sets HTML content to 'parking' fields
+     * Determines buttons to place depending on state of current booking
+     */
     private getHTMLcontent(parking: ParkingStation, valid: Boolean) {
         let buttons;
         if (valid) {
@@ -425,6 +458,5 @@ export class MapComponent implements OnInit, OnDestroy {
                 </body>
                   `;
     }
-
 
 }
