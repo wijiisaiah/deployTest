@@ -66,6 +66,7 @@ var MenuComponent = (function () {
         });
         this.subscriptions.push(temp);
     };
+    // '', menu
     MenuComponent.prototype.replaceMenuContent = function (replaceThis, withThis) {
         switch (replaceThis) {
             case 'menu': {
@@ -74,19 +75,21 @@ var MenuComponent = (function () {
                     case 'account':
                         {
                             this.userAccountHidden = false;
-                            this.menuService.changeMenu(50);
+                            this.menuService.setMenuSize(menu_service_1.MenuService.accountPageSize);
                         }
                         return;
-                    case 'booking': {
-                        this.menuService.changeMenu(75);
-                        this.userBookingsHidden = false;
-                        console.log("call update here");
-                    }
+                    case 'booking':
+                        {
+                            this.menuService.setMenuSize(menu_service_1.MenuService.bookingPageSize);
+                            this.userBookingsHidden = false;
+                            console.log("call update here");
+                        }
+                        return;
                 }
                 return;
             }
             default: {
-                this.menuService.changeMenu(25);
+                this.menuService.setMenuSize(menu_service_1.MenuService.defaultMenuSize);
                 this.userAccountHidden = true;
                 this.userBookingsHidden = true;
                 this.userMenuHidden = false;

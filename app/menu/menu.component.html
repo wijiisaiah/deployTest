@@ -6,7 +6,8 @@
     </div>
 </div>
 <div id="myNav" class="overlay">
-    <a [hidden]="!userMenuHidden" class="closebtn" (click)="replaceMenuContent('','menu')">Menu</a>
+    <a [hidden]="!userMenuHidden" class="menubtn" (click)="replaceMenuContent('','menu')">Menu</a>
+    <a [hidden]="!(this.menuService.menuSize === 100)" class="closebtn" (click)="this.menuService.closeNav()">X</a>
 
     <div class="overlay-content">
         <div *ngIf="currentUser">

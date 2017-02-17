@@ -15,8 +15,29 @@ var core_1 = require("@angular/core");
 var MenuService = (function () {
     function MenuService() {
         this.isOpen = false;
-        this.menuSize = 25;
+        this.menuSize = 35;
+        this.detectScreenSizeChange();
     }
+    MenuService.prototype.detectScreenSizeChange = function () {
+        var _this = this;
+        window.addEventListener('resize', function () {
+            console.log('resizing occuring');
+            console.log(window.innerWidth);
+            console.log(window.outerWidth);
+            if (window.innerWidth < 600) {
+                _this.menuSize = 100;
+                if (_this.isOpen) {
+                    _this.setMenuSize(100);
+                }
+            }
+            else {
+                _this.menuSize = 35;
+                if (_this.isOpen) {
+                    _this.setMenuSize(35);
+                }
+            }
+        });
+    };
     MenuService.prototype.closeNav = function () {
         if (this.isOpen) {
             document.getElementById("my-menu-icon").classList.toggle("change");
@@ -33,27 +54,28 @@ var MenuService = (function () {
             this.isOpen = true;
         }
     };
-    MenuService.prototype.changeMenu = function (size) {
-        if (size) {
-            this.menuSize = size;
-            this.setMenuSize();
+    MenuService.prototype.changeMenu = function () {
+        if (this.isOpen) {
+            this.closeNav();
         }
         else {
-            if (this.isOpen) {
-                this.closeNav();
-            }
-            else {
-                this.openNav();
-            }
+            this.openNav();
         }
     };
     MenuService.prototype.formatSize = function (x) {
         return x + '%';
     };
-    MenuService.prototype.setMenuSize = function () {
+    MenuService.prototype.setMenuSize = function (size) {
+        this.menuSize = size;
+        if (window.innerWidth < 600) {
+            this.menuSize = 100;
+        }
         document.getElementById("wrapper").style.width = this.formatSize(100 - this.menuSize);
         document.getElementById("myNav").style.width = this.formatSize(this.menuSize);
     };
+    MenuService.bookingPageSize = 60;
+    MenuService.accountPageSize = 45;
+    MenuService.defaultMenuSize = 35;
     MenuService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [])

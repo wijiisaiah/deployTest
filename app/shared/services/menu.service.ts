@@ -1,4 +1,5 @@
 import {Injectable} from "@angular/core";
+import {Observable} from "rxjs";
 /**
  * Created by Isaiah on 2017-02-09.
  */
@@ -7,10 +8,29 @@ import {Injectable} from "@angular/core";
 export class MenuService {
     public isOpen: boolean;
     public menuSize: number;
+    public static bookingPageSize: number = 60;
+    public static accountPageSize: number = 45;
+    public static defaultMenuSize: number = 35;
 
     constructor() {
         this.isOpen = false;
-        this.menuSize = 25;
+        this.menuSize = 35;
+        this.detectScreenSizeChange();
+    }
+
+    public detectScreenSizeChange() {
+        window.addEventListener('resize', () => {
+            console.log('resizing occuring');
+            console.log(window.innerWidth);
+            console.log(window.outerWidth);
+            if (window.innerWidth < 600) {
+                this.menuSize = 100;
+                if (this.isOpen){ this.setMenuSize(100)}
+            } else {
+                this.menuSize = 35;
+                if (this.isOpen){ this.setMenuSize(35)}
+            }
+        })
     }
 
 
@@ -32,17 +52,11 @@ export class MenuService {
         }
     }
 
-    public changeMenu(size?) {
-        if (size) {
-            this.menuSize = size;
-            this.setMenuSize()
-        }
-        else {
-            if (this.isOpen) {
-                this.closeNav();
-            } else {
-                this.openNav();
-            }
+    public changeMenu() {
+        if (this.isOpen) {
+            this.closeNav();
+        } else {
+            this.openNav();
         }
     }
 
@@ -50,7 +64,11 @@ export class MenuService {
         return x + '%';
     }
 
-    private setMenuSize() {
+    public setMenuSize(size) {
+        this.menuSize = size;
+        if (window.innerWidth < 600) {
+            this.menuSize = 100;
+        }
         document.getElementById("wrapper").style.width = this.formatSize(100 - this.menuSize);
         document.getElementById("myNav").style.width = this.formatSize(this.menuSize);
     }
