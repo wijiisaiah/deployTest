@@ -15,7 +15,12 @@ var core_1 = require("@angular/core");
 var MenuService = (function () {
     function MenuService() {
         this.isOpen = false;
-        this.menuSize = 35;
+        if (window.innerWidth < 600) {
+            this.menuSize = 100;
+        }
+        else {
+            this.menuSize = 35;
+        }
         this.detectScreenSizeChange();
     }
     MenuService.prototype.detectScreenSizeChange = function () {

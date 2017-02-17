@@ -177,6 +177,11 @@ export class MapComponent implements OnInit, OnDestroy {
             .subscribe(booking => {
                 this.currentBooking = booking;
                 if (booking) {
+                    for (let ps of this.parkingStations){
+                        if (ps.title === booking.parkingStation.title){
+                            booking.parkingStation = ps;
+                        }
+                    }
                     this.updateMarker(booking.parkingStation);
                 }
             },
