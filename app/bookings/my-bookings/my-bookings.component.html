@@ -1,15 +1,5 @@
 <div class="modal-dialog">
     <div class="loginmodal-container">
-        <div *ngIf="currentBooking">
-            <h1>Current Booking</h1>
-            <ul class="list-group">
-                <li class="list-group-item"><b>Title</b>: {{ currentBooking.parkingStation.title }}</li>
-                <li class="list-group-item"><b>Address</b>: {{ currentBooking.parkingStation.address }}</li>
-                <li class="list-group-item"><b>Rate</b>: {{ currentBooking.parkingStation.rate }}</li>
-                <li class="list-group-item"><b>Date</b>: {{ currentBooking.date }}</li>
-                <li class="list-group-item"><b>Start Time</b>: {{ currentBooking.startTime }}</li>
-            </ul>
-        </div>
         <ul class="list-group">
             <h1>Past Bookings</h1>
             <li *ngFor="let booking of bookings" class="list-group-item">

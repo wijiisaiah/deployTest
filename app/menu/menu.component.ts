@@ -23,6 +23,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     private currentBooking = null;
     private userAccountHidden = true;
     private userBookingsHidden = true;
+    private userCurrentBookingHidden = true;
     private userMenuHidden = false;
     private subscriptions: Subscription[] = [];
     private screenWidth: number;
@@ -91,6 +92,12 @@ export class MenuComponent implements OnInit, OnDestroy {
                         console.log("call update here");
                     }
                         return;
+                    case 'current booking': {
+                        this.menuService.setMenuSize(MenuService.accountPageSize);
+                        this.userCurrentBookingHidden = false;
+                        console.log("call update here");
+                    }
+                        return;
                 }
                 return;
             }
@@ -98,6 +105,7 @@ export class MenuComponent implements OnInit, OnDestroy {
                 this.menuService.setMenuSize(MenuService.defaultMenuSize);
                 this.userAccountHidden = true;
                 this.userBookingsHidden = true;
+                this.userCurrentBookingHidden = true;
                 this.userMenuHidden = false;
             }
         }

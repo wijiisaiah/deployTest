@@ -27,6 +27,7 @@ var MenuComponent = (function () {
         this.currentBooking = null;
         this.userAccountHidden = true;
         this.userBookingsHidden = true;
+        this.userCurrentBookingHidden = true;
         this.userMenuHidden = false;
         this.subscriptions = [];
     }
@@ -85,6 +86,13 @@ var MenuComponent = (function () {
                             console.log("call update here");
                         }
                         return;
+                    case 'current booking':
+                        {
+                            this.menuService.setMenuSize(menu_service_1.MenuService.accountPageSize);
+                            this.userCurrentBookingHidden = false;
+                            console.log("call update here");
+                        }
+                        return;
                 }
                 return;
             }
@@ -92,6 +100,7 @@ var MenuComponent = (function () {
                 this.menuService.setMenuSize(menu_service_1.MenuService.defaultMenuSize);
                 this.userAccountHidden = true;
                 this.userBookingsHidden = true;
+                this.userCurrentBookingHidden = true;
                 this.userMenuHidden = false;
             }
         }

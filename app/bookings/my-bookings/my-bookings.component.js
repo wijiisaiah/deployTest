@@ -14,7 +14,6 @@ var MyBookingsComponent = (function () {
     function MyBookingsComponent(bookingService) {
         this.bookingService = bookingService;
         this.bookings = [];
-        this.currentBooking = undefined;
         this.subscriptions = [];
     }
     MyBookingsComponent.prototype.ngOnDestroy = function () {
@@ -25,7 +24,6 @@ var MyBookingsComponent = (function () {
     };
     MyBookingsComponent.prototype.ngOnInit = function () {
         this.getAddedBookings();
-        this.getCurrentBooking();
     };
     MyBookingsComponent.prototype.getAddedBookings = function () {
         var _this = this;
@@ -36,17 +34,6 @@ var MyBookingsComponent = (function () {
             console.error("Unable to get added booking - ", err);
         });
         this.subscriptions.push(temp);
-    };
-    MyBookingsComponent.prototype.getCurrentBooking = function () {
-        var _this = this;
-        this.bookingService.getCurrentBooking()
-            .subscribe(function (booking) {
-            _this.currentBooking = booking;
-            if (booking === undefined) {
-            }
-        }, function (err) {
-            console.error("Unable to get current booking -", err);
-        });
     };
     MyBookingsComponent = __decorate([
         core_1.Component({
