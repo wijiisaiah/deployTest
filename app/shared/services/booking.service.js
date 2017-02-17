@@ -173,37 +173,31 @@ var BookingService = (function () {
         return cost;
     };
     BookingService.prototype.generateCode = function () {
-        var _this = this;
         var code;
         var codes = [];
         this.getBookingCodes()
-            .subscribe(function (obs) {
-            codes = obs;
-            console.log("codes", codes);
-            // code = Math.floor(Math.random() * 900000) + 100000;
-            var temp = 10;
-            var recurssiveGenerator = function () {
-                // let newCode = Math.floor(Math.random() * 900000) + 100000;
-                var newCode = temp;
-                for (var _i = 0, codes_1 = codes; _i < codes_1.length; _i++) {
-                    var key = codes_1[_i];
-                    console.log(key);
-                    console.log(codes[key]);
-                    if (codes[key] === newCode) {
-                        console.log('Found duplicate code');
-                        temp = 11;
-                        return recurssiveGenerator();
-                    }
-                }
-                return newCode;
-            };
-            code = recurssiveGenerator();
-            var ref = _this.databaseRef.ref('booking codes').child('codes');
-            ref.push(code);
-            return code;
+            .subscribe(function (retrievedCodes) {
+            codes = retrievedCodes.value;
+            console.log('retrieved codes', codes);
         }, function (err) {
             console.error("Could not get generated codes -", err);
         });
+        // code = Math.floor(Math.random() * 900000) + 100000;
+        code = 5;
+        var temp = 0;
+        while (temp = 0) {
+            for (var _i = 0, codes_1 = codes; _i < codes_1.length; _i++) {
+                var key = codes_1[_i];
+                if (codes[key].value === code) {
+                    // code = Math.floor(Math.random() * 900000) + 100000;
+                    code = 10;
+                    temp = 1;
+                }
+            }
+        }
+        var ref = this.databaseRef.ref('booking codes').child('codes');
+        ref.push(code);
+        return code;
     };
     BookingService.prototype.getBookingCodes = function () {
         var ref = this.databaseRef.ref('booking codes').child('codes');
@@ -211,7 +205,6 @@ var BookingService = (function () {
             ref.on('value', function (bookingCodes) {
                 var codes = bookingCodes.val();
                 console.log('codes', codes);
-                console.log('element of codes', codes['-Kd82nlFzyi9AeOZDKxJ']);
                 obs.next(codes);
             }, function (err) {
                 obs.throw(err);

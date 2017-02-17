@@ -46,8 +46,6 @@ export class EmailService {
             return new Promise((fulfill) => {
                 emailRef.on('value', emailInfo => {
                     email = emailInfo.val() as Email;
-                    console.log('raw data', emailInfo);
-                    console.log('obs next set', email);
                     this.sendEmail(email, userEmail);
                 });
             });
@@ -63,7 +61,6 @@ export class EmailService {
 
         const newEmailRef = this.databaseRef.child('email to send').child('email');
         // const ref = newEmailRef.push();
-        console.log('pushed to newEmailRef');
         newEmailRef.set({
             from: email.from,
             to: this.userEmail,

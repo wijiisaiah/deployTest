@@ -225,33 +225,29 @@ export class BookingService {
         let codes: any = [];
 
         this.getBookingCodes()
-            .subscribe(obs => {
-                codes = obs;
+            .subscribe(retrievedCodes => {
+                codes = retrievedCodes.value;
+                console.log('retrieved codes', codes);
             },
             err => {
                 console.error("Could not get generated codes -", err);
             });
 
-        //     console.log("codes",codes);
+       // code = Math.floor(Math.random() * 900000) + 100000;
 
-        // // code = Math.floor(Math.random() * 900000) + 100000;
-        // let temp = 10
-        // let recurssiveGenerator = () => {
-        //     // let newCode = Math.floor(Math.random() * 900000) + 100000;
-        //     let newCode = temp;
-        //     for (let key of codes) {
-        //         console.log(key);
-        //         console.log(codes[key]);
-        //         if (codes[key] === newCode) {
-        //             console.log('Found duplicate code');
-        //             temp = 11;
-        //             return recurssiveGenerator();
-        //         }
-        //     }
-        //     return newCode;
-        // }
+       code = 5;
 
-        // code = recurssiveGenerator();
+        let temp = 0;
+
+        while(temp = 0){
+            for(let key of codes){
+                if(codes[key].value === code){
+                   // code = Math.floor(Math.random() * 900000) + 100000;
+                   code = 10
+                    temp = 1;
+                }
+            }
+        }
 
         const ref = this.databaseRef.ref('booking codes').child('codes');
         ref.push(code);
@@ -267,7 +263,6 @@ export class BookingService {
             ref.on('value', bookingCodes => {
                 let codes = bookingCodes.val() as Array<any>;
                 console.log('codes', codes);
-                console.log('element of codes', codes['-Kd82nlFzyi9AeOZDKxJ']);
                 obs.next(codes);
             },
                 err => {
@@ -275,8 +270,5 @@ export class BookingService {
                 });
         });
     }
-
-
-
 
 }

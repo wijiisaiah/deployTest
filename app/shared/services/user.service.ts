@@ -76,6 +76,10 @@ export class UserService {
     updateUser(user: User) {
         const userRef = this.databaseRef.child(user.uid);
         userRef.update(user);
+        this.currentUser.updateEmail(user.email)
+        .catch(err => {
+            console.log("Unable to update user email (auth) -", err);
+        });
     }
 
     findUserRef(uid: string) {

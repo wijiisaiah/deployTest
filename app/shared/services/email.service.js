@@ -41,8 +41,6 @@ var EmailService = (function () {
             return new Promise(function (fulfill) {
                 emailRef_1.on('value', function (emailInfo) {
                     email_2 = emailInfo.val();
-                    console.log('raw data', emailInfo);
-                    console.log('obs next set', email_2);
                     _this.sendEmail(email_2, userEmail);
                 });
             });
@@ -57,7 +55,6 @@ var EmailService = (function () {
         }
         var newEmailRef = this.databaseRef.child('email to send').child('email');
         // const ref = newEmailRef.push();
-        console.log('pushed to newEmailRef');
         newEmailRef.set({
             from: email.from,
             to: this.userEmail,
