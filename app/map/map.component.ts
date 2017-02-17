@@ -46,7 +46,6 @@ export class MapComponent implements OnInit, OnDestroy {
         this.closeInfoWindows();
         clearInterval(this.timeOut);
         document.getElementById('timer').innerText = '';
-
     }
 
     @HostListener('window:reserve', ['$event'])
@@ -54,8 +53,6 @@ export class MapComponent implements OnInit, OnDestroy {
         if (!this.currentBooking) {
             this.closeInfoWindows();
             this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
-            this.emailService.createEmail(EmailService.BOOKING_CONFIRMATION);
-
         } else {
             alert('Cannot have more than 1 reservation at a time');
         }
@@ -63,21 +60,17 @@ export class MapComponent implements OnInit, OnDestroy {
 
     @HostListener('window:cancel', ['$event'])
     cancelEventListener(event) {
-        this.bookingService.removeBookingCode(this.currentBooking.code);
-        this.bookingService.removeCurrentBooking(this.currentBooking.parkingStation.title);
+        this.bookingService.cancelBooking(this.currentBooking);
         this.currentBooking = undefined;
         this.closeInfoWindows();
-        this.emailService.createEmail(EmailService.BOOKING_CANCELLATION);
+        clearInterval(this.timeOut);
+        document.getElementById('timer').innerText = '';
     }
-
 
     @HostListener('window:complete', ['$event'])
     completeEventListener(event) {
         this.closeInfoWindows();
         this.bookingService.completeBooking(this.currentBooking);
-
-        this.emailService.createEmail(EmailService.BOOKING_COMPLETION);
-
     }
 
     private map: any;

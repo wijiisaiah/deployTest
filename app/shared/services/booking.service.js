@@ -11,14 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var firebase_config_service_1 = require('../../core/service/firebase-config.service');
 var user_service_1 = require("./user.service");
+var booking_1 = require("../model/booking");
 var Time_1 = require("../util/Time");
 var Observable_1 = require("rxjs/Observable");
 var parkingStation_service_1 = require("./parkingStation.service");
+var email_service_1 = require("./email.service");
 var BookingService = (function () {
-    function BookingService(fire, us, parkingService) {
+    function BookingService(fire, us, parkingService, emailService) {
         this.fire = fire;
         this.us = us;
         this.parkingService = parkingService;
+        this.emailService = emailService;
         this.reservationTimeOut = 30 * 60 * 1000;
         this.databaseRef = this.fire.database;
         var curUser = this.fire.auth.currentUser;
@@ -37,40 +40,6 @@ var BookingService = (function () {
                 obs.throw(err);
             });
         });
-    };
-    /* Creates a new booking in user -> current booking in the database. It sets
-     * the bookings start time (both in time format and in milliseconds), date, parking station,
-     * and randomely generated booking code.
-     */
-    BookingService.prototype.createBooking = function (parkingStation) {
-        var date = Time_1.Time.getCurrentDate();
-        var startTime = Time_1.Time.getCurrentTime();
-        var startTimeMs = new Date().getTime();
-        var reservationRef = this.currentUserRef.child('reservation');
-        var currentBookingRef = this.currentUserRef.child('reservation').child('curBooking');
-        this.parkingService.decrementAvailability(parkingStation.title);
-        reservationRef.set({
-            reserveStartTime: new Date().getTime(),
-            reserveEndTime: new Date().getTime() + this.reservationTimeOut
-        })
-            .catch(function (err) { return console.error("Unable to set reservation", err); });
-        this.generateCode()
-            .then(function (code) {
-            currentBookingRef.set({
-                parkingStation: parkingStation,
-                date: date,
-                startTime: startTime,
-                startTimeMs: startTimeMs,
-                code: code
-            })
-                .catch(function (err) { return console.error("Unable to add Booking", err); });
-        });
-    };
-    BookingService.prototype.completeBooking = function (currentBooking) {
-        this.endCurrentBooking(currentBooking);
-        this.addBooking(currentBooking);
-        this.removeCurrentBooking(currentBooking.parkingStation.title);
-        this.removeBookingCode(currentBooking.code);
     };
     /* Listens for bookings added to user -> current booking in the database
      * Returns an Observable with the newly added current booking
@@ -126,6 +95,65 @@ var BookingService = (function () {
             });
         });
     };
+    BookingService.prototype.getBookingCodes = function () {
+        var ref = this.databaseRef.ref('booking codes').child('codes');
+        return new Promise(function (fulfill) {
+            ref.on('value', function (bookingCodes) {
+                console.log(bookingCodes);
+                if (bookingCodes.val() !== null) {
+                    var codes = bookingCodes.val();
+                    console.log('codes', codes);
+                    fulfill(codes);
+                }
+                else {
+                    fulfill([]);
+                }
+            });
+        });
+    };
+    BookingService.prototype.cancelBooking = function (currentBooking) {
+        this.removeBookingCode(currentBooking.code);
+        this.removeCurrentBooking(currentBooking.parkingStation.title);
+        this.emailService.createEmail(email_service_1.EmailService.BOOKING_CANCELLATION);
+    };
+    BookingService.prototype.completeBooking = function (currentBooking) {
+        this.endCurrentBooking(currentBooking);
+        this.addToUserBookings(currentBooking);
+        this.removeCurrentBooking(currentBooking.parkingStation.title);
+        this.removeBookingCode(currentBooking.code);
+        this.emailService.createEmail(email_service_1.EmailService.BOOKING_COMPLETION);
+    };
+    /* Creates a new booking in user -> current booking in the database. It sets
+     * the bookings start time (both in time format and in milliseconds), date, parking station,
+     * and randomely generated booking code.
+     */
+    BookingService.prototype.createBooking = function (parkingStation) {
+        var _this = this;
+        var date = Time_1.Time.getCurrentDate();
+        var startTime = Time_1.Time.getCurrentTime();
+        var startTimeMs = new Date().getTime();
+        var reservationRef = this.currentUserRef.child('reservation');
+        var currentBookingRef = this.currentUserRef.child('reservation').child('curBooking');
+        this.parkingService.decrementAvailability(parkingStation.title);
+        reservationRef.set({
+            reserveStartTime: new Date().getTime(),
+            reserveEndTime: new Date().getTime() + this.reservationTimeOut
+        })
+            .catch(function (err) { return console.error("Unable to set reservation", err); });
+        this.generateCode()
+            .then(function (code) {
+            currentBookingRef.set({
+                parkingStation: parkingStation,
+                date: date,
+                startTime: startTime,
+                startTimeMs: startTimeMs,
+                code: code
+            })
+                .catch(function (err) { return console.error("Unable to add Booking", err); });
+            var booking = new booking_1.Booking(parkingStation, date, startTime, startTimeMs, code);
+            _this.emailService.createEmail(email_service_1.EmailService.BOOKING_CONFIRMATION, null, booking);
+        });
+    };
     /* Sets the end time and cost of the argument booking */
     BookingService.prototype.endCurrentBooking = function (curBooking) {
         var endTime = Time_1.Time.getCurrentTime();
@@ -144,7 +172,7 @@ var BookingService = (function () {
     /* Takes a booking as an argument and adds it to the database
      *  under user -> bookings.
      */
-    BookingService.prototype.addBooking = function (booking) {
+    BookingService.prototype.addToUserBookings = function (booking) {
         var bookingsRef = this.currentUserRef.child('bookings');
         var ref = bookingsRef.push();
         ref.set({
@@ -214,25 +242,9 @@ var BookingService = (function () {
             });
         });
     };
-    BookingService.prototype.getBookingCodes = function () {
-        var ref = this.databaseRef.ref('booking codes').child('codes');
-        return new Promise(function (fulfill) {
-            ref.on('value', function (bookingCodes) {
-                console.log(bookingCodes);
-                if (bookingCodes.val() !== null) {
-                    var codes = bookingCodes.val();
-                    console.log('codes', codes);
-                    fulfill(codes);
-                }
-                else {
-                    fulfill([]);
-                }
-            });
-        });
-    };
     BookingService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [firebase_config_service_1.FirebaseConfigService, user_service_1.UserService, parkingStation_service_1.ParkingService])
+        __metadata('design:paramtypes', [firebase_config_service_1.FirebaseConfigService, user_service_1.UserService, parkingStation_service_1.ParkingService, email_service_1.EmailService])
     ], BookingService);
     return BookingService;
 }());

@@ -38,23 +38,21 @@ var MapComponent = (function () {
         if (!this.currentBooking) {
             this.closeInfoWindows();
             this.bookingService.createBooking(this.selectedParkingStation); //create a booking (user -> current booking)
-            this.emailService.createEmail(email_service_1.EmailService.BOOKING_CONFIRMATION);
         }
         else {
             alert('Cannot have more than 1 reservation at a time');
         }
     };
     MapComponent.prototype.cancelEventListener = function (event) {
-        this.bookingService.removeBookingCode(this.currentBooking.code);
-        this.bookingService.removeCurrentBooking(this.currentBooking.parkingStation.title);
+        this.bookingService.cancelBooking(this.currentBooking);
         this.currentBooking = undefined;
         this.closeInfoWindows();
-        this.emailService.createEmail(email_service_1.EmailService.BOOKING_CANCELLATION);
+        clearInterval(this.timeOut);
+        document.getElementById('timer').innerText = '';
     };
     MapComponent.prototype.completeEventListener = function (event) {
         this.closeInfoWindows();
         this.bookingService.completeBooking(this.currentBooking);
-        this.emailService.createEmail(email_service_1.EmailService.BOOKING_COMPLETION);
     };
     MapComponent.prototype.ngOnDestroy = function () {
         for (var _i = 0, _a = this.subscriptions; _i < _a.length; _i++) {
