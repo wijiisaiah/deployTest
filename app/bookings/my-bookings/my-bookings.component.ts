@@ -16,7 +16,6 @@ import {Subscription} from "rxjs";
 export class MyBookingsComponent implements OnInit, OnDestroy {
 
     private bookings: Booking[] = [];
-    private currentBooking = undefined;
     private subscriptions: Subscription[] = [];
     constructor(private bookingService: BookingService) {
 
@@ -30,7 +29,6 @@ export class MyBookingsComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.getAddedBookings();
-        this.getCurrentBooking();
     }
 
     getAddedBookings() {
@@ -44,18 +42,5 @@ export class MyBookingsComponent implements OnInit, OnDestroy {
         this.subscriptions.push(temp);
     }
 
-    getCurrentBooking() {
-        this.bookingService.getCurrentBooking()
-            .subscribe((booking: Booking) => {
-                    this.currentBooking = booking;
-                    if (booking === undefined){
-
-                    }
-                },
-                err => {
-                    console.error("Unable to get current booking -", err);
-                });
-
-    }
 
 }

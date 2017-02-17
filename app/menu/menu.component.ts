@@ -23,8 +23,10 @@ export class MenuComponent implements OnInit, OnDestroy {
     private currentBooking = null;
     private userAccountHidden = true;
     private userBookingsHidden = true;
+    private userCurrentBookingHidden = true;
     private userMenuHidden = false;
     private subscriptions: Subscription[] = [];
+    private screenWidth: number;
 
     constructor(private uas: UserService, private BookingService: BookingService, private router: Router, private menuService: MenuService) {
     }
@@ -70,9 +72,9 @@ export class MenuComponent implements OnInit, OnDestroy {
                 });
 
         this.subscriptions.push(temp);
-
     }
 
+// '', menu
     replaceMenuContent(replaceThis: string, withThis: string) {
 
         switch (replaceThis) {
@@ -81,21 +83,29 @@ export class MenuComponent implements OnInit, OnDestroy {
                 switch (withThis) {
                     case 'account': {
                         this.userAccountHidden = false;
-                        this.menuService.changeMenu(50);
+                        this.menuService.setMenuSize(MenuService.accountPageSize);
                     }
                         return;
                     case 'booking': {
-                        this.menuService.changeMenu(75);
+                        this.menuService.setMenuSize(MenuService.bookingPageSize);
                         this.userBookingsHidden = false;
                         console.log("call update here");
                     }
+                        return;
+                    case 'current booking': {
+                        this.menuService.setMenuSize(MenuService.accountPageSize);
+                        this.userCurrentBookingHidden = false;
+                        console.log("call update here");
+                    }
+                        return;
                 }
                 return;
             }
             default: {
-                this.menuService.changeMenu(25);
+                this.menuService.setMenuSize(MenuService.defaultMenuSize);
                 this.userAccountHidden = true;
                 this.userBookingsHidden = true;
+                this.userCurrentBookingHidden = true;
                 this.userMenuHidden = false;
             }
         }

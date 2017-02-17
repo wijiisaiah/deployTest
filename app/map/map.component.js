@@ -136,6 +136,12 @@ var MapComponent = (function () {
             .subscribe(function (booking) {
             _this.currentBooking = booking;
             if (booking) {
+                for (var _i = 0, _a = _this.parkingStations; _i < _a.length; _i++) {
+                    var ps = _a[_i];
+                    if (ps.title === booking.parkingStation.title) {
+                        booking.parkingStation = ps;
+                    }
+                }
                 _this.updateMarker(booking.parkingStation);
             }
         }, function (err) {
