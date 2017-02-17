@@ -45,6 +45,7 @@ var MapComponent = (function () {
         }
     };
     MapComponent.prototype.cancelEventListener = function (event) {
+        this.bookingService.removeBookingCode(this.currentBooking.code);
         this.bookingService.removeCurrentBooking(this.currentBooking.parkingStation.title);
         this.currentBooking = undefined;
         this.closeInfoWindows();

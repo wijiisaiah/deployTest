@@ -79,11 +79,9 @@ export class BookingService {
 
     completeBooking(currentBooking: Booking) {
         this.endCurrentBooking(currentBooking);
-
         this.addBooking(currentBooking);
-
         this.removeCurrentBooking(currentBooking.parkingStation.title);
-
+        this.removeBookingCode(currentBooking.code);
     }
 
     /* Listens for bookings added to user -> current booking in the database
@@ -205,6 +203,15 @@ export class BookingService {
         const reservationRef = this.currentUserRef.child('reservation');
         reservationRef.ref.remove();
         this.parkingService.incrementAvailability(title);
+    }
+
+    removeBookingCode(number: number){
+        const ref = this.databaseRef.ref('booking codes').child('codes');
+        ref.orderByValue().equalTo(number).on('child_added', function(snapshot)
+        {
+            console.log(snapshot.ref);
+            snapshot.ref.remove();
+        });
     }
 
     calculateCost(booking: Booking): string {

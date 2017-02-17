@@ -70,6 +70,7 @@ var BookingService = (function () {
         this.endCurrentBooking(currentBooking);
         this.addBooking(currentBooking);
         this.removeCurrentBooking(currentBooking.parkingStation.title);
+        this.removeBookingCode(currentBooking.code);
     };
     /* Listens for bookings added to user -> current booking in the database
      * Returns an Observable with the newly added current booking
@@ -164,6 +165,13 @@ var BookingService = (function () {
         var reservationRef = this.currentUserRef.child('reservation');
         reservationRef.ref.remove();
         this.parkingService.incrementAvailability(title);
+    };
+    BookingService.prototype.removeBookingCode = function (number) {
+        var ref = this.databaseRef.ref('booking codes').child('codes');
+        ref.orderByValue().equalTo(number).on('child_added', function (snapshot) {
+            console.log(snapshot.ref);
+            snapshot.ref.remove();
+        });
     };
     BookingService.prototype.calculateCost = function (booking) {
         var endTime = new Date().getTime();

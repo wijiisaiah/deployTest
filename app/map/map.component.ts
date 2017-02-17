@@ -59,15 +59,14 @@ export class MapComponent implements OnInit, OnDestroy {
         } else {
             alert('Cannot have more than 1 reservation at a time');
         }
-
     }
 
     @HostListener('window:cancel', ['$event'])
     cancelEventListener(event) {
+        this.bookingService.removeBookingCode(this.currentBooking.code);
         this.bookingService.removeCurrentBooking(this.currentBooking.parkingStation.title);
         this.currentBooking = undefined;
         this.closeInfoWindows();
-
         this.emailService.createEmail(EmailService.BOOKING_CANCELLATION);
     }
 
