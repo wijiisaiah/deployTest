@@ -125,3 +125,7 @@ i {
 #register-form {
   display: none;
 }
+
+#forgotPassword-form {
+  display: none;
+}

@@ -34,10 +34,16 @@
                             <input type="button" name="register" class="register registermodal-submit" data-dismiss="modal"
                                    value="Register" (click)="register()">
                         </form>
+                        <form id="forgotPassword-form">
+                            <p>Please enter your email to recover your password.</p>
+                            <input type="text" name="email" placeholder="Email" id="forgotPasswordEmail">
+                            <input type="button" name="recoverPassword" class="login loginmodal-submit" value="Recover Password" data-dismiss="modal"
+                                   (click)="forgotPassword()">
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="login-help">
+            <div class="login-help" id="forgotPassword-form-link">
                 <i class="fa fa-unlock-alt" aria-hidden="false"></i><a href="#">Forgot Password</a>
             </div>
         </div>

@@ -85,6 +85,13 @@ var UserService = (function () {
     UserService.prototype.findUserRef = function (uid) {
         return this.databaseRef.child(uid);
     };
+    UserService.prototype.forgotPassword = function (emailAddress) {
+        this.authRef.sendPasswordResetEmail(emailAddress).then(function () {
+            // Email sent.
+        }, function (error) {
+            alert(error.message);
+        });
+    };
     UserService.prototype.getCurrentUser = function () {
         var _this = this;
         this.currentUser = this.fire.auth.currentUser;
