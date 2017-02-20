@@ -84,7 +84,6 @@ export class UserAuthenticationComponent implements OnInit {
 
         console.log("User Authenticated");
 
-
     }
 
     reRoute() {
