@@ -117,7 +117,7 @@ var MapComponent = (function () {
                     document.getElementById('timer').innerText = minutes + ':' + seconds;
                     if (that.reserveEndTime <= new Date().getTime() && that.reserveEndTime !== null) {
                         _this.reserveEndTime = null;
-                        _this.bookingService.removeCurrentBooking(_this.currentBooking.parkingStation.title);
+                        _this.bookingService.cancelBooking(_this.currentBooking);
                         _this.currentBooking = undefined;
                         _this.closeInfoWindows();
                     }

@@ -159,7 +159,7 @@ export class MapComponent implements OnInit, OnDestroy {
                         document.getElementById('timer').innerText = minutes + ':' + seconds;
                         if (that.reserveEndTime <= new Date().getTime() && that.reserveEndTime !== null) {
                             this.reserveEndTime = null;
-                            this.bookingService.removeCurrentBooking(this.currentBooking.parkingStation.title);
+                            this.bookingService.cancelBooking(this.currentBooking);
                             this.currentBooking = undefined;
                             this.closeInfoWindows();
                         }
