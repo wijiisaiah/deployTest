@@ -17,16 +17,20 @@
 <!--</div>-->
 <!--</div>-->
 
-    <!--<li *ngFor="let booking of bookings" >-->
-        <h4 class="accordion-toggle" >asdf</h4>
-        <div class="accordion-content">
-            asdf
-            <!--<b>Title</b>: {{ booking.title }}-->
-            <!--<b>Address</b>: {{ booking.address }}-->
-            <!--<b>Rate</b>: {{ booking.rate }}-->
-            <!--<b>Date</b>: {{ booking.date }}-->
-            <!--<b>Start Time</b>: {{ booking.startTime }}-->
-            <!--<b>End Time</b>: {{ booking.endTime }}-->
-            <!--<b>Total Cost</b>: {{ booking.cost }}-->
-        </div>
-    <!--</li>-->
+<div class="accordion">
+    <ul id="bookingList">
+        <li *ngFor="let booking of bookings; let i = index;">
+            <h4 (click)="open(i)" class="accordion-toggle">{{booking.title}}</h4>
+            <div class="accordion-content">
+                <b>Title</b>: {{booking.title}} <br>
+                <b>Address</b>: {{booking.address}} <br>
+                <b>Rate</b>: {{booking.rate}}<br>
+                <b>Date</b>: {{booking.date}}<br>
+                <b>Start Time</b>: {{booking.startTime}}<br>
+                <b>End Time</b>: {{booking.endTime}}<br>
+                <b>Total Cost</b>: {{booking.cost}}
+            </div>
+        </li>
+    </ul>
+</div>
+

@@ -1,3 +1,7 @@
+ul {
+    list-style-type: none;
+}
+
 .accordion{
     width:100%;
     margin: 0 auto;
@@ -36,6 +40,7 @@
 }
 .accordion-content {
     display: none;
+    text-align: left;
 }
 .accordion-toggle.active {color: #2b5cff;}
 
