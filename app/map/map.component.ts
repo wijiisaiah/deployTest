@@ -1,17 +1,20 @@
-import { Email } from './../shared/model/email';
+import {Email} from './../shared/model/email';
 import {Observable, Subscription} from 'rxjs/Rx';
-import { ParkingService } from './../shared/services/parkingStation.service';
-import { Component, OnInit, NgZone, HostListener, OnDestroy } from '@angular/core';
-import { ParkingStation } from "../shared/model/parkingStation";
-import { UserService } from "../shared/services/user.service";
-import { EmailService } from "../shared/services/email.service";
-import { BookingService } from "../shared/services/booking.service";
-import { Booking } from "../shared/model/booking";
-import { Router } from "@angular/router";
-import { MenuService } from "../shared/services/menu.service";
+import {ParkingService} from './../shared/services/parkingStation.service';
+import {Component, OnInit, NgZone, HostListener, OnDestroy} from '@angular/core';
+import {ParkingStation} from "../shared/model/parkingStation";
+import {UserService} from "../shared/services/user.service";
+import {EmailService} from "../shared/services/email.service";
+import {BookingService} from "../shared/services/booking.service";
+import {Booking} from "../shared/model/booking";
+import {Router} from "@angular/router";
+import {MenuService} from "../shared/services/menu.service";
 import lpad = require("core-js/library/fn/string/lpad");
+// var jsInfoBubble = require("node_modules/js-info-bubble/src");
 declare let google: any;
 declare let $: any;
+declare let InfoBubble: any;
+
 
 @Component({
     moduleId: module.id,
@@ -86,23 +89,24 @@ export class MapComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
 
     constructor(private bookingService: BookingService,
-        private userService: UserService,
-        private parkingService: ParkingService,
-        private emailService: EmailService,
-        private router: Router,
-        private menuService: MenuService) {
+                private userService: UserService,
+                private parkingService: ParkingService,
+                private emailService: EmailService,
+                private router: Router,
+                private menuService: MenuService) {
     }
 
     /* Upon destruction of Map:
-    *  - unsubs from all subscriptions
-    *  - clears the timeOut interval for timer
-    */
+     *  - unsubs from all subscriptions
+     *  - clears the timeOut interval for timer
+     */
     ngOnDestroy() {
-        for(let subs of this.subscriptions){
+        for (let subs of this.subscriptions) {
             subs.unsubscribe();
         }
         clearInterval(this.timeOut);
     }
+
     /* Upon Initialization of Map:
      *  - Creates empty array of markers and infoWindows
      *  - Initializes subscriptions to user location, current booking, parkstations etc.
@@ -131,20 +135,20 @@ export class MapComponent implements OnInit, OnDestroy {
     /* Subscribe to the user's current location */
     getCurrentLocation() {
 
-       let temp =  this.userService.getCurrentLocation()
+        let temp = this.userService.getCurrentLocation()
             .subscribe(pos => {
                 this.userLocation = pos;
             });
 
-       this.subscriptions.push(temp);
+        this.subscriptions.push(temp);
     }
 
     /* If a reservation exists, runs a script every 1 second that calculates
-       the time remaining for the reservation before it automatically cancels
+     the time remaining for the reservation before it automatically cancels
      */
     getReservationTimer() {
         let that = this;
-       let temp =  this.bookingService.getReservationTimer()
+        let temp = this.bookingService.getReservationTimer()
             .subscribe(endTime => {
                 if (endTime !== undefined) {
                     that.reserveEndTime = endTime;
@@ -175,19 +179,19 @@ export class MapComponent implements OnInit, OnDestroy {
     getCurrentBooking() {
         let temp = this.bookingService.getCurrentBooking()
             .subscribe(booking => {
-                this.currentBooking = booking;
-                if (booking) {
-                    for (let ps of this.parkingStations){
-                        if (ps.title === booking.parkingStation.title){
-                            booking.parkingStation = ps;
+                    this.currentBooking = booking;
+                    if (booking) {
+                        for (let ps of this.parkingStations) {
+                            if (ps.title === booking.parkingStation.title) {
+                                booking.parkingStation = ps;
+                            }
                         }
+                        this.updateMarker(booking.parkingStation);
                     }
-                    this.updateMarker(booking.parkingStation);
-                }
-            },
-            err => {
-                console.error("Unable to get current booking -", err);
-            });
+                },
+                err => {
+                    console.error("Unable to get current booking -", err);
+                });
         this.subscriptions.push(temp);
     }
 
@@ -199,12 +203,12 @@ export class MapComponent implements OnInit, OnDestroy {
 
         let temp = this.parkingService.getAddedParkingStations()
             .subscribe(parkingStation => {
-                this.parkingStations.push(parkingStation);
-                this.markers.push(this.createMarker(parkingStation))
-    },
-            err => {
-                console.error("Unable to get added parking station - ", err);
-            });
+                    this.parkingStations.push(parkingStation);
+                    this.markers.push(this.createMarker(parkingStation))
+                },
+                err => {
+                    console.error("Unable to get added parking station - ", err);
+                });
         this.subscriptions.push(temp);
 
     }
@@ -213,13 +217,13 @@ export class MapComponent implements OnInit, OnDestroy {
     getUpdatedParkingStations() {
         let temp = this.parkingService.getUpdatedParkingStation()
             .subscribe(updatedParkingStation => {
-                const parkingIndex = this.parkingStations.map(index => index.title).indexOf(updatedParkingStation['title']);
-                this.parkingStations[parkingIndex] = updatedParkingStation;
-                this.updateMarker(updatedParkingStation);
-            },
-            err => {
-                console.error("Unable to get updated parking station - ", err);
-            });
+                    const parkingIndex = this.parkingStations.map(index => index.title).indexOf(updatedParkingStation['title']);
+                    this.parkingStations[parkingIndex] = updatedParkingStation;
+                    this.updateMarker(updatedParkingStation);
+                },
+                err => {
+                    console.error("Unable to get updated parking station - ", err);
+                });
         this.subscriptions.push(temp);
     }
 
@@ -310,7 +314,7 @@ export class MapComponent implements OnInit, OnDestroy {
         }
 
         let marker = new google.maps.Marker({
-            position: { lat: parking.lat, lng: parking.lng },
+            position: {lat: parking.lat, lng: parking.lng},
             map: this.map,
             title: parking.title,
             icon: icon
@@ -319,9 +323,21 @@ export class MapComponent implements OnInit, OnDestroy {
         let content = this.getHTMLcontent(parking, valid);
 
         // Creating Info Window which is related to this Parking Station
-        let infowindow = new google.maps.InfoWindow({
-            title: marker.title,
-            content: content
+        let infowindow = new InfoBubble({
+            map: this.map,
+            minWidth: 300,
+            maxHeight: 300,
+            content: this.getHTMLcontent(parking, valid),
+            shadowStyle: 1,
+            padding: 5,
+            backgroundColor: 'rgba(113, 175, 225, 0.9)',
+            borderRadius: 4,
+            arrowSize: 10,
+            disableAutoPan: true,
+            hideCloseButton: true,
+            arrowPosition: 30,
+            arrowStyle: 2,
+            title: parking.title
         });
 
         // Pushes the newly created Info Window to the array of info windows
@@ -398,7 +414,7 @@ export class MapComponent implements OnInit, OnDestroy {
             }, 500);
             if (that.userLocation) {
 
-                let latlng = { lat: that.userLocation.coords.latitude, lng: that.userLocation.coords.longitude };
+                let latlng = {lat: that.userLocation.coords.latitude, lng: that.userLocation.coords.longitude};
                 that.userLocationMarker = new google.maps.Marker({
                     position: latlng,
                     icon: 'http://www.robotwoods.com/dev/misc/bluecircle.png'
@@ -448,8 +464,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
 
         return `
-                <body>
-                    <div id="infoWindow">
+                    <div>
                      <h3>` + parking.title + `</h3><br>
                      <p> Address: ` + parking.address + `<br>
                          Type: ` + parking.type + ` <br>
@@ -460,8 +475,6 @@ export class MapComponent implements OnInit, OnDestroy {
                      <br>
                     ` + buttons + `
                 </div>
-                </body>
                   `;
     }
-
 }

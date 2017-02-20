@@ -55,9 +55,9 @@ var MapComponent = (function () {
         this.bookingService.completeBooking(this.currentBooking);
     };
     /* Upon destruction of Map:
-    *  - unsubs from all subscriptions
-    *  - clears the timeOut interval for timer
-    */
+     *  - unsubs from all subscriptions
+     *  - clears the timeOut interval for timer
+     */
     MapComponent.prototype.ngOnDestroy = function () {
         for (var _i = 0, _a = this.subscriptions; _i < _a.length; _i++) {
             var subs = _a[_i];
@@ -97,7 +97,7 @@ var MapComponent = (function () {
         this.subscriptions.push(temp);
     };
     /* If a reservation exists, runs a script every 1 second that calculates
-       the time remaining for the reservation before it automatically cancels
+     the time remaining for the reservation before it automatically cancels
      */
     MapComponent.prototype.getReservationTimer = function () {
         var _this = this;
@@ -263,9 +263,21 @@ var MapComponent = (function () {
         });
         var content = this.getHTMLcontent(parking, valid);
         // Creating Info Window which is related to this Parking Station
-        var infowindow = new google.maps.InfoWindow({
-            title: marker.title,
-            content: content
+        var infowindow = new InfoBubble({
+            map: this.map,
+            minWidth: 300,
+            maxHeight: 300,
+            content: this.getHTMLcontent(parking, valid),
+            shadowStyle: 1,
+            padding: 5,
+            backgroundColor: 'rgba(113, 175, 225, 0.9)',
+            borderRadius: 4,
+            arrowSize: 10,
+            disableAutoPan: true,
+            hideCloseButton: true,
+            arrowPosition: 30,
+            arrowStyle: 2,
+            title: parking.title
         });
         // Pushes the newly created Info Window to the array of info windows
         this.infowindows.push(infowindow);
@@ -374,7 +386,7 @@ var MapComponent = (function () {
                 }
             }
         }
-        return "\n                <body>\n                    <div id=\"infoWindow\">\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Availabiliy: " + parking.availableSpots + "/" + parking.size + "<br>\n                         Rate: " + parking.rate + " \n                     </p>\n                     <br>\n                    " + buttons + "\n                </div>\n                </body>\n                  ";
+        return "\n                    <div>\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Availabiliy: " + parking.availableSpots + "/" + parking.size + "<br>\n                         Rate: " + parking.rate + " \n                     </p>\n                     <br>\n                    " + buttons + "\n                </div>\n                  ";
     };
     __decorate([
         core_1.HostListener('window:parkBike', ['$event']), 
