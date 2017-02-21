@@ -20,13 +20,14 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">
-                        <form id="login-form">
-                            <input type="text" name="email" placeholder="Email" id="LoginEmail">
-                            <input type="password" name="pass" placeholder="Password" id="LoginPass">
-                            <input type="button" name="login" class="login loginmodal-submit" value="Login" data-dismiss="modal"
-                                   (click)="login()">
+                        <form id="login-form" (keyup.enter)="login()" >
+                            <input type="text" name="email" placeholder="Email" id="LoginEmail" >
+                            <input type="password" name="pass" placeholder="Password" id="LoginPass" >
+                            <input type="button" name="login" class="login loginmodal-submit" value="Login"
+                                   (click)="login()" >
+
                         </form>
-                        <form id="register-form">
+                        <form id="register-form" (keyup.enter)="register()">
                             <input type="text" name="name" placeholder="Name" id="RegisterName">
                             <input type="text" name="email" placeholder="Email" id="RegisterEmail">
                             <input type="password" name="pass" placeholder="Password" id="RegisterPass">
@@ -34,7 +35,7 @@
                             <input type="button" name="register" class="register registermodal-submit" data-dismiss="modal"
                                    value="Register" (click)="register()">
                         </form>
-                        <form id="forgotPassword-form">
+                        <form id="forgotPassword-form" (keyup.enter)="forgotPassword()">
                             <p>Please enter your email to recover your password.</p>
                             <input type="text" name="email" placeholder="Email" id="forgotPasswordEmail">
                             <input type="button" name="recoverPassword" class="login loginmodal-submit" value="Recover Password" data-dismiss="modal"

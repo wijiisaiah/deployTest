@@ -32,7 +32,7 @@ export class UserService {
                 console.log(user);
             })
             .catch(function (err) {
-                console.error("Registration Error", err);
+                throw new Error(err.message);
             });
 
     }
@@ -45,7 +45,7 @@ export class UserService {
                 that.currentUser = user;
             })
             .catch(function (err) {
-                console.error("Login Error", err);
+                throw new Error(err.message);
             });
 
     }
