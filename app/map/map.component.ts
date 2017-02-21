@@ -14,6 +14,8 @@ import lpad = require("core-js/library/fn/string/lpad");
 declare let google: any;
 declare let $: any;
 declare let InfoBubble: any;
+declare let MarkerClusterer: any;
+
 
 
 @Component({
@@ -76,11 +78,18 @@ export class MapComponent implements OnInit, OnDestroy {
         this.bookingService.completeBooking(this.currentBooking);
     }
 
+    private static availableParkingIcon: string = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+    private static unavailableParkingIcon: string = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+    private static bookedParkingIcon: string = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+    private static reservedParkingIcon: string = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
+    private static markerClusterImages: string = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m';
+
     private map: any;
     private reserveEndTime = null;
     private currentBooking: Booking;
     private parkingStations: ParkingStation[] = [];
-    private markers: any;
+    private markers: any = [];
+    private markerCluster: any;
     private infowindows: any;
     private selectedParkingStation: ParkingStation;
     private userLocationMarker;
@@ -117,9 +126,10 @@ export class MapComponent implements OnInit, OnDestroy {
 
         this.markers = [];
         this.infowindows = [];
+        this.createMap();
+        this.markerCluster = new MarkerClusterer(this.map, this.markers, {imagePath: MapComponent.markerClusterImages});
         this.getCurrentLocation();
         this.getCurrentBooking();
-        this.createMap();
         this.getAddedParkingStations();
         this.getUpdatedParkingStations();
         this.setUserLocation();
@@ -204,7 +214,9 @@ export class MapComponent implements OnInit, OnDestroy {
         let temp = this.parkingService.getAddedParkingStations()
             .subscribe(parkingStation => {
                     this.parkingStations.push(parkingStation);
-                    this.markers.push(this.createMarker(parkingStation))
+                    let marker = this.createMarker(parkingStation);
+                    this.markers.push(marker);
+                    this.markerCluster.addMarker(this.markers[this.markers.length - 1])
                 },
                 err => {
                     console.error("Unable to get added parking station - ", err);
@@ -220,6 +232,7 @@ export class MapComponent implements OnInit, OnDestroy {
                     const parkingIndex = this.parkingStations.map(index => index.title).indexOf(updatedParkingStation['title']);
                     this.parkingStations[parkingIndex] = updatedParkingStation;
                     this.updateMarker(updatedParkingStation);
+
                 },
                 err => {
                     console.error("Unable to get updated parking station - ", err);
@@ -253,21 +266,7 @@ export class MapComponent implements OnInit, OnDestroy {
         let content = this.getHTMLcontent(parking, valid);
         this.closeInfoWindows();
 
-        let icon;
-        if (valid) {
-            icon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
-        } else {
-            icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
-        }
-
-        if (this.currentBooking !== undefined) {
-            if (this.currentBooking.parkingStation.title === parking.title) {
-                icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
-                if (this.reserveEndTime !== null) {
-                    icon = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
-                }
-            }
-        }
+        let icon = this.getProperIcon(parking, valid);
 
         for (let marker of this.markers) {
             if (marker.title === parking.title) {
@@ -295,23 +294,8 @@ export class MapComponent implements OnInit, OnDestroy {
     private createMarker(parking: ParkingStation) {
         // Creating marker
         let that = this;
-        let icon;
         let valid = parking.availableSpots > 0;
-
-        if (valid) {
-            icon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
-        } else {
-            icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
-        }
-
-        if (this.currentBooking !== undefined) {
-            if (this.currentBooking.parkingStation.title === parking.title) {
-                icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
-                if (this.reserveEndTime !== null) {
-                    icon = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
-                }
-            }
-        }
+        let icon = this.getProperIcon(parking, valid);
 
         let marker = new google.maps.Marker({
             position: {lat: parking.lat, lng: parking.lng},
@@ -325,18 +309,15 @@ export class MapComponent implements OnInit, OnDestroy {
         // Creating Info Window which is related to this Parking Station
         let infowindow = new InfoBubble({
             map: this.map,
+            maxWidth: 500,
             minWidth: 300,
-            maxHeight: 300,
+            maxHeight: 276,
+            minHeight: 275,
             content: this.getHTMLcontent(parking, valid),
-            shadowStyle: 1,
-            padding: 5,
-            backgroundColor: 'rgba(113, 175, 225, 0.9)',
-            borderRadius: 4,
-            arrowSize: 10,
-            disableAutoPan: true,
+            borderColor: 'rgba(31, 138, 220, 0.8)',
+            backgroundColor: 'rgba(31, 138, 220, 0.8)',
+            borderRadius: 0,
             hideCloseButton: true,
-            arrowPosition: 30,
-            arrowStyle: 2,
             title: parking.title
         });
 
@@ -435,6 +416,31 @@ export class MapComponent implements OnInit, OnDestroy {
         that.map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
     }
 
+    private getProperIcon(parking, valid): string {
+        let icon;
+        if (valid) {
+            icon = MapComponent.availableParkingIcon;
+        } else {
+            icon = MapComponent.unavailableParkingIcon;
+        }
+
+        if (this.currentBooking !== undefined) {
+            if (this.currentBooking.parkingStation.title === parking.title) {
+                icon = MapComponent.bookedParkingIcon;
+                if (this.reserveEndTime !== null) {
+                    icon = MapComponent.reservedParkingIcon;
+                }
+            }
+        }
+
+        return icon;
+    }
+
+    private updateClusters(){
+        let markerCluster = new MarkerClusterer(this.map, this.markers,
+            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+    }
+
     /* Kind of unnecessary */
     private handleLocationError() {
         console.log('no access to geolocation');
@@ -446,35 +452,51 @@ export class MapComponent implements OnInit, OnDestroy {
     private getHTMLcontent(parking: ParkingStation, valid: Boolean) {
         let buttons;
         if (valid) {
-            buttons = `<button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("reserve", {detail: "Reservation Started"}));'>Reserve</button>`;
+            buttons = `<button class="btn btn-success" onclick='window.dispatchEvent(new CustomEvent("reserve", {detail: "Reservation Started"}));'>Reserve</button>`;
         } else {
-            buttons = `Module is Full`;
+            buttons = `<p>Module is Full</p>`;
         }
 
         if (this.currentBooking !== undefined) {
             if (this.currentBooking.parkingStation.title === parking.title) {
-                buttons = `<button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("complete", {detail: "End Booking"}));'>Complete</button>
-                        <button class="btn btn-warning" onclick='window.dispatchEvent(new CustomEvent("cancel", {detail: "Cancel Booking"}));'>Cancel</button>`;
+                buttons = `<button class="btn btn-success" onclick='window.dispatchEvent(new CustomEvent("complete", {detail: "End Booking"}));'>Retrieve Bike</button>`;
                 if (this.reserveEndTime !== null) {
-                    buttons = `<button class="btn btn-info" onclick='window.dispatchEvent(new CustomEvent("parkBike", {detail: "Park Bike"}));'>Park Bike</button>
-                        <button class="btn btn-warning" onclick='window.dispatchEvent(new CustomEvent("cancel", {detail: "Cancel Booking"}));'>Cancel</button>`
+                    buttons = `<button class="btn btn-warning" onclick='window.dispatchEvent(new CustomEvent("parkBike", {detail: "Park Bike"}));'>Park Bike</button>
+                        <button class="btn btn-danger" onclick='window.dispatchEvent(new CustomEvent("cancel", {detail: "Cancel Booking"}));'>Cancel</button>`
                 }
             }
         }
 
 
-        return `
-                    <div>
-                     <h3>` + parking.title + `</h3><br>
-                     <p> Address: ` + parking.address + `<br>
+        return `    <head>
+            <style>
+                h4 {
+                    color: white;
+                }
+                p {
+                    color: white;
+                    font-size: 15px;
+                }
+                .btn {
+                    align-content: right;
+                    border-radius: 0;
+                }                
+            </style>
+        </head>
+                    <body>
+                     <div >
+                     <h4>` + parking.title + `</h4><br>
+                     <p> 
+                         Address: ` + parking.address + `<br>
                          Type: ` + parking.type + ` <br>
                          Size: ` + parking.size + `<br>
-                         Availabiliy: ` + parking.availableSpots + "/" + parking.size + `<br>
+                         Availability: ` + parking.availableSpots + "/" + parking.size + `<br>
                          Rate: ` + parking.rate + ` 
                      </p>
                      <br>
-                    ` + buttons + `
-                </div>
+                     ` + buttons + `
+                     </div>
+                     </body>
                   `;
     }
 }

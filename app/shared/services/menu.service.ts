@@ -15,10 +15,13 @@ export class MenuService {
 
     constructor() {
         this.isOpen = false;
-        if (window.innerWidth < 600){
+        if ((window.innerWidth <= 900) && (window.innerWidth >= 600)){
+            this.menuSize = 45;
+        }
+        else if (window.innerWidth < 600){
             this.menuSize = 100;
         }else {
-            this.menuSize = 35;
+            this.menuSize = MenuService.defaultMenuSize;
         }
         this.detectScreenSizeChange();
     }
@@ -28,7 +31,10 @@ export class MenuService {
             console.log('resizing occuring');
             console.log(window.innerWidth);
             console.log(window.outerWidth);
-            if (window.innerWidth < 600) {
+            if ((window.innerWidth <= 900) && (window.innerWidth >= 600)){
+                if (this.isOpen){ this.setMenuSize(45)}
+            }
+            else if (window.innerWidth < 600) {
                 this.menuSize = 100;
                 if (this.isOpen){ this.setMenuSize(100)}
             } else {

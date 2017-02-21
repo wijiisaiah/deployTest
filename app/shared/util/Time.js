@@ -8,7 +8,7 @@ var Time = (function () {
     Time.getCurrentDate = function () {
         var d = new Date();
         var day = d.getDate().toString();
-        var month = d.getMonth().toString();
+        var month = (d.getMonth() + 1).toString();
         var year = d.getFullYear().toString();
         if (day.length < 2) {
             day = "0" + day;

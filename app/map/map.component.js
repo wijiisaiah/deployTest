@@ -25,6 +25,7 @@ var MapComponent = (function () {
         this.menuService = menuService;
         this.reserveEndTime = null;
         this.parkingStations = [];
+        this.markers = [];
         this.subscriptions = [];
     }
     MapComponent.prototype.parkBikeListener = function (event) {
@@ -74,9 +75,10 @@ var MapComponent = (function () {
     MapComponent.prototype.ngOnInit = function () {
         this.markers = [];
         this.infowindows = [];
+        this.createMap();
+        this.markerCluster = new MarkerClusterer(this.map, this.markers, { imagePath: MapComponent.markerClusterImages });
         this.getCurrentLocation();
         this.getCurrentBooking();
-        this.createMap();
         this.getAddedParkingStations();
         this.getUpdatedParkingStations();
         this.setUserLocation();
@@ -158,7 +160,9 @@ var MapComponent = (function () {
         var temp = this.parkingService.getAddedParkingStations()
             .subscribe(function (parkingStation) {
             _this.parkingStations.push(parkingStation);
-            _this.markers.push(_this.createMarker(parkingStation));
+            var marker = _this.createMarker(parkingStation);
+            _this.markers.push(marker);
+            _this.markerCluster.addMarker(_this.markers[_this.markers.length - 1]);
         }, function (err) {
             console.error("Unable to get added parking station - ", err);
         });
@@ -200,21 +204,7 @@ var MapComponent = (function () {
         var valid = parking.availableSpots > 0;
         var content = this.getHTMLcontent(parking, valid);
         this.closeInfoWindows();
-        var icon;
-        if (valid) {
-            icon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
-        }
-        else {
-            icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
-        }
-        if (this.currentBooking !== undefined) {
-            if (this.currentBooking.parkingStation.title === parking.title) {
-                icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
-                if (this.reserveEndTime !== null) {
-                    icon = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
-                }
-            }
-        }
+        var icon = this.getProperIcon(parking, valid);
         for (var _i = 0, _a = this.markers; _i < _a.length; _i++) {
             var marker = _a[_i];
             if (marker.title === parking.title) {
@@ -239,22 +229,8 @@ var MapComponent = (function () {
     MapComponent.prototype.createMarker = function (parking) {
         // Creating marker
         var that = this;
-        var icon;
         var valid = parking.availableSpots > 0;
-        if (valid) {
-            icon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
-        }
-        else {
-            icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
-        }
-        if (this.currentBooking !== undefined) {
-            if (this.currentBooking.parkingStation.title === parking.title) {
-                icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
-                if (this.reserveEndTime !== null) {
-                    icon = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
-                }
-            }
-        }
+        var icon = this.getProperIcon(parking, valid);
         var marker = new google.maps.Marker({
             position: { lat: parking.lat, lng: parking.lng },
             map: this.map,
@@ -265,18 +241,15 @@ var MapComponent = (function () {
         // Creating Info Window which is related to this Parking Station
         var infowindow = new InfoBubble({
             map: this.map,
+            maxWidth: 500,
             minWidth: 300,
-            maxHeight: 300,
+            maxHeight: 276,
+            minHeight: 275,
             content: this.getHTMLcontent(parking, valid),
-            shadowStyle: 1,
-            padding: 5,
-            backgroundColor: 'rgba(113, 175, 225, 0.9)',
-            borderRadius: 4,
-            arrowSize: 10,
-            disableAutoPan: true,
+            borderColor: 'rgba(31, 138, 220, 0.8)',
+            backgroundColor: 'rgba(31, 138, 220, 0.8)',
+            borderRadius: 0,
             hideCloseButton: true,
-            arrowPosition: 30,
-            arrowStyle: 2,
             title: parking.title
         });
         // Pushes the newly created Info Window to the array of info windows
@@ -363,6 +336,27 @@ var MapComponent = (function () {
         controlDiv.tabIndex = 1;
         that.map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
     };
+    MapComponent.prototype.getProperIcon = function (parking, valid) {
+        var icon;
+        if (valid) {
+            icon = MapComponent.availableParkingIcon;
+        }
+        else {
+            icon = MapComponent.unavailableParkingIcon;
+        }
+        if (this.currentBooking !== undefined) {
+            if (this.currentBooking.parkingStation.title === parking.title) {
+                icon = MapComponent.bookedParkingIcon;
+                if (this.reserveEndTime !== null) {
+                    icon = MapComponent.reservedParkingIcon;
+                }
+            }
+        }
+        return icon;
+    };
+    MapComponent.prototype.updateClusters = function () {
+        var markerCluster = new MarkerClusterer(this.map, this.markers, { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+    };
     /* Kind of unnecessary */
     MapComponent.prototype.handleLocationError = function () {
         console.log('no access to geolocation');
@@ -373,21 +367,26 @@ var MapComponent = (function () {
     MapComponent.prototype.getHTMLcontent = function (parking, valid) {
         var buttons;
         if (valid) {
-            buttons = "<button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"reserve\", {detail: \"Reservation Started\"}));'>Reserve</button>";
+            buttons = "<button class=\"btn btn-success\" onclick='window.dispatchEvent(new CustomEvent(\"reserve\", {detail: \"Reservation Started\"}));'>Reserve</button>";
         }
         else {
-            buttons = "Module is Full";
+            buttons = "<p>Module is Full</p>";
         }
         if (this.currentBooking !== undefined) {
             if (this.currentBooking.parkingStation.title === parking.title) {
-                buttons = "<button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"complete\", {detail: \"End Booking\"}));'>Complete</button>\n                        <button class=\"btn btn-warning\" onclick='window.dispatchEvent(new CustomEvent(\"cancel\", {detail: \"Cancel Booking\"}));'>Cancel</button>";
+                buttons = "<button class=\"btn btn-success\" onclick='window.dispatchEvent(new CustomEvent(\"complete\", {detail: \"End Booking\"}));'>Retrieve Bike</button>";
                 if (this.reserveEndTime !== null) {
-                    buttons = "<button class=\"btn btn-info\" onclick='window.dispatchEvent(new CustomEvent(\"parkBike\", {detail: \"Park Bike\"}));'>Park Bike</button>\n                        <button class=\"btn btn-warning\" onclick='window.dispatchEvent(new CustomEvent(\"cancel\", {detail: \"Cancel Booking\"}));'>Cancel</button>";
+                    buttons = "<button class=\"btn btn-warning\" onclick='window.dispatchEvent(new CustomEvent(\"parkBike\", {detail: \"Park Bike\"}));'>Park Bike</button>\n                        <button class=\"btn btn-danger\" onclick='window.dispatchEvent(new CustomEvent(\"cancel\", {detail: \"Cancel Booking\"}));'>Cancel</button>";
                 }
             }
         }
-        return "\n                    <div>\n                     <h3>" + parking.title + "</h3><br>\n                     <p> Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Availabiliy: " + parking.availableSpots + "/" + parking.size + "<br>\n                         Rate: " + parking.rate + " \n                     </p>\n                     <br>\n                    " + buttons + "\n                </div>\n                  ";
+        return "    <head>\n            <style>\n                h4 {\n                    color: white;\n                }\n                p {\n                    color: white;\n                    font-size: 15px;\n                }\n                .btn {\n                    align-content: right;\n                    border-radius: 0;\n                }                \n            </style>\n        </head>\n                    <body>\n                     <div >\n                     <h4>" + parking.title + "</h4><br>\n                     <p> \n                         Address: " + parking.address + "<br>\n                         Type: " + parking.type + " <br>\n                         Size: " + parking.size + "<br>\n                         Availability: " + parking.availableSpots + "/" + parking.size + "<br>\n                         Rate: " + parking.rate + " \n                     </p>\n                     <br>\n                     " + buttons + "\n                     </div>\n                     </body>\n                  ";
     };
+    MapComponent.availableParkingIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+    MapComponent.unavailableParkingIcon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+    MapComponent.bookedParkingIcon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+    MapComponent.reservedParkingIcon = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
+    MapComponent.markerClusterImages = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m';
     __decorate([
         core_1.HostListener('window:parkBike', ['$event']), 
         __metadata('design:type', Function), 

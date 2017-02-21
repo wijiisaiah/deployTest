@@ -15,11 +15,14 @@ var core_1 = require("@angular/core");
 var MenuService = (function () {
     function MenuService() {
         this.isOpen = false;
-        if (window.innerWidth < 600) {
+        if ((window.innerWidth <= 900) && (window.innerWidth >= 600)) {
+            this.menuSize = 45;
+        }
+        else if (window.innerWidth < 600) {
             this.menuSize = 100;
         }
         else {
-            this.menuSize = 35;
+            this.menuSize = MenuService.defaultMenuSize;
         }
         this.detectScreenSizeChange();
     }
@@ -29,7 +32,12 @@ var MenuService = (function () {
             console.log('resizing occuring');
             console.log(window.innerWidth);
             console.log(window.outerWidth);
-            if (window.innerWidth < 600) {
+            if ((window.innerWidth <= 900) && (window.innerWidth >= 600)) {
+                if (_this.isOpen) {
+                    _this.setMenuSize(45);
+                }
+            }
+            else if (window.innerWidth < 600) {
                 _this.menuSize = 100;
                 if (_this.isOpen) {
                     _this.setMenuSize(100);

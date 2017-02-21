@@ -9,7 +9,7 @@ export class Time{
     public static getCurrentDate(): string{
         let d = new Date();
         let day = d.getDate().toString();
-        let month = d.getMonth().toString();
+        let month = (d.getMonth() + 1).toString();
         let year = d.getFullYear().toString();
 
         if (day.length < 2){ day = "0" + day}
