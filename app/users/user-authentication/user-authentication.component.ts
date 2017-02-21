@@ -65,7 +65,8 @@ export class UserAuthenticationComponent implements OnInit {
         if (this.isMatchingPassword(password, confirmPassword)) {
             this.userService.register(this.user.name, this.user.email, password)
                 .then(() => {
-                    document.getElementById('loader').style.display = 'none';
+                    // document.getElementById('loader').style.display = 'none';
+                    $('#login-modal').modal('toggle');
                     that.router.navigate(['/map']);
                     this.emailService.createEmail(EmailService.REGISTRATION_CONFIRMATION, this.user.email)
                 })
@@ -94,14 +95,13 @@ export class UserAuthenticationComponent implements OnInit {
 
         this.userService.login(email, password)
             .then(() => {
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('login-modal').style.display = 'none;'
+                // document.getElementById('loader').style.display = 'none';
+                $('#login-modal').modal('toggle');
                 that.router.navigate(['/map']);
             })
             .catch((err => {
                 document.getElementById('loader').style.display = 'none';
-                document.getElementById('form-wrapper').style.display = 'block';
-                document.getElementById('login-modal').setAttribute("aria-hidden","false");
+                $('#login-modal').modal('toggle');
                 alert(err);
             }));
 
@@ -110,6 +110,7 @@ export class UserAuthenticationComponent implements OnInit {
 
     forgotPassword(){
         const email = (<HTMLInputElement>document.getElementById('forgotPasswordEmail')).value;
+        $('#login-modal').modal('toggle');
         this.userService.forgotPassword(email);
     }
 

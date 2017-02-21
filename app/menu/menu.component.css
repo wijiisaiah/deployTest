@@ -8,6 +8,9 @@
     display: inline-block;
     text-align: left;
 }
+i{
+    transition: 0.3s;
+}
 
 .fa-bicycle {
     margin-right: 0.65rem;
@@ -44,6 +47,7 @@
     top: 20%; /* 25% from the top */
     width: 100%; /* 100% width */
     text-align: center;
+    color: white;
     margin-top: 10px; /* 30px top margin to avoid conflict with the close button on smaller screens */
     font-size: 30px;
 }
@@ -60,7 +64,19 @@
 
 /* When you mouse over the navigation links, change their color */
 .overlay a:hover, .overlay a:focus {
+
+}
+.overlay .menu-section:hover {
+    color: #272727;
+
+}
+
+.overlay #signOut:hover{
     color: #f1f1f1;
+}
+
+.overlay #signOut:hover .fa {
+    margin-left: 2.5rem;
 }
 
 /* Position the close button (top right corner) */
