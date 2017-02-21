@@ -38,7 +38,7 @@ var MyBookingsComponent = (function () {
         var _this = this;
         var temp = this.bookingService.getAddedBookings()
             .subscribe(function (booking) {
-            _this.bookings.push(booking);
+            _this.bookings.unshift(booking);
         }, function (err) {
             console.error("Unable to get added booking - ", err);
         });

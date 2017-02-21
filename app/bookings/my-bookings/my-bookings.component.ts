@@ -48,7 +48,7 @@ export class MyBookingsComponent implements OnInit, OnDestroy {
     getAddedBookings() {
         let temp = this.bookingService.getAddedBookings()
             .subscribe(booking => {
-                    this.bookings.push(booking);
+                    this.bookings.unshift(booking);
                 },
                 err => {
                     console.error("Unable to get added booking - ", err);

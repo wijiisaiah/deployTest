@@ -15,14 +15,7 @@ export class MenuService {
 
     constructor() {
         this.isOpen = false;
-        if ((window.innerWidth <= 900) && (window.innerWidth >= 600)){
-            this.menuSize = 45;
-        }
-        else if (window.innerWidth < 600){
-            this.menuSize = 100;
-        }else {
-            this.menuSize = MenuService.defaultMenuSize;
-        }
+
         this.detectScreenSizeChange();
     }
 

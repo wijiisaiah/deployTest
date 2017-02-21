@@ -42,7 +42,15 @@ var MenuComponent = (function () {
         this.getCurrentUser();
         this.getCurrentBooking();
         this.menuService.isOpen = false;
-        this.menuService.menuSize = menu_service_1.MenuService.defaultMenuSize;
+        if ((window.innerWidth <= 900) && (window.innerWidth >= 600)) {
+            this.menuService.menuSize = 45;
+        }
+        else if (window.innerWidth < 600) {
+            this.menuService.menuSize = 100;
+        }
+        else {
+            this.menuService.menuSize = menu_service_1.MenuService.defaultMenuSize;
+        }
     };
     /* Close when someone clicks on the "x" symbol inside the overlay */
     MenuComponent.prototype.signOut = function () {

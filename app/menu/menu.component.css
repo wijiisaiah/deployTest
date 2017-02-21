@@ -4,6 +4,11 @@
     position:absolute;
 }
 
+#menu-wrapper{
+    display: inline-block;
+    text-align: left;
+}
+
 i {
     margin-left: 1rem;
 }
@@ -42,7 +47,7 @@ i {
     position: relative;
     top: 20%; /* 25% from the top */
     width: 100%; /* 100% width */
-    text-align: left; /* Centered text/links */
+    text-align: center;
     margin-top: 10px; /* 30px top margin to avoid conflict with the close button on smaller screens */
     font-size: 30px;
 }
@@ -140,10 +145,8 @@ i {
 
 
 /* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
-@media screen and (max-height: 450px) {
-    .overlay {
-        width: 80%;
-    }
+@media screen and (max-width: 600px) {
+
     .overlay a {font-size: 20px}
     .overlay .closebtn {
         font-size: 20px;
