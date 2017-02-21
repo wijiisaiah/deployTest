@@ -2,7 +2,7 @@
 <div class="accordion">
     <ul id="bookingList">
         <li *ngFor="let booking of bookings; let i = index;">
-            <h4 (click)="open(i)" class="accordion-toggle">{{booking.title}}</h4>
+            <h4 (click)="open(i)" class="accordion-toggle">{{booking.title}}: {{booking.date}}</h4>
             <div class="accordion-content">
                 <b>Title</b>: {{booking.title}} <br>
                 <b>Address</b>: {{booking.address}} <br>

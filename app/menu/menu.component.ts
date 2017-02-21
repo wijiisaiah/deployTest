@@ -41,7 +41,14 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.getCurrentUser();
         this.getCurrentBooking();
         this.menuService.isOpen = false;
-        this.menuService.menuSize = MenuService.defaultMenuSize;
+        if ((window.innerWidth <= 900) && (window.innerWidth >= 600)){
+            this.menuService.menuSize = 45;
+        }
+        else if (window.innerWidth < 600){
+            this.menuService.menuSize = 100;
+        }else {
+            this.menuService.menuSize = MenuService.defaultMenuSize;
+        }
     }
 
     /* Close when someone clicks on the "x" symbol inside the overlay */
