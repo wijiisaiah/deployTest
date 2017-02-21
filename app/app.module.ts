@@ -1,9 +1,9 @@
-
 // Modules
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
+import { FormsModule } from '@angular/forms';
 
 //Components
 import { AppComponent } from './app.component';
@@ -12,20 +12,23 @@ import { UserAccountComponent } from "./users/user-account/user-account.componen
 import { MapComponent } from "./map/map.component";
 import { UserAuthenticationComponent } from "./users/user-authentication/user-authentication.component";
 import { MyBookingsComponent } from "./bookings/my-bookings/my-bookings.component";
+import { UserBillingComponent } from "./users/user-billing/user-billing.component";
+import { CurrentBookingComponent } from "./bookings/currentBooking.component";
 
 //Services
 import { UserService } from "./shared/services/user.service";
 import { BookingService } from "./shared/services/booking.service";
 import { ParkingService } from "./shared/services/parkingStation.service";
 import { AuthGuard } from "./shared/services/auth.guard";
-import {MenuService} from "./shared/services/menu.service";
-import {EmailService} from "./shared/services/email.service";
-import {CurrentBookingComponent} from "./bookings/currentBooking.component";
+import { MenuService } from "./shared/services/menu.service";
+import { EmailService } from "./shared/services/email.service";
+import { PaymentService } from './shared/services/payment.service';
 
 @NgModule({
-    imports: [ 
+    imports: [
         BrowserModule,
         AppRoutingModule,
+        FormsModule,
         CoreModule.forRoot()
     ],
     declarations: [
@@ -35,10 +38,18 @@ import {CurrentBookingComponent} from "./bookings/currentBooking.component";
         UserAuthenticationComponent,
         UserAccountComponent,
         MyBookingsComponent,
-        CurrentBookingComponent
+        CurrentBookingComponent,
+        UserBillingComponent
     ],
-    providers:[ UserService, BookingService, ParkingService, AuthGuard, MenuService, EmailService ],
-    bootstrap: [ AppComponent ]
+    providers: [UserService,
+        BookingService,
+        ParkingService,
+        AuthGuard,
+        MenuService,
+        EmailService,
+        PaymentService
+    ],
+    bootstrap: [AppComponent]
 })
 
 export class AppModule { }

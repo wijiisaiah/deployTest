@@ -115,16 +115,11 @@ export class UserAuthenticationComponent implements OnInit {
 
     reRoute() {
         document.getElementById('login-modal').setAttribute('aria-hidden', 'true');
-        this.router.navigate(['/map'])
+        this.router.navigate(['/map']);
     }
 
     isMatchingPassword(password: string, confirmPass: string) {
         return password === confirmPass;
     }
-
-    testFunction(){
-        console.log('enter key was pressed');
-    }
-
 
 }

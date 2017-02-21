@@ -91,6 +91,7 @@ export class UserService {
                 .catch(err => {
                     console.log("Unable to update user email (auth) -", err);
                 });
+                
         } else {
             userRef.update(user);
         }

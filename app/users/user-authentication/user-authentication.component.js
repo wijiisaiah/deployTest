@@ -106,9 +106,6 @@ var UserAuthenticationComponent = (function () {
     UserAuthenticationComponent.prototype.isMatchingPassword = function (password, confirmPass) {
         return password === confirmPass;
     };
-    UserAuthenticationComponent.prototype.testFunction = function () {
-        console.log('enter key was pressed');
-    };
     UserAuthenticationComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

@@ -1,3 +1,4 @@
+import { UserBillingComponent } from './users/user-billing/user-billing.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MapComponent } from "./map/map.component";
@@ -14,6 +15,7 @@ import {AuthGuard} from "./shared/services/auth.guard";
             { path: 'account', component: UserAccountComponent },
             { path: 'map', component: MapComponent, canActivate: [AuthGuard]},
             { path: 'my-bookings', component: MyBookingsComponent, canActivate: [AuthGuard]},
+            { path: 'billing', component: UserBillingComponent, canActivate: [AuthGuard]},
             { path: '**', redirectTo: 'login' }
         ])
     ],
