@@ -15,7 +15,6 @@ export class MenuService {
 
     constructor() {
         this.isOpen = false;
-
         this.detectScreenSizeChange();
     }
 

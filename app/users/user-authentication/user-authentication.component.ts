@@ -24,6 +24,7 @@ export class UserAuthenticationComponent implements OnInit {
 
     ngOnInit() {
 
+
         $('#login-form-link').click(function (e) {
             $("#login-form").delay(100).fadeIn(100);
             $("#register-form").fadeOut(100);
@@ -56,7 +57,6 @@ export class UserAuthenticationComponent implements OnInit {
     register() {
         let that = this;
         document.getElementById('loader').style.display = 'block';
-        document.getElementById('form-wrapper').style.display = 'none';
         this.user.name = (<HTMLInputElement>document.getElementById('RegisterName')).value;
         this.user.email = (<HTMLInputElement>document.getElementById('RegisterEmail')).value;
         const password = (<HTMLInputElement>document.getElementById('RegisterPass')).value;
@@ -68,6 +68,13 @@ export class UserAuthenticationComponent implements OnInit {
                     document.getElementById('loader').style.display = 'none';
                     that.router.navigate(['/map']);
                     this.emailService.createEmail(EmailService.REGISTRATION_CONFIRMATION, this.user.email)
+                })
+                .catch((err) => {
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('form-wrapper').style.display = 'block';
+                    document.getElementById('login-modal').setAttribute("aria-hidden","false");
+                    document.getElementById('login-modal').setAttribute("display","block");
+                    alert(err);
                 });
             console.log("User Registered");
 
@@ -88,10 +95,14 @@ export class UserAuthenticationComponent implements OnInit {
         this.userService.login(email, password)
             .then(() => {
                 document.getElementById('loader').style.display = 'none';
+                document.getElementById('login-modal').style.display = 'none;'
                 that.router.navigate(['/map']);
             })
             .catch((err => {
-                alert('Login Failed');
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('form-wrapper').style.display = 'block';
+                document.getElementById('login-modal').setAttribute("aria-hidden","false");
+                alert(err);
             }));
 
         console.log("User Authenticated");

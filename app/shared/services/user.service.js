@@ -33,7 +33,7 @@ var UserService = (function () {
             console.log(user);
         })
             .catch(function (err) {
-            console.error("Registration Error", err);
+            throw new Error(err.message);
         });
     };
     UserService.prototype.login = function (email, password) {
@@ -43,7 +43,7 @@ var UserService = (function () {
             that.currentUser = user;
         })
             .catch(function (err) {
-            console.error("Login Error", err);
+            throw new Error(err.message);
         });
     };
     UserService.prototype.signOut = function () {

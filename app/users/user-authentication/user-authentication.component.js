@@ -51,7 +51,6 @@ var UserAuthenticationComponent = (function () {
         var _this = this;
         var that = this;
         document.getElementById('loader').style.display = 'block';
-        document.getElementById('form-wrapper').style.display = 'none';
         this.user.name = document.getElementById('RegisterName').value;
         this.user.email = document.getElementById('RegisterEmail').value;
         var password = document.getElementById('RegisterPass').value;
@@ -62,6 +61,13 @@ var UserAuthenticationComponent = (function () {
                 document.getElementById('loader').style.display = 'none';
                 that.router.navigate(['/map']);
                 _this.emailService.createEmail(email_service_1.EmailService.REGISTRATION_CONFIRMATION, _this.user.email);
+            })
+                .catch(function (err) {
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('form-wrapper').style.display = 'block';
+                document.getElementById('login-modal').setAttribute("aria-hidden", "false");
+                document.getElementById('login-modal').setAttribute("display", "block");
+                alert(err);
             });
             console.log("User Registered");
         }
@@ -78,10 +84,14 @@ var UserAuthenticationComponent = (function () {
         this.userService.login(email, password)
             .then(function () {
             document.getElementById('loader').style.display = 'none';
+            document.getElementById('login-modal').style.display = 'none;';
             that.router.navigate(['/map']);
         })
             .catch((function (err) {
-            alert('Login Failed');
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('form-wrapper').style.display = 'block';
+            document.getElementById('login-modal').setAttribute("aria-hidden", "false");
+            alert(err);
         }));
         console.log("User Authenticated");
     };
