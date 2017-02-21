@@ -27,6 +27,7 @@ export class UserBillingComponent implements OnInit {
     }
 
     billing() {
+
         let that = this;
         // Custom styling can be passed to options when creating an Element.
         let style = {
@@ -64,26 +65,21 @@ export class UserBillingComponent implements OnInit {
                     errorElement.textContent = result.error.message;
                 } else {
                     // Send the token to your server
-                    stripeTokenHandler(result.token);
+                    that.stripeTokenHandler(result.token);
                 }
             });
         });
 
-        function stripeTokenHandler(token) {
-            // Insert the token ID into the form so it gets submitted to the server
-            let form = <HTMLFormElement>document.getElementById('payment-form');
-            let hiddenInput = document.createElement('input');
-            hiddenInput.setAttribute('type', 'hidden');
-            hiddenInput.setAttribute('name', 'stripeToken');
-            hiddenInput.setAttribute('value', token.id);
-            form.appendChild(hiddenInput);
-            console.log(hiddenInput);
-            that.paymentService.createCustomer(token)
+    }
+    
+    stripeTokenHandler(token) {
+        // Insert the token ID into the form so it gets submitted to the server
+        let form = <HTMLFormElement>document.getElementById('payment-form');
+  
+        this.paymentService.createCustomer(token)
 
-            // Submit the form
-            form.submit();
-
-        }
+        // Submit the form
+        form.submit();
 
     }
 
