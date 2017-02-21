@@ -55,23 +55,17 @@ var UserBillingComponent = (function () {
                 }
                 else {
                     // Send the token to your server
-                    stripeTokenHandler(result.token);
+                    that.stripeTokenHandler(result.token);
                 }
             });
         });
-        function stripeTokenHandler(token) {
-            // Insert the token ID into the form so it gets submitted to the server
-            var form = document.getElementById('payment-form');
-            var hiddenInput = document.createElement('input');
-            hiddenInput.setAttribute('type', 'hidden');
-            hiddenInput.setAttribute('name', 'stripeToken');
-            hiddenInput.setAttribute('value', token.id);
-            form.appendChild(hiddenInput);
-            console.log(hiddenInput);
-            that.paymentService.createCustomer(token);
-            // Submit the form
-            form.submit();
-        }
+    };
+    UserBillingComponent.prototype.stripeTokenHandler = function (token) {
+        // Insert the token ID into the form so it gets submitted to the server
+        var form = document.getElementById('payment-form');
+        this.paymentService.createCustomer(token);
+        // Submit the form
+        form.submit();
     };
     UserBillingComponent = __decorate([
         core_1.Component({
