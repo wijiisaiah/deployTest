@@ -4,6 +4,23 @@
     position:absolute;
 }
 
+i {
+    margin-left: 1rem;
+}
+
+.fa-bicycle {
+    margin-right: 0.65rem;
+}
+
+
+.fa-user-circle {
+    margin-right: 1.2rem;
+}
+
+.fa-book {
+    margin-right: 1.3rem;
+}
+
 /* The Overlay (background) */
 .overlay {
     /* Height & width depends on how you want to reveal the overlay (see JS below) */
@@ -13,21 +30,22 @@
     z-index: 1; /* Sit on top */
     left: 0;
     top: 0;
-    background-color: rgb(46, 144, 255); /* Black fallback color */
-    background-color: rgba(39, 129, 224, 0.8); /* Black w/opacity */
+    background: linear-gradient(rgba(113, 175, 225, 0.9), rgb(46, 144, 255)); /* Standard syntax */
+    /*background-color: rgb(46, 144, 255); !* Black fallback color *!*/
+    /*background-color: rgba(113, 175, 225, 0.9); !* Black w/opacity *!*/
     overflow-x: hidden; /* Disable horizontal scroll */
     transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
 }
 
 /* Position the content inside the overlay */
 .overlay-content {
+    display: none;
     position: relative;
-    top: 25%; /* 25% from the top */
+    top: 20%; /* 25% from the top */
     width: 100%; /* 100% width */
-    text-align: center; /* Centered text/links */
-    margin-top: 20px; /* 30px top margin to avoid conflict with the close button on smaller screens */
-    font-size: 20px;
-    transition: 0.5s;
+    text-align: left; /* Centered text/links */
+    margin-top: 10px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+    font-size: 30px;
 }
 
 /* The navigation links inside the overlay */
@@ -35,7 +53,7 @@
     padding: 8px;
     text-decoration: none;
     font-size: 20px;
-    display: block; /* Display block instead of inline */
+    display: inline; /* Display block instead of inline */
     transition: 0.3s; /* Transition effects on hover (color) */
     cursor: pointer;
 }
@@ -61,9 +79,10 @@
 }
 
 .overlay #userName {
+    display: none;
     position: relative;
     text-align: center;
-    top: 20%;
+    top: 15%;
 }
 
 .menu-container{
@@ -74,6 +93,13 @@
     z-index: 1;
     transition: 0.5s;
 }
+#signOut{
+    display: none;
+    position:absolute;
+    bottom: 20px;
+    left: 10px;
+}
+
 .my-menu-icon{
     position: absolute;
     left: 10px;

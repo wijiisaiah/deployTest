@@ -45,6 +45,9 @@ var MenuService = (function () {
     };
     MenuService.prototype.closeNav = function () {
         if (this.isOpen) {
+            $('#overlay-content').fadeOut(100);
+            $('#userName').fadeOut(100);
+            $('#signOut').fadeOut(100);
             document.getElementById("my-menu-icon").classList.toggle("change");
             document.getElementById("wrapper").style.width = "100%";
             document.getElementById("myNav").style.width = "0%";
@@ -53,6 +56,9 @@ var MenuService = (function () {
     };
     MenuService.prototype.openNav = function () {
         if (!this.isOpen) {
+            $('#overlay-content').delay(150).fadeIn(600);
+            $('#userName').delay(100).fadeIn(600);
+            $('#signOut').delay(100).fadeIn(600);
             document.getElementById("my-menu-icon").classList.toggle("change");
             document.getElementById("wrapper").style.width = this.formatSize(100 - this.menuSize);
             document.getElementById("myNav").style.width = this.formatSize(this.menuSize);

@@ -5,19 +5,27 @@
         <div class="bar3"></div>
     </div>
 </div>
+
 <div id="myNav" class="overlay">
-    <a [hidden]="!userMenuHidden" class="menubtn" (click)="replaceMenuContent('','menu')">Menu</a>
-    <a [hidden]="!(this.menuService.menuSize === 100)" class="closebtn" (click)="this.menuService.closeNav()">X</a>
-    <div id="userName"*ngIf="currentUser">
+    <div id="userName" *ngIf="currentUser">
         <h1>Welcome {{currentUser.name}}</h1>
     </div>
+
+    <a [hidden]="!userMenuHidden" class="menubtn" (click)="replaceMenuContent('','menu')">Menu</a>
+    <a [hidden]="!(this.menuService.menuSize === 100)" class="closebtn" (click)="this.menuService.closeNav()">X</a>
 
     <div id="overlay-content" class="overlay-content">
 
         <div id="menu" [hidden]="userMenuHidden">
-            <a [hidden]="!currentBooking" (click)="replaceMenuContent('menu','current booking')">My Current Booking</a>
-            <a (click)="replaceMenuContent('menu','account')">My Account</a>
-            <a (click)="replaceMenuContent('menu','booking')">My Bookings</a>
+            <div [hidden]="!currentBooking">
+            <i class="fa fa-bicycle" aria-hidden="false"></i> <a  (click)="replaceMenuContent('menu','current booking')">My Current Booking</a>
+            </div>
+            <div>
+            <i class="fa fa-user-circle" aria-hidden="false"></i> <a (click)="replaceMenuContent('menu','account')">My Account</a>
+            </div>
+            <div>
+            <i class="fa fa-book" aria-hidden="false"></i> <a (click)="replaceMenuContent('menu','booking')">My Bookings</a>
+            </div>
         </div>
         <div id="myAccount" [hidden]="userAccountHidden">
             <user-account></user-account>
@@ -28,9 +36,10 @@
         <div id="myCurrentBookings" [hidden]="userCurrentBookingHidden">
             <current-booking></current-booking>
         </div>
-        <div [hidden]="userMenuHidden">
-            <a (click)="signOut()">Sign Out</a>
-        </div>
+
+    </div>
+    <div id="signOut" [hidden]="userMenuHidden">
+        <a (click)="signOut()">Sign Out</a> <i class="fa fa-sign-out" aria-hidden="false"></i>
     </div>
 </div>
 

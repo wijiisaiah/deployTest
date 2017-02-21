@@ -27,17 +27,29 @@ export class UserAuthenticationComponent implements OnInit {
         $('#login-form-link').click(function (e) {
             $("#login-form").delay(100).fadeIn(100);
             $("#register-form").fadeOut(100);
+            $("#forgotPassword-form").fadeOut(100);
             $('#register-form-link').removeClass('active');
+            $("#login-help").delay(100).fadeIn(100);
             $(this).addClass('active');
             e.preventDefault();
         });
         $('#register-form-link').click(function (e) {
             $("#register-form").delay(100).fadeIn(100);
+            $("#forgotPassword-form").fadeOut(100);
+            $("#login-form").fadeOut(100);
+            $('#login-form-link').removeClass('active');
+            $("#login-help").fadeOut(100);
+            $(this).addClass('active');
+            e.preventDefault();
+        });
+        $('#forgotPassword-form-link').click(function (e) {
+            $("#forgotPassword-form").delay(100).fadeIn(100);
             $("#login-form").fadeOut(100);
             $('#login-form-link').removeClass('active');
             $(this).addClass('active');
             e.preventDefault();
         });
+
 
     }
 
@@ -83,17 +95,20 @@ export class UserAuthenticationComponent implements OnInit {
             }));
 
         console.log("User Authenticated");
+    }
 
+    forgotPassword(){
+        const email = (<HTMLInputElement>document.getElementById('forgotPasswordEmail')).value;
+        this.userService.forgotPassword(email);
     }
 
     reRoute() {
         document.getElementById('login-modal').setAttribute('aria-hidden', 'true');
-        this.router.navigate(['/map'])
+        this.router.navigate(['/map']);
     }
 
     isMatchingPassword(password: string, confirmPass: string) {
         return password === confirmPass;
     }
-
 
 }

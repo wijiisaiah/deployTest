@@ -42,6 +42,7 @@ var MenuComponent = (function () {
         this.getCurrentUser();
         this.getCurrentBooking();
         this.menuService.isOpen = false;
+        this.menuService.menuSize = menu_service_1.MenuService.defaultMenuSize;
     };
     /* Close when someone clicks on the "x" symbol inside the overlay */
     MenuComponent.prototype.signOut = function () {

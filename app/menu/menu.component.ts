@@ -26,7 +26,6 @@ export class MenuComponent implements OnInit, OnDestroy {
     private userCurrentBookingHidden = true;
     private userMenuHidden = false;
     private subscriptions: Subscription[] = [];
-    private screenWidth: number;
 
     constructor(private uas: UserService, private BookingService: BookingService, private router: Router, private menuService: MenuService) {
     }
@@ -42,6 +41,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.getCurrentUser();
         this.getCurrentBooking();
         this.menuService.isOpen = false;
+        this.menuService.menuSize = MenuService.defaultMenuSize;
     }
 
     /* Close when someone clicks on the "x" symbol inside the overlay */

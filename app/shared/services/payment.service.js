@@ -9,22 +9,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var firebase_config_service_1 = require('../../core/service/firebase-config.service');
+var user_service_1 = require("./user.service");
+var parkingStation_service_1 = require("./parkingStation.service");
+var email_service_1 = require("./email.service");
 var PaymentService = (function () {
-    function PaymentService() {
+    function PaymentService(fire, us, parkingService, emailService) {
+        this.fire = fire;
+        this.us = us;
+        this.parkingService = parkingService;
+        this.emailService = emailService;
+        this.curUser = this.fire.auth.currentUser;
+        this.databaseRef = this.fire.database;
     }
-    PaymentService.prototype.openCheckout = function () {
-        var handler = window.StripeCheckout.configure({
-            key: 'pk_test_oi0sKPJYLGjdvOXOM8tE8cMa',
-            locale: 'auto',
-            token: function (token) {
-                // You can access the token ID with `token.id`.
-                // Get the token ID to your server-side code for use.
-            }
+    PaymentService.prototype.createCustomer = function (token) {
+        var customerRef = this.databaseRef.ref('billing').child('new customer');
+        customerRef.set({
+            uid: this.curUser.uid,
+            email: this.curUser.email,
+            tokenId: token.id
         });
     };
     PaymentService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [firebase_config_service_1.FirebaseConfigService, user_service_1.UserService, parkingStation_service_1.ParkingService, email_service_1.EmailService])
     ], PaymentService);
     return PaymentService;
 }());

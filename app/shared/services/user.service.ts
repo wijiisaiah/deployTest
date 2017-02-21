@@ -56,6 +56,8 @@ export class UserService {
         this.router.navigate(['/login']);
     }
 
+
+
     addUser(user: User) {
 
         const newUserRef = this.databaseRef.child(user.uid);
@@ -98,6 +100,14 @@ export class UserService {
 
     findUserRef(uid: string) {
         return this.databaseRef.child(uid);
+    }
+
+    forgotPassword(emailAddress){
+        this.authRef.sendPasswordResetEmail(emailAddress).then(function() {
+            // Email sent.
+        }, function(error) {
+            alert(error.message);
+        });
     }
 
     getCurrentUser(): Observable<any> {

@@ -1,32 +1,18 @@
-<!--<div class="modal-dialog">-->
-<!--<div class="loginmodal-container">-->
-<!--<ul class="list-group">-->
-<!--<h1>Past Bookings</h1>-->
-<!--<li *ngFor="let booking of bookings" class="list-group-item">-->
-<!--<ul class="list-group">-->
-<!--<li class="list-group-item"><b>Title</b>: {{ booking.title }}</li>-->
-<!--<li class="list-group-item"><b>Address</b>: {{ booking.address }}</li>-->
-<!--<li class="list-group-item"><b>Rate</b>: {{ booking.rate }}</li>-->
-<!--<li class="list-group-item"><b>Date</b>: {{ booking.date }}</li>-->
-<!--<li class="list-group-item"><b>Start Time</b>: {{ booking.startTime }}</li>-->
-<!--<li class="list-group-item"><b>End Time</b>: {{ booking.endTime }}</li>-->
-<!--<li class="list-group-item"><b>Total Cost</b>: {{ booking.cost }}</li>-->
-<!--</ul>-->
-<!--</li>-->
-<!--</ul>-->
-<!--</div>-->
-<!--</div>-->
 
-    <!--<li *ngFor="let booking of bookings" >-->
-        <h4 class="accordion-toggle" >asdf</h4>
-        <div class="accordion-content">
-            asdf
-            <!--<b>Title</b>: {{ booking.title }}-->
-            <!--<b>Address</b>: {{ booking.address }}-->
-            <!--<b>Rate</b>: {{ booking.rate }}-->
-            <!--<b>Date</b>: {{ booking.date }}-->
-            <!--<b>Start Time</b>: {{ booking.startTime }}-->
-            <!--<b>End Time</b>: {{ booking.endTime }}-->
-            <!--<b>Total Cost</b>: {{ booking.cost }}-->
-        </div>
-    <!--</li>-->
+<div class="accordion">
+    <ul id="bookingList">
+        <li *ngFor="let booking of bookings; let i = index;">
+            <h4 (click)="open(i)" class="accordion-toggle">{{booking.title}}</h4>
+            <div class="accordion-content">
+                <b>Title</b>: {{booking.title}} <br>
+                <b>Address</b>: {{booking.address}} <br>
+                <b>Rate</b>: {{booking.rate}}<br>
+                <b>Date</b>: {{booking.date}}<br>
+                <b>Start Time</b>: {{booking.startTime}}<br>
+                <b>End Time</b>: {{booking.endTime}}<br>
+                <b>Total Cost</b>: {{booking.cost}}
+            </div>
+        </li>
+    </ul>
+</div>
+

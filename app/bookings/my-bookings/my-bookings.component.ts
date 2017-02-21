@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, AfterViewInit, HostListener} from '@angular/core';
 
 import {BookingService} from '../../shared/services/booking.service';
 
@@ -16,6 +16,7 @@ declare let $: any;
 })
 export class MyBookingsComponent implements OnInit, OnDestroy {
 
+
     private bookings: Booking[] = [];
     private subscriptions: Subscription[] = [];
     constructor(private bookingService: BookingService) {
@@ -29,18 +30,20 @@ export class MyBookingsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-
-        $('.accordion').find('.accordion-toggle').click(function() {
-            console.log('clickd');
-            $(this).next().slideToggle('600');
-            $(".accordion-content").not($(this).next()).slideUp('600');
-        });
-
-        $('.accordion-toggle').on('click', function() {
-            $(this).toggleClass('active').siblings().removeClass('active');
-        });
         this.getAddedBookings();
     }
+
+    open(index: number){
+        for (let each in document.getElementsByClassName('accordion-toggle')) {
+            $(each).toggleClass('active').removeClass('active');
+        }
+        console.log(index);
+        let temp = document.getElementsByClassName('accordion-toggle').item(index );
+        $(temp).next().slideToggle('600');
+        $(".accordion-content").not($(temp).next()).slideUp('600');
+
+    }
+
 
     getAddedBookings() {
         let temp = this.bookingService.getAddedBookings()
@@ -52,6 +55,4 @@ export class MyBookingsComponent implements OnInit, OnDestroy {
                 });
         this.subscriptions.push(temp);
     }
-
-
 }
