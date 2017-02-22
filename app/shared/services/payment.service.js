@@ -38,13 +38,11 @@ var PaymentService = (function () {
         });
     };
     PaymentService.prototype.chargeCustomer = function (amount) {
-        var _this = this;
-        var customerRef = this.databaseRef.ref('billing').child('charge customer').child('customer');
-        customerRef.set({
+        var customerRef = this.databaseRef.ref('billing').child('charge customer');
+        // customerRef.push(this.curUser.customerId);
+        customerRef.child(this.curUser.customerId).set({
             customerId: this.curUser.customerId,
             amount: amount
-        }).then(function () {
-            _this.databaseRef.ref('billing').child('charge customer').remove();
         });
     };
     PaymentService = __decorate([
