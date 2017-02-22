@@ -246,7 +246,8 @@ export class MapComponent implements OnInit, OnDestroy {
             center: new google.maps.LatLng(49.2827, -123.1207),
             zoom: 16,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            mapTypeControl: false
+            mapTypeControl: false,
+            clickableIcons: false
         };
         this.map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
     }

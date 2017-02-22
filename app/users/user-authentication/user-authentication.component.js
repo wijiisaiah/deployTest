@@ -58,7 +58,8 @@ var UserAuthenticationComponent = (function () {
         if (this.isMatchingPassword(password, confirmPassword)) {
             this.userService.register(this.user.name, this.user.email, password)
                 .then(function () {
-                document.getElementById('loader').style.display = 'none';
+                // document.getElementById('loader').style.display = 'none';
+                $('#login-modal').modal('toggle');
                 that.router.navigate(['/map']);
                 _this.emailService.createEmail(email_service_1.EmailService.REGISTRATION_CONFIRMATION, _this.user.email);
             })
@@ -83,20 +84,20 @@ var UserAuthenticationComponent = (function () {
         var password = document.getElementById('LoginPass').value;
         this.userService.login(email, password)
             .then(function () {
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('login-modal').style.display = 'none;';
+            // document.getElementById('loader').style.display = 'none';
+            $('#login-modal').modal('toggle');
             that.router.navigate(['/map']);
         })
             .catch((function (err) {
             document.getElementById('loader').style.display = 'none';
-            document.getElementById('form-wrapper').style.display = 'block';
-            document.getElementById('login-modal').setAttribute("aria-hidden", "false");
+            $('#login-modal').modal('toggle');
             alert(err);
         }));
         console.log("User Authenticated");
     };
     UserAuthenticationComponent.prototype.forgotPassword = function () {
         var email = document.getElementById('forgotPasswordEmail').value;
+        $('#login-modal').modal('toggle');
         this.userService.forgotPassword(email);
     };
     UserAuthenticationComponent.prototype.reRoute = function () {

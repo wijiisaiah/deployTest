@@ -18,13 +18,13 @@
 
         <div id="menu-wrapper">
             <div id="menu" [hidden]="userMenuHidden">
-                <div [hidden]="!currentBooking">
+                <div class="menu-section" [hidden]="!currentBooking">
                 <i class="fa fa-bicycle" aria-hidden="false"></i> <a  (click)="replaceMenuContent('menu','current booking')">My Current Booking</a>
                </div>
-                <div>
+                <div class="menu-section">
                 <i class="fa fa-user-circle" aria-hidden="false"></i> <a (click)="replaceMenuContent('menu','account')">My Account</a>
                 </div>
-                <div>
+                <div class="menu-section">
                 <i class="fa fa-book" aria-hidden="false"></i> <a (click)="replaceMenuContent('menu','booking')">My Bookings</a>
                 </div>
             </div>
