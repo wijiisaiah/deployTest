@@ -171,6 +171,8 @@ var BookingService = (function () {
         curBooking.startTimeMs = startTimeMs;
         var currentBookingRef = this.currentUserRef.child('reservation').child('curBooking');
         currentBookingRef.update(curBooking);
+        this.currentUserRef.child('reservation').child('reserveStartTime').remove();
+        this.currentUserRef.child('reservation').child('reserveEndTime').remove();
     };
     /* Takes a booking as an argument and adds it to the database
      *  under user -> bookings.
