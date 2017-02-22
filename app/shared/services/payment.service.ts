@@ -43,21 +43,12 @@ export class PaymentService {
 
     chargeCustomer(amount: string) {
 
-        const customerRef = this.databaseRef.ref('billing').child('charge customer').child('customer');
-        customerRef.set({
+        const customerRef = this.databaseRef.ref('billing').child('charge customer');
+        // customerRef.push(this.curUser.customerId);
+        customerRef.push({
             customerId: this.curUser.customerId,
             amount: amount
-        }).then(() => {
-            this.databaseRef.ref('billing').child('charge customer').remove();
         });
-
-    }
-
-    removeChargeNode() {
-
-        const customerRef = this.databaseRef.ref('billing').child('charge customer');
-        customerRef.remove();
-
     }
 
 }
