@@ -31,9 +31,9 @@ export class PaymentService {
 
     createCustomer(token: any) {
 
-        const customerRef = this.databaseRef.ref('billing').child('new customer').child('customer');
+        const customerRef = this.databaseRef.ref('billing').child('new customer');
 
-        customerRef.set({
+        customerRef.push({
             uid: this.curUser.uid,
             email: this.curUser.email,
             tokenId: token.id
@@ -44,10 +44,9 @@ export class PaymentService {
     chargeCustomer(amount: string) {
 
         const customerRef = this.databaseRef.ref('billing').child('charge customer');
-        // customerRef.push(this.curUser.customerId);
-        customerRef.child(this.curUser.customerId).set({
+        customerRef.push({
             customerId: this.curUser.customerId,
             amount: amount
-        })
+        });
     }
 }

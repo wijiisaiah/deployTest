@@ -67,16 +67,15 @@ export class EmailService {
             console.log(email.body);
         }
 
-        const newEmailRef = this.databaseRef.child('email to send').child('email');
-        // const ref = newEmailRef.push();
-        console.log('pushed to newEmailRef');
-        newEmailRef.set({
+        const newEmailRef = this.databaseRef.child('email to send');
+        const ref = newEmailRef.push({
             from: email.from,
             to: this.userEmail,
             subject: email.subject,
             body: email.body
-        })
-            .catch(err => console.error("Unable to send Email", err));
+        }) .catch(err => console.error("Unable to send Email", err));
+        console.log('pushed to newEmailRef');
+
 
     }
 
