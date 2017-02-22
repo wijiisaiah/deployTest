@@ -31,14 +31,21 @@ var PaymentService = (function () {
         });
     };
     PaymentService.prototype.chargeCustomer = function (amount) {
+        var _this = this;
         var customerRef = this.databaseRef.ref('billing').child('charge customer').child('customer');
         this.us.getCurrentUser()
             .subscribe(function (user) {
             customerRef.set({
                 customerId: user.customerId,
                 amount: amount
+            }).then(function () {
+                _this.removeChargeNode();
             });
         });
+    };
+    PaymentService.prototype.removeChargeNode = function () {
+        var customerRef = this.databaseRef.ref('billing').child('charge customer');
+        customerRef.remove();
     };
     PaymentService = __decorate([
         core_1.Injectable(), 

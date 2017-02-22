@@ -43,8 +43,17 @@ export class PaymentService {
                 customerRef.set({
                     customerId: user.customerId,
                     amount: amount
+                }).then(() => {
+                    this.removeChargeNode();
                 });
             });
+    }
+
+    removeChargeNode() {
+
+        const customerRef = this.databaseRef.ref('billing').child('charge customer');
+        customerRef.remove();
+
     }
 
 }
