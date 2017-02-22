@@ -9,7 +9,7 @@ import {Time} from "../util/Time";
 import {Observable} from "rxjs/Observable";
 import {ParkingService} from "./parkingStation.service";
 import {EmailService} from "./email.service";
-
+import {PaymentService} from "./payment.service";
 
 @Injectable()
 export class BookingService {
@@ -18,7 +18,7 @@ export class BookingService {
     private reservationTimeOut: number = 30 * 60 * 1000;
     private databaseRef = this.fire.database;
 
-    constructor(private fire: FirebaseConfigService, private us: UserService, private parkingService: ParkingService, private emailService: EmailService) {
+    constructor(private fire: FirebaseConfigService, private us: UserService, private parkingService: ParkingService, private emailService: EmailService, private paymentService: PaymentService) {
         let curUser = this.fire.auth.currentUser;
         this.currentUserRef = this.databaseRef.ref('/users').child(curUser.uid);
     }
@@ -143,6 +143,7 @@ export class BookingService {
         this.removeCurrentBooking(currentBooking.parkingStation.title);
         this.removeBookingCode(currentBooking.code);
         this.emailService.createEmail(EmailService.BOOKING_COMPLETION);
+        this.paymentService.chargeCustomer(currentBooking.cost);
     }
 
 

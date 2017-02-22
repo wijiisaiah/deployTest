@@ -23,11 +23,21 @@ var PaymentService = (function () {
         this.databaseRef = this.fire.database;
     }
     PaymentService.prototype.createCustomer = function (token) {
-        var customerRef = this.databaseRef.ref('billing').child('new customer');
+        var customerRef = this.databaseRef.ref('billing').child('new customer').child('customer');
         customerRef.set({
             uid: this.curUser.uid,
             email: this.curUser.email,
             tokenId: token.id
+        });
+    };
+    PaymentService.prototype.chargeCustomer = function (amount) {
+        var customerRef = this.databaseRef.ref('billing').child('charge customer').child('customer');
+        this.us.getCurrentUser()
+            .subscribe(function (user) {
+            customerRef.set({
+                customerId: user.customerId,
+                amount: amount
+            });
         });
     };
     PaymentService = __decorate([

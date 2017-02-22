@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 
 import { FirebaseConfigService } from '../../core/service/firebase-config.service';
 import { UserService } from "./user.service";
-import Reference = firebase.storage.Reference;
-import { ParkingStation } from "../model/parkingStation";
-import { Booking } from "../model/booking";
-import { Time } from "../util/Time";
-import { Observable } from "rxjs/Observable";
 import { ParkingService } from "./parkingStation.service";
 import { EmailService } from "./email.service";
+
+import { ParkingStation } from "../model/parkingStation";
+import { Booking } from "../model/booking";
+import { User } from '../model/user';
+import { Time } from "../util/Time";
+import { Observable } from "rxjs/Observable";
 
 @Injectable()
 export class PaymentService {
@@ -21,15 +22,29 @@ export class PaymentService {
         this.databaseRef = this.fire.database;
     }
 
-    createCustomer (token: any) {
-        
-        const customerRef = this.databaseRef.ref('billing').child('new customer');
+    createCustomer(token: any) {
+
+        const customerRef = this.databaseRef.ref('billing').child('new customer').child('customer');
 
         customerRef.set({
             uid: this.curUser.uid,
             email: this.curUser.email,
             tokenId: token.id
         });
-        
+
     }
+
+    chargeCustomer(amount: string) {
+
+        const customerRef = this.databaseRef.ref('billing').child('charge customer').child('customer');
+
+        this.us.getCurrentUser()
+            .subscribe(user => {
+                customerRef.set({
+                    customerId: user.customerId,
+                    amount: amount
+                });
+            });
+    }
+
 }

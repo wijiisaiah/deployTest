@@ -16,12 +16,14 @@ var Time_1 = require("../util/Time");
 var Observable_1 = require("rxjs/Observable");
 var parkingStation_service_1 = require("./parkingStation.service");
 var email_service_1 = require("./email.service");
+var payment_service_1 = require("./payment.service");
 var BookingService = (function () {
-    function BookingService(fire, us, parkingService, emailService) {
+    function BookingService(fire, us, parkingService, emailService, paymentService) {
         this.fire = fire;
         this.us = us;
         this.parkingService = parkingService;
         this.emailService = emailService;
+        this.paymentService = paymentService;
         this.reservationTimeOut = 30 * 60 * 1000;
         this.databaseRef = this.fire.database;
         var curUser = this.fire.auth.currentUser;
@@ -122,6 +124,7 @@ var BookingService = (function () {
         this.removeCurrentBooking(currentBooking.parkingStation.title);
         this.removeBookingCode(currentBooking.code);
         this.emailService.createEmail(email_service_1.EmailService.BOOKING_COMPLETION);
+        this.paymentService.chargeCustomer(currentBooking.cost);
     };
     /* Creates a new booking in user -> current booking in the database. It sets
      * the bookings start time (both in time format and in milliseconds), date, parking station,
@@ -244,7 +247,7 @@ var BookingService = (function () {
     };
     BookingService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [firebase_config_service_1.FirebaseConfigService, user_service_1.UserService, parkingStation_service_1.ParkingService, email_service_1.EmailService])
+        __metadata('design:paramtypes', [firebase_config_service_1.FirebaseConfigService, user_service_1.UserService, parkingStation_service_1.ParkingService, email_service_1.EmailService, payment_service_1.PaymentService])
     ], BookingService);
     return BookingService;
 }());
