@@ -18,8 +18,15 @@ export class PaymentService {
     private curUser: any;
 
     constructor(private fire: FirebaseConfigService, private us: UserService, private parkingService: ParkingService, private emailService: EmailService) {
-        this.curUser = this.fire.auth.currentUser;
         this.databaseRef = this.fire.database;
+        this.getCurrentUser();
+    }
+
+    getCurrentUser() {
+        this.us.getCurrentUser()
+            .subscribe(user => {
+                this.curUser = user;
+            });
     }
 
     createCustomer(token: any) {
@@ -37,16 +44,13 @@ export class PaymentService {
     chargeCustomer(amount: string) {
 
         const customerRef = this.databaseRef.ref('billing').child('charge customer').child('customer');
+        customerRef.set({
+            customerId: this.curUser.customerId,
+            amount: amount
+        }).then(() => {
+            this.databaseRef.ref('billing').child('charge customer').remove();
+        });
 
-        this.us.getCurrentUser()
-            .subscribe(user => {
-                customerRef.set({
-                    customerId: user.customerId,
-                    amount: amount
-                }).then(() => {
-                    this.removeChargeNode();
-                });
-            });
     }
 
     removeChargeNode() {

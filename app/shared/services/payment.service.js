@@ -19,9 +19,16 @@ var PaymentService = (function () {
         this.us = us;
         this.parkingService = parkingService;
         this.emailService = emailService;
-        this.curUser = this.fire.auth.currentUser;
         this.databaseRef = this.fire.database;
+        this.getCurrentUser();
     }
+    PaymentService.prototype.getCurrentUser = function () {
+        var _this = this;
+        this.us.getCurrentUser()
+            .subscribe(function (user) {
+            _this.curUser = user;
+        });
+    };
     PaymentService.prototype.createCustomer = function (token) {
         var customerRef = this.databaseRef.ref('billing').child('new customer').child('customer');
         customerRef.set({
@@ -33,14 +40,11 @@ var PaymentService = (function () {
     PaymentService.prototype.chargeCustomer = function (amount) {
         var _this = this;
         var customerRef = this.databaseRef.ref('billing').child('charge customer').child('customer');
-        this.us.getCurrentUser()
-            .subscribe(function (user) {
-            customerRef.set({
-                customerId: user.customerId,
-                amount: amount
-            }).then(function () {
-                _this.removeChargeNode();
-            });
+        customerRef.set({
+            customerId: this.curUser.customerId,
+            amount: amount
+        }).then(function () {
+            _this.databaseRef.ref('billing').child('charge customer').remove();
         });
     };
     PaymentService.prototype.removeChargeNode = function () {
