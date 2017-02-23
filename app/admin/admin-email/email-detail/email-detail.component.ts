@@ -5,6 +5,9 @@ import { AdminEmailService } from './../../shared/service/admin-email.service';
 
 import { forbiddenStringValidator } from '../../../shared/validation/forbidden-string.validator';
 import { Email } from './../../../shared/model/email';
+import {EmailService} from "../../../shared/services/email.service";
+
+
 
 @Component({
     moduleId: module.id,
@@ -17,6 +20,11 @@ export class AdminEmailDetailComponent implements OnInit {
     private modalId = "emailModal";
     private emailForm: FormGroup;
     private currentEmail = new Email(null, null, null, null, null);
+    private typeArr: string[] = [
+        EmailService.BOOKING_CANCELLATION, EmailService.BOOKING_COMPLETION,
+        EmailService.BOOKING_CONFIRMATION, EmailService.REGISTRATION_CONFIRMATION
+    ];
+
     constructor(private formB: FormBuilder, private aes: AdminEmailService) { }
 
     ngOnInit() {
@@ -24,56 +32,47 @@ export class AdminEmailDetailComponent implements OnInit {
     }
 
     configureForm(email?: Email) {
-        // this.bugForm = new FormGroup({
-        //     title: new FormControl(this.currentBug.title, [Validators.required, forbiddenStringValidator(/puppy/i)]),
-        //     status: new FormControl(this.currentBug.status, Validators.required),
-        //     severity: new FormControl(this.currentBug.severity, Validators.required),
-        //     description: new FormControl(this.currentBug.description, Validators.required)
-        // });
+
         if (email) {
             this.currentEmail = new Email(
-                email.type,
                 email.from,
                 email.subject,
+                null,
                 email.body,
+                email.type,
             );
         }
 
+        console.log(this.currentEmail);
+        console.log(this.typeArr);
+
         this.emailForm = this.formB.group({
-            type: [this.currentEmail.type, [Validators.required, forbiddenStringValidator(/puppy/i)]],
-            from: [this.currentEmail.from, Validators.required],
-            subject: [this.currentEmail.subject, Validators.required],
-            body: [this.currentEmail.body, Validators.required]
+            type: [this.currentEmail.type],
+            from: [this.currentEmail.from],
+            subject: [this.currentEmail.subject],
+            body: [this.currentEmail.body]
         });
     }
 
-    // submitForm() {
-    //     this.currentParkingStation.title = this.bugForm.value["title"];
-    //     this.currentParkingStation.status = this.bugForm.value["status"];
-    //     this.currentParkingStation.severity = this.bugForm.value["severity"];
-    //     this.currentParkingStation.description = this.bugForm.value["description"];
-    //     if (this.currentParkingStation.id) {
-    //         this.updateBug();
-    //     } else {
-    //         this.addBug();
-    //     }
-    // }
-    //
-    // addBug() {
-    //     this.BugService.addBug(this.currentParkingStation);
-    // }
-    //
-    // updateBug() {
-    //     this.BugService.updateBug(this.currentParkingStation);
-    // }
-    //
-    // freshForm() {
-    //     this.bugForm.reset({ status: this.statuses, severity: this.severities });
-    //     this.cleanBug();
-    // }
-    //
-    // cleanBug() {
-    //     this.currentParkingStation = new Bug(null, null, this.statuses, this.severities, null, null, null, null, null);
-    // }
+    submitForm() {
+        this.currentEmail.type = this.emailForm.value["type"];
+        this.currentEmail.from = this.emailForm.value["from"];
+        this.currentEmail.subject = this.emailForm.value["subject"];
+        this.currentEmail.body = this.emailForm.value["body"];
+        this.updateEmail();
+    }
+
+    updateEmail() {
+        this.aes.updateEmail(this.currentEmail);
+    }
+
+    freshForm() {
+        this.emailForm.reset({ });
+        this.cleanBug();
+    }
+
+    cleanBug() {
+        this.currentEmail = new Email(null, null, null, null);
+    }
 
 }
