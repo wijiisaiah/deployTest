@@ -1,23 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
-import { BugService } from '../service/bug.service';
-
+import { AdminParkingService } from './../../shared/service/admin-parking.service';
 
 import { forbiddenStringValidator } from '../../../shared/validation/forbidden-string.validator';
 import {ParkingStation} from "../../../shared/model/parkingStation";
 
 @Component({
     moduleId: module.id,
-    selector: 'bug-detail',
-    templateUrl: 'bug-detail.component.html',
-    styleUrls: ['bug-detail.component.css']
+    selector: 'parking-detail',
+    templateUrl: 'parking-detail.component.html',
+    styleUrls: ['parking-detail.component.css']
 })
-export class BugDetailComponent implements OnInit {
+export class AdminParkingDetailComponent implements OnInit {
     private modalId = "bugModal";
     private parkingForm: FormGroup;
     private currentParkingStation = new ParkingStation(null, null, null, null, null, null, null, null, null);
-    constructor(private formB: FormBuilder, private BugService: BugService) { }
+    constructor(private formB: FormBuilder, private aps: AdminParkingService) { }
 
     ngOnInit() {
         this.configureForm();

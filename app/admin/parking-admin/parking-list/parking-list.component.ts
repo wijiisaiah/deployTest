@@ -1,44 +1,44 @@
 import { Component, OnInit } from '@angular/core';
 
-import { BugService } from '../service/bug.service';
+import { AdminParkingService } from './../../shared/service/admin-parking.service';
 
-import { Bug } from '../model/bug';
+import { ParkingStation } from './../../../shared/model/parkingStation';
 
 @Component({
     moduleId: module.id,
-    selector: 'bug-list',
-    templateUrl: 'bug-list.component.html',
-    styleUrls: ['bug-list.component.css']
+    selector: 'parking-list',
+    templateUrl: 'parking-list.component.html',
+    styleUrls: ['parking-list.component.css']
 })
-export class BugListComponent implements OnInit { 
+export class AdminParkingListComponent implements OnInit { 
 
-    private bugs: Bug[] = [];
+    private parkingStations: ParkingStation[] = [];
 
-    constructor(private bugService: BugService ) { }
+    constructor(private aps: AdminParkingService ) { }
 
     ngOnInit() {
-        this.getAddedBugs();
-        this.getUpdatedBugs();
+        this.getAddedParkingStations();
+        this.getUpdatedParkingStations();
     }
 
-    getAddedBugs() {
-        this.bugService.getAddedBugs()
-        .subscribe(bug => {
-            this.bugs.push(bug);
+    getAddedParkingStations() {
+        this.aps.getAddedParkingStations()
+        .subscribe(parking => {
+            this.parkingStations.push(parking);
         },
         err => {
-            console.error("Unable to get added bug - ", err);
+            console.error("Unable to get added parking station - ", err);
         });
     }
 
-    getUpdatedBugs() {
-        this.bugService.changedListener()
-        .subscribe(updatedBug => {
-            const bugIndex = this.bugs.map(index => index.id).indexOf(updatedBug['id']);
-            this.bugs[bugIndex] = updatedBug;
+    getUpdatedParkingStations() {
+        this.aps.getUpdatedParkingStations()
+        .subscribe(updatedStation => {
+            const parkingIndex = this.parkingStations.map(index => index.id).indexOf(updatedStation['id']);
+            this.parkingStations[parkingIndex] = updatedStation;
         },
         err => {
-            console.log("Unable to get updated bug - ", err);
+            console.log("Unable to get updated parking station - ", err);
         });
     }
 

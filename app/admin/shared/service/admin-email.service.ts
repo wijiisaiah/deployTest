@@ -5,7 +5,7 @@ import { Bug } from '../model/bug';
 import {FirebaseConfigService} from "../../../core/service/firebase-config.service";
 
 @Injectable()
-export class BugService {
+export class AdminEmailService {
 
     private bugsDbRef = this.fire.database.ref('/parkingStationAdminAccess');
 

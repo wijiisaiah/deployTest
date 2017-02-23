@@ -1,60 +1,49 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
-import { BugService } from '../service/bug.service';
-
+import { AdminEmailService } from './../../shared/service/admin-email.service';
 
 import { forbiddenStringValidator } from '../../../shared/validation/forbidden-string.validator';
-import {ParkingStation} from "../../../shared/model/parkingStation";
+import { Email } from './../../../shared/model/email';
 
 @Component({
     moduleId: module.id,
-    selector: 'bug-detail',
-    templateUrl: 'bug-detail.component.html',
-    styleUrls: ['bug-detail.component.css']
+    selector: 'email-detail',
+    templateUrl: 'email-detail.component.html',
+    styleUrls: ['email-detail.component.css']
 })
-export class BugDetailComponent implements OnInit {
+export class AdminEmailDetailComponent implements OnInit {
+
     private modalId = "bugModal";
     private parkingForm: FormGroup;
-    private currentParkingStation = new ParkingStation(null, null, null, null, null, null, null, null, null);
-    constructor(private formB: FormBuilder, private BugService: BugService) { }
+    private currentEmail = new Email(null, null, null, null, null);
+    constructor(private formB: FormBuilder, private aes: AdminEmailService) { }
 
     ngOnInit() {
         this.configureForm();
     }
 
-    configureForm(parkingStation?: ParkingStation) {
+    configureForm(email?: Email) {
         // this.bugForm = new FormGroup({
         //     title: new FormControl(this.currentBug.title, [Validators.required, forbiddenStringValidator(/puppy/i)]),
         //     status: new FormControl(this.currentBug.status, Validators.required),
         //     severity: new FormControl(this.currentBug.severity, Validators.required),
         //     description: new FormControl(this.currentBug.description, Validators.required)
         // });
-        if (parkingStation) {
-            this.currentParkingStation = new ParkingStation(
-                parkingStation.title ,
-                parkingStation.address,
-                parkingStation.type,
-                parkingStation.lat,
-                parkingStation.lng,
-                parkingStation.size,
-                parkingStation.availableSpots,
-                parkingStation.availability,
-                parkingStation.rate
+        if (email) {
+            this.currentEmail = new Email(
+                email.type,
+                email.from,
+                email.subject,
+                email.body,
             );
         }
 
         this.parkingForm = this.formB.group({
-            title: [this.currentParkingStation.title, [Validators.required, forbiddenStringValidator(/puppy/i)]],
-            address: [this.currentParkingStation.address, Validators.required],
-            type: [this.currentParkingStation.type, Validators.required],
-            lat: [this.currentParkingStation.lat, Validators.required],
-            lng: [this.currentParkingStation.lng, Validators.required],
-            size: [this.currentParkingStation.size, Validators.required],
-            availableSpots: [this.currentParkingStation.availableSpots, Validators.required],
-            availability: [this.currentParkingStation.availability, Validators.required],
-            rate: [this.currentParkingStation.rate, Validators.required]
-
+            type: [this.currentEmail.type, [Validators.required, forbiddenStringValidator(/puppy/i)]],
+            from: [this.currentEmail.from, Validators.required],
+            subject: [this.currentEmail.subject, Validators.required],
+            body: [this.currentEmail.body, Validators.required]
         });
     }
 

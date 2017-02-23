@@ -1,44 +1,44 @@
 import { Component, OnInit } from '@angular/core';
 
-import { BugService } from '../service/bug.service';
+import { AdminUserService } from './../../shared/service/admin-user.service';
 
-import { Bug } from '../model/bug';
+import { User } from './../../../shared/model/user';
 
 @Component({
     moduleId: module.id,
-    selector: 'bug-list',
-    templateUrl: 'bug-list.component.html',
-    styleUrls: ['bug-list.component.css']
+    selector: 'user-list',
+    templateUrl: 'user-list.component.html',
+    styleUrls: ['user-list.component.css']
 })
 export class BugListComponent implements OnInit { 
 
-    private bugs: Bug[] = [];
+    private users: User[] = [];
 
-    constructor(private bugService: BugService ) { }
+    constructor(private aus: AdminUserService ) { }
 
     ngOnInit() {
-        this.getAddedBugs();
-        this.getUpdatedBugs();
+        this.getAddedUsers();
+        this.getUpdatedUsers();
     }
 
     getAddedBugs() {
-        this.bugService.getAddedBugs()
-        .subscribe(bug => {
-            this.bugs.push(bug);
+        this.aus.getAddedUsers()
+        .subscribe(user => {
+            this.users.push(user);
         },
         err => {
-            console.error("Unable to get added bug - ", err);
+            console.error("Unable to get added user - ", err);
         });
     }
 
-    getUpdatedBugs() {
-        this.bugService.changedListener()
-        .subscribe(updatedBug => {
-            const bugIndex = this.bugs.map(index => index.id).indexOf(updatedBug['id']);
-            this.bugs[bugIndex] = updatedBug;
+    getUpdatedUsers() {
+        this.aus.getUpdatedUsers()
+        .subscribe(updatedUser => {
+            const userIndex = this.users.map(index => index.id).indexOf(updatedUser['id']);
+            this.users[userIndex] = updatedUser;
         },
         err => {
-            console.log("Unable to get updated bug - ", err);
+            console.log("Unable to get updated user - ", err);
         });
     }
 

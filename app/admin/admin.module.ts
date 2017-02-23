@@ -1,3 +1,4 @@
+
 // Modules
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
@@ -9,7 +10,7 @@ import { BugListComponent } from './parking-list/bug-list.component'
 import { BugDetailComponent } from './parking-detail/bug-detail.component';
 
 //Service
-import { BugService } from '../shared/service/admin.service';
+import { AdminService } from './shared/service/admin.service';
 
 @NgModule ({
     imports: [
@@ -23,7 +24,7 @@ import { BugService } from '../shared/service/admin.service';
      ],
     exports: [ ],
     providers: [ 
-        BugService
+        AdminService
          ]
 })
 export class BugModule { }

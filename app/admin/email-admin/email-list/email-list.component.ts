@@ -1,44 +1,44 @@
 import { Component, OnInit } from '@angular/core';
 
-import { BugService } from '../service/bug.service';
+import { AdminEmailService } from './../../shared/service/admin-email.service';
 
-import { Bug } from '../model/bug';
+import { Email } from './../../../shared/model/email';
 
 @Component({
     moduleId: module.id,
-    selector: 'bug-list',
-    templateUrl: 'bug-list.component.html',
-    styleUrls: ['bug-list.component.css']
+    selector: 'email-list',
+    templateUrl: 'email-list.component.html',
+    styleUrls: ['email-list.component.css']
 })
-export class BugListComponent implements OnInit { 
+export class AdminEmailListComponent implements OnInit { 
 
-    private bugs: Bug[] = [];
+    private emails: Email[] = [];
 
-    constructor(private bugService: BugService ) { }
+    constructor(private aes: AdminEmailService) { }
 
     ngOnInit() {
-        this.getAddedBugs();
-        this.getUpdatedBugs();
+        this.getAddedEmails();
+        this.getUpdatedEmails();
     }
 
-    getAddedBugs() {
-        this.bugService.getAddedBugs()
-        .subscribe(bug => {
-            this.bugs.push(bug);
+    getAddedEmails() {
+        this.aes.getAddedEmails()
+        .subscribe(email => {
+            this.emails.push(email);
         },
         err => {
-            console.error("Unable to get added bug - ", err);
+            console.error("Unable to get added email - ", err);
         });
     }
 
-    getUpdatedBugs() {
-        this.bugService.changedListener()
-        .subscribe(updatedBug => {
-            const bugIndex = this.bugs.map(index => index.id).indexOf(updatedBug['id']);
-            this.bugs[bugIndex] = updatedBug;
+    getUpdatedEmails() {
+        this.aes.getUpdatedEmails()
+        .subscribe(updatedEmail => {
+            const emailIndex = this.emails.map(index => index.id).indexOf(updatedEmail['id']);
+            this.emails[emailIndex] = updatedEmail;
         },
         err => {
-            console.log("Unable to get updated bug - ", err);
+            console.log("Unable to get updated email - ", err);
         });
     }
 
