@@ -4,6 +4,7 @@ import { UserService } from '../../shared/services/user.service';
 
 import { User } from '../../shared/model/user';
 import { Subscription } from "rxjs";
+declare let $:any;
 
 @Component({
     moduleId: module.id,
@@ -27,6 +28,21 @@ export class UserAccountComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.getCurrentUser();
+
+        $('#account-link').click(function (e) {
+            $("#account-form").delay(100).fadeIn(100);
+            $("#security-form").fadeOut(100);
+            $('#security-link').removeClass('active');
+            $(this).addClass('active');
+            e.preventDefault();
+        });
+        $('#security-link').click(function (e) {
+            $("#security-form").delay(100).fadeIn(100);
+            $("#account-form").fadeOut(100);
+            $('#account-link').removeClass('active');
+            $(this).addClass('active');
+            e.preventDefault();
+        });
     }
 
     getCurrentUser() {

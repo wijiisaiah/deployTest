@@ -180,6 +180,7 @@ export class MapComponent implements OnInit, OnDestroy {
                     }, 1000);
                 } else {
                     that.reserveEndTime = null;
+                    document.getElementById('timer').innerText = '';
                 }
             });
         this.subscriptions.push(temp);

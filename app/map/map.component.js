@@ -127,6 +127,7 @@ var MapComponent = (function () {
             }
             else {
                 that.reserveEndTime = null;
+                document.getElementById('timer').innerText = '';
             }
         });
         this.subscriptions.push(temp);
