@@ -30,8 +30,8 @@ var PaymentService = (function () {
         });
     };
     PaymentService.prototype.createCustomer = function (token) {
-        var customerRef = this.databaseRef.ref('billing').child('new customer').child('customer');
-        customerRef.set({
+        var customerRef = this.databaseRef.ref('billing').child('new customer');
+        customerRef.push({
             uid: this.curUser.uid,
             email: this.curUser.email,
             tokenId: token.id
@@ -39,7 +39,6 @@ var PaymentService = (function () {
     };
     PaymentService.prototype.chargeCustomer = function (amount) {
         var customerRef = this.databaseRef.ref('billing').child('charge customer');
-        // customerRef.push(this.curUser.customerId);
         customerRef.push({
             customerId: this.curUser.customerId,
             amount: amount

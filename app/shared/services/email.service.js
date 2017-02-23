@@ -59,16 +59,14 @@ var EmailService = (function () {
             email.body = email.body + ": " + booking.parkingStation.address + '. This is your booking code, please use it to store and retrieve your bike: ' + booking.code;
             console.log(email.body);
         }
-        var newEmailRef = this.databaseRef.child('email to send').child('email');
-        // const ref = newEmailRef.push();
-        console.log('pushed to newEmailRef');
-        newEmailRef.set({
+        var newEmailRef = this.databaseRef.child('email to send');
+        var ref = newEmailRef.push({
             from: email.from,
             to: this.userEmail,
             subject: email.subject,
             body: email.body
-        })
-            .catch(function (err) { return console.error("Unable to send Email", err); });
+        }).catch(function (err) { return console.error("Unable to send Email", err); });
+        console.log('pushed to newEmailRef');
     };
     EmailService.BOOKING_CONFIRMATION = 'booking confirmation';
     EmailService.BOOKING_CANCELLATION = 'booking cancellation';
