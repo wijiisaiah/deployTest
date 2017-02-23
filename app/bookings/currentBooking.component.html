@@ -1,8 +1,10 @@
-<div *ngIf="currentBooking">
+<div class="wrapper" *ngIf="currentBooking">
+    <div class="info-booking">
 
-    <b>Title</b>: {{ currentBooking.parkingStation.title }}
-    <b>Address</b>: {{ currentBooking.parkingStation.address }}
-    <b>Rate</b>: {{ currentBooking.parkingStation.rate }}
-    <b>Date</b>: {{ currentBooking.date }}
-    <b>Start Time</b>: {{ currentBooking.startTime }}
+        <b class="info-booking">Title</b>: {{ currentBooking.parkingStation.title }}<br>
+        <b class="info-booking" >Address</b>: {{ currentBooking.parkingStation.address }}<br>
+        <b class="info-booking" >Rate</b>: {{ currentBooking.parkingStation.rate }}<br>
+        <b class="info-booking">Date</b>: {{ currentBooking.date }}<br>
+        <b class="info-booking" >Start Time</b>: {{ currentBooking.startTime }}<br>
+    </div>
 </div>

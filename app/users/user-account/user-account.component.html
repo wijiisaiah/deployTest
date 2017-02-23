@@ -1,13 +1,43 @@
-<div class="modal-dialog">
+<div id="form-wrapper" class="modal-dialog">
     <div class="loginmodal-container">
-        <h1>My Account</h1><br>
-      
-        <form id="account-form">
-            <input type="text" name="name" placeholder="Name" [readOnly]="true" value="{{currentUser.name}}" id="argName">
-            <input type="text" name="email" placeholder="Email" [readOnly]="true" value="{{currentUser.email}}" id="argEmail">
-            <input type="text" name="address" placeholder="Address" [readOnly]="true" value="{{currentUser.address}}" id="argAddress">
-            <input type="button" value="Edit" class="login loginmodal-submit"  id="editButton" (click)="editInfo()">
-            <input type="button" name="update" class="login loginmodal-submit" hidden="true" value="Update" id="updateButton" (click)="updateUser()">
-        </form>
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-6">
+                    <a href="#" class="active" id="account-link">Account</a>
+                </div>
+                <div class="col-xs-6">
+                    <a href="#" id="security-link">Security</a>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form id="account-form">
+                        <input type="text" name="name" placeholder="Name" [readOnly]="true" value="{{currentUser.name}}"
+                               id="argName">
+                        <input type="text" name="email" placeholder="Email" [readOnly]="true"
+                               value="{{currentUser.email}}" id="argEmail">
+                        <input type="text" name="address" placeholder="Address" [readOnly]="true"
+                               value="{{currentUser.address}}" id="argAddress">
+                        <input type="button" value="Edit" class="login loginmodal-submit" id="editButton"
+                               (click)="editInfo()">
+                        <input type="button" name="update" class="login loginmodal-submit" hidden="true" value="Update"
+                               id="updateButton" (click)="updateUser()">
+                    </form>
+                    <div id="security-form">
+                        <form id="password-form">
+                            <h4>Change Password</h4>
+                            <input type="text" name="email" placeholder="Current Password" id="argCurPass">
+                            <input type="text" name="email" placeholder="New Password" id="argNewPass">
+                            <input type="button" name="changePassword" class="login loginmodal-submit" value="Change Password"
+                                   id="passUpdateButton" (click)="updateUser()">
+                        </form>
+                       <user-billing></user-billing>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
