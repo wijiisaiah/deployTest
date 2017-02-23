@@ -34,8 +34,9 @@ export class AdminEmailListComponent implements OnInit {
     getUpdatedEmails() {
         this.aes.getUpdatedEmails()
         .subscribe(updatedEmail => {
-            const emailIndex = this.emails.map(index => index.id).indexOf(updatedEmail['id']);
-            this.emails[emailIndex] = updatedEmail;
+            let newEmail = updatedEmail;
+            const emailIndex = this.emails.map(index => index.type).indexOf(updatedEmail['type']);
+            this.emails[emailIndex] = newEmail;
         },
         err => {
             console.log("Unable to get updated email - ", err);

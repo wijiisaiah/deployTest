@@ -32,6 +32,7 @@ export class AdminEmailService {
         return Observable.create(obs => {
             this.emailRef.on('child_changed', email => {
                     const newEmail = email.val() as Email;
+                    newEmail.type = email.key;
                     obs.next(newEmail);
                 },
 

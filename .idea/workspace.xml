@@ -2,59 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="71252a38-4450-464b-9fd5-0a969905fdd3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/admin/admin-email/email-list/email-list.component.ts" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/admin/email-admin/email-detail/bug-detail.component.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/admin/email-admin/email-list/bug-list.component.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/admin/email-admin/email-list/email-list.component.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/admin/parking-admin/bug-routing.module.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/admin/parking-admin/bug.module.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/admin/parking-admin/parking-detail/bug-detail.component.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/admin/parking-admin/parking-list/bug-list.component.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/admin/users-admin/user-detail/bug-detail.component.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/admin/users-admin/user-list/bug-list.component.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/shared/pipe/severity.pipe.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/shared/pipe/severity.pipe.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/shared/pipe/severity.pipe.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/shared/pipe/status.pipe.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/shared/pipe/status.pipe.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/shared/pipe/status.pipe.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/shared/shared.module.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/shared/shared.module.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/shared/shared.module.ts" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/email-admin/email-detail/email-detail.component.css" afterPath="$PROJECT_DIR$/app/admin/admin-email/email-detail/email-detail.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/email-admin/email-detail/email-detail.component.html" afterPath="$PROJECT_DIR$/app/admin/admin-email/email-detail/email-detail.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/email-admin/email-detail/email-detail.component.ts" afterPath="$PROJECT_DIR$/app/admin/admin-email/email-detail/email-detail.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/email-admin/email-list/email-list.component.css" afterPath="$PROJECT_DIR$/app/admin/admin-email/email-list/email-list.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/email-admin/email-list/email-list.component.html" afterPath="$PROJECT_DIR$/app/admin/admin-email/email-list/email-list.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/parking-admin/parking-detail/parking-detail.component.css" afterPath="$PROJECT_DIR$/app/admin/admin-parking/parking-detail/parking-detail.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/parking-admin/parking-detail/parking-detail.component.html" afterPath="$PROJECT_DIR$/app/admin/admin-parking/parking-detail/parking-detail.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/parking-admin/parking-detail/parking-detail.component.ts" afterPath="$PROJECT_DIR$/app/admin/admin-parking/parking-detail/parking-detail.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/parking-admin/parking-list/parking-list.component.css" afterPath="$PROJECT_DIR$/app/admin/admin-parking/parking-list/parking-list.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/parking-admin/parking-list/parking-list.component.html" afterPath="$PROJECT_DIR$/app/admin/admin-parking/parking-list/parking-list.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/parking-admin/parking-list/parking-list.component.ts" afterPath="$PROJECT_DIR$/app/admin/admin-parking/parking-list/parking-list.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/users-admin/user-detail/user-detail.component.css" afterPath="$PROJECT_DIR$/app/admin/admin-users/user-detail/user-detail.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/users-admin/user-detail/user-detail.component.html" afterPath="$PROJECT_DIR$/app/admin/admin-users/user-detail/user-detail.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/users-admin/user-detail/user-detail.component.ts" afterPath="$PROJECT_DIR$/app/admin/admin-users/user-detail/user-detail.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/users-admin/user-list/user-list.component.css" afterPath="$PROJECT_DIR$/app/admin/admin-users/user-list/user-list.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/users-admin/user-list/user-list.component.html" afterPath="$PROJECT_DIR$/app/admin/admin-users/user-list/user-list.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/users-admin/user-list/user-list.component.ts" afterPath="$PROJECT_DIR$/app/admin/admin-users/user-list/user-list.component.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/admin/admin-routing.module.ts" afterPath="$PROJECT_DIR$/app/admin/admin-routing.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/admin/admin.module.ts" afterPath="$PROJECT_DIR$/app/admin/admin.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/admin/navbar/navbar.component.html" afterPath="$PROJECT_DIR$/app/admin/navbar/navbar.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/admin/admin-email/email-list/email-list.component.ts" afterPath="$PROJECT_DIR$/app/admin/admin-email/email-list/email-list.component.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/admin/shared/service/admin-email.service.ts" afterPath="$PROJECT_DIR$/app/admin/shared/service/admin-email.service.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/admin/shared/service/admin-user.service.ts" afterPath="$PROJECT_DIR$/app/admin/shared/service/admin-user.service.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app-routing.module.js" afterPath="$PROJECT_DIR$/app/app-routing.module.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app-routing.module.js.map" afterPath="$PROJECT_DIR$/app/app-routing.module.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app-routing.module.ts" afterPath="$PROJECT_DIR$/app/app-routing.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.module.js" afterPath="$PROJECT_DIR$/app/app.module.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.module.js.map" afterPath="$PROJECT_DIR$/app/app.module.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.module.ts" afterPath="$PROJECT_DIR$/app/app.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/core/core.module.js" afterPath="$PROJECT_DIR$/app/core/core.module.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/core/core.module.js.map" afterPath="$PROJECT_DIR$/app/core/core.module.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/core/core.module.ts" afterPath="$PROJECT_DIR$/app/core/core.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/shared/model/user.js" afterPath="$PROJECT_DIR$/app/shared/model/user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/shared/model/user.js.map" afterPath="$PROJECT_DIR$/app/shared/model/user.js.map" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -87,11 +37,11 @@
       <file leaf-file-name="admin-email.service.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/admin/shared/service/admin-email.service.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="855">
-              <caret line="32" column="43" lean-forward="false" selection-start-line="32" selection-start-column="43" selection-end-line="32" selection-end-column="43" />
+            <state relative-caret-position="720">
+              <caret line="36" column="39" lean-forward="true" selection-start-line="36" selection-start-column="39" selection-end-line="36" selection-end-column="39" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
-                <marker date="1487889362801" expanded="true" signature="1440:1443" ph="{...}" />
+                <marker date="1487890333308" expanded="true" signature="1530:1533" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -100,8 +50,8 @@
       <file leaf-file-name="email-list.component.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/admin/admin-email/email-list/email-list.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="13" column="31" lean-forward="false" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
+            <state relative-caret-position="33">
+              <caret line="13" column="33" lean-forward="true" selection-start-line="13" selection-start-column="33" selection-end-line="13" selection-end-column="33" />
               <folding>
                 <element signature="e#0#50#0" expanded="true" />
               </folding>
@@ -489,14 +439,14 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22783000" />
+    <option name="totallyTimeSpent" value="23838000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-13" y="-13" width="2762" height="1770" extended-state="7" />
+    <frame x="-13" y="-13" width="2762" height="1770" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25037146" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -514,6 +464,26 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34038335" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25037146" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="processedProjectFiles" value="true" />
@@ -799,7 +769,7 @@
         <state relative-caret-position="2069">
           <caret line="63" column="76" lean-forward="false" selection-start-line="63" selection-start-column="76" selection-end-line="63" selection-end-column="76" />
           <folding>
-            <element signature="e#0#50#0" expanded="true" />
+            <element signature="e#0#50#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -817,7 +787,7 @@
         <state relative-caret-position="363">
           <caret line="11" column="2" lean-forward="true" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
           <folding>
-            <element signature="e#0#50#0" expanded="true" />
+            <element signature="e#0#50#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1015,19 +985,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/admin/shared/service/admin-email.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="32" column="43" lean-forward="false" selection-start-line="32" selection-start-column="43" selection-end-line="32" selection-end-column="43" />
+        <state relative-caret-position="720">
+          <caret line="36" column="39" lean-forward="true" selection-start-line="36" selection-start-column="39" selection-end-line="36" selection-end-column="39" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
-            <marker date="1487889362801" expanded="true" signature="1440:1443" ph="{...}" />
+            <marker date="1487890333308" expanded="true" signature="1530:1533" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/admin/admin-email/email-list/email-list.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="13" column="31" lean-forward="false" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
+        <state relative-caret-position="33">
+          <caret line="13" column="33" lean-forward="true" selection-start-line="13" selection-start-column="33" selection-end-line="13" selection-end-column="33" />
           <folding>
             <element signature="e#0#50#0" expanded="true" />
           </folding>
