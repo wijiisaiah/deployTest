@@ -3,7 +3,7 @@
  * Created by Isaiah on 2017-01-31.
  */
 var ParkingStation = (function () {
-    function ParkingStation(title, address, type, lat, lng, size, availableSpots, availability, rate) {
+    function ParkingStation(title, address, type, lat, lng, size, availableSpots, availability, rate, id) {
         this.title = title;
         this.address = address;
         this.type = type;
@@ -13,6 +13,7 @@ var ParkingStation = (function () {
         this.availableSpots = availableSpots;
         this.availability = availability;
         this.rate = rate;
+        this.id = id;
     }
     return ParkingStation;
 }());

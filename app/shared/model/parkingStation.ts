@@ -11,6 +11,7 @@ export class ParkingStation{
         public size: number,
         public availableSpots: number,
         public availability: boolean,
-        public rate: number
+        public rate: number,
+        public id: string
     ){}
 }

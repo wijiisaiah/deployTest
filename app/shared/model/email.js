@@ -1,10 +1,11 @@
 "use strict";
 var Email = (function () {
-    function Email(from, to, subject, body) {
+    function Email(from, subject, to, body, type) {
         this.from = from;
-        this.to = to;
         this.subject = subject;
+        this.to = to;
         this.body = body;
+        this.type = type;
     }
     return Email;
 }());

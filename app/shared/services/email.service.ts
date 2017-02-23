@@ -19,6 +19,8 @@ export class EmailService {
     public static BOOKING_COMPLETION = 'booking completion';
     public static REGISTRATION_CONFIRMATION = 'registration confirmation';
 
+
+
     constructor(private userService: UserService, private fire: FirebaseConfigService) {
         let currentUser = this.fire.auth.currentUser;
     }

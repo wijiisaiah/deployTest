@@ -95,7 +95,6 @@ export class UserService {
         } else {
             userRef.update(user);
         }
-
     }
 
     findUserRef(uid: string) {

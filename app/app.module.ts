@@ -23,12 +23,14 @@ import { AuthGuard } from "./shared/services/auth.guard";
 import { MenuService } from "./shared/services/menu.service";
 import { EmailService } from "./shared/services/email.service";
 import { PaymentService } from './shared/services/payment.service';
+import {AdminModule} from "./admin/admin.module";
 
 @NgModule({
     imports: [
         BrowserModule,
         AppRoutingModule,
         FormsModule,
+        AdminModule,
         CoreModule.forRoot()
     ],
     declarations: [
