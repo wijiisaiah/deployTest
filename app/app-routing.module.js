@@ -16,6 +16,10 @@ var user_account_component_1 = require("./users/user-account/user-account.compon
 var user_authentication_component_1 = require("./users/user-authentication/user-authentication.component");
 var my_bookings_component_1 = require("./bookings/my-bookings/my-bookings.component");
 var auth_guard_1 = require("./shared/services/auth.guard");
+var admin_component_1 = require("./admin/admin.component");
+var parking_list_component_1 = require("./admin/admin-parking/parking-list/parking-list.component");
+var user_list_component_1 = require("./admin/admin-users/user-list/user-list.component");
+var email_list_component_1 = require("./admin/admin-email/email-list/email-list.component");
 var AppRoutingModule = (function () {
     function AppRoutingModule() {
     }
@@ -29,6 +33,14 @@ var AppRoutingModule = (function () {
                     { path: 'map', component: map_component_1.MapComponent, canActivate: [auth_guard_1.AuthGuard] },
                     { path: 'my-bookings', component: my_bookings_component_1.MyBookingsComponent, canActivate: [auth_guard_1.AuthGuard] },
                     { path: 'billing', component: user_billing_component_1.UserBillingComponent, canActivate: [auth_guard_1.AuthGuard] },
+                    { path: 'admin', component: admin_component_1.AdminComponent,
+                        children: [
+                            { path: '', redirectTo: 'parking', pathMatch: 'prefix' },
+                            { path: 'parking', component: parking_list_component_1.AdminParkingListComponent },
+                            { path: 'user', component: user_list_component_1.AdminUserListComponent },
+                            { path: 'email', component: email_list_component_1.AdminEmailListComponent },
+                            { path: '**', redirectTo: '' }
+                        ] },
                     { path: '**', redirectTo: 'login' }
                 ])
             ],

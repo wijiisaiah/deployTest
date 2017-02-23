@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
-import { BugListComponent } from './parking-list/bug-list.component';
+import {AdminParkingListComponent} from "./admin-parking/parking-list/parking-list.component";
+import {AdminUserListComponent} from "./admin-users/user-list/user-list.component";
+import {AdminEmailListComponent} from "./admin-email/email-list/email-list.component";
 
 @NgModule({
     imports: [ 
         RouterModule.forChild([
-            { path: '', redirectTo: 'bugs', pathMatch: 'prefix' },
-            { path: 'bugs', component: BugListComponent },
-            { path: '**', redirectTo: 'bugs' }
         ])
     ],
     exports: [ RouterModule ]

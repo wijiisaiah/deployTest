@@ -27,9 +27,7 @@ import {AdminModule} from "./admin/admin.module";
 
 @NgModule({
     imports: [
-        BrowserModule,
         AppRoutingModule,
-        FormsModule,
         AdminModule,
         CoreModule.forRoot()
     ],

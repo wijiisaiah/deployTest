@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-xs-6">
+        <h1>Email Setup</h1>
+    </div>
+    <div class="col-xs-6 text-xs-right">
+        <button class="btn btn-success btn-lg" [attr.data-target]=" '#' + emailDetail.modalId " data-toggle="modal" (click)="emailDetail.freshForm()"><i class="fa fa-plus" aria-hidden="true"></i>Add Bug</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>From</th>
+                    <th>Subject</th>
+                    <th>Body</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let email of emails" [attr.data-target]=" '#' + emailDetail.modalId " data-toggle="modal" (click)="emailDetail.configureForm(email)">
+                    <td>{{ email.type }}</td>
+                    <td>{{ email.from }}</td>
+                    <td>{{ email.subject}}</td>
+                    <td>{{ email.body }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<email-detail #emailDetail></email-detail>

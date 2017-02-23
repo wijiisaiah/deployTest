@@ -2,11 +2,16 @@ import { NgModule, ModuleWithProviders, Optional, SkipSelf } from '@angular/core
 
 //Services
 import { FirebaseConfigService } from './service/firebase-config.service';
+import {FormsModule} from "@angular/forms";
+import {BrowserModule} from "@angular/platform-browser";
 
 @NgModule({
     imports: [],
     declarations: [],
-    exports: []
+    exports: [
+        BrowserModule,
+        FormsModule
+    ]
 })
 export class CoreModule {
     constructor( @Optional() @SkipSelf() parentModule: CoreModule) {

@@ -10,10 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 // Modules
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
 var app_routing_module_1 = require('./app-routing.module');
 var core_module_1 = require('./core/core.module');
-var forms_1 = require('@angular/forms');
 //Components
 var app_component_1 = require('./app.component');
 var menu_component_1 = require("./menu/menu.component");
@@ -38,9 +36,7 @@ var AppModule = (function () {
     AppModule = __decorate([
         core_1.NgModule({
             imports: [
-                platform_browser_1.BrowserModule,
                 app_routing_module_1.AppRoutingModule,
-                forms_1.FormsModule,
                 admin_module_1.AdminModule,
                 core_module_1.CoreModule.forRoot()
             ],

@@ -10,8 +10,7 @@ import { Email } from './../../../shared/model/email';
     templateUrl: 'email-list.component.html',
     styleUrls: ['email-list.component.css']
 })
-export class AdminEmailListComponent implements OnInit { 
-
+export class AdminEmailListComponent implements OnInit {
     private emails: Email[] = [];
 
     constructor(private aes: AdminEmailService) { }
@@ -20,6 +19,7 @@ export class AdminEmailListComponent implements OnInit {
         this.getAddedEmails();
         this.getUpdatedEmails();
     }
+
 
     getAddedEmails() {
         this.aes.getAddedEmails()

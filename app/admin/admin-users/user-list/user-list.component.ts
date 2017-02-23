@@ -21,7 +21,7 @@ export class AdminUserListComponent implements OnInit {
         this.getUpdatedUsers();
     }
 
-    getAddedBugs() {
+    getAddedUsers() {
         this.aus.getAddedUsers()
         .subscribe(user => {
             this.users.push(user);
@@ -34,7 +34,7 @@ export class AdminUserListComponent implements OnInit {
     getUpdatedUsers() {
         this.aus.getUpdatedUsers()
         .subscribe(updatedUser => {
-            const userIndex = this.users.map(index => index.id).indexOf(updatedUser['id']);
+            const userIndex = this.users.map(index => index.uid).indexOf(updatedUser['uid']);
             this.users[userIndex] = updatedUser;
         },
         err => {

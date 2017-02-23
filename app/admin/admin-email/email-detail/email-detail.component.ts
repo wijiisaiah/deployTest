@@ -14,8 +14,8 @@ import { Email } from './../../../shared/model/email';
 })
 export class AdminEmailDetailComponent implements OnInit {
 
-    private modalId = "bugModal";
-    private parkingForm: FormGroup;
+    private modalId = "emailModal";
+    private emailForm: FormGroup;
     private currentEmail = new Email(null, null, null, null, null);
     constructor(private formB: FormBuilder, private aes: AdminEmailService) { }
 
@@ -39,7 +39,7 @@ export class AdminEmailDetailComponent implements OnInit {
             );
         }
 
-        this.parkingForm = this.formB.group({
+        this.emailForm = this.formB.group({
             type: [this.currentEmail.type, [Validators.required, forbiddenStringValidator(/puppy/i)]],
             from: [this.currentEmail.from, Validators.required],
             subject: [this.currentEmail.subject, Validators.required],

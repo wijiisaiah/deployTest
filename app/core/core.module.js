@@ -14,6 +14,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 var core_1 = require('@angular/core');
 //Services
 var firebase_config_service_1 = require('./service/firebase-config.service');
+var forms_1 = require("@angular/forms");
+var platform_browser_1 = require("@angular/platform-browser");
 var CoreModule = (function () {
     function CoreModule(parentModule) {
         if (parentModule) {
@@ -30,7 +32,10 @@ var CoreModule = (function () {
         core_1.NgModule({
             imports: [],
             declarations: [],
-            exports: []
+            exports: [
+                platform_browser_1.BrowserModule,
+                forms_1.FormsModule
+            ]
         }),
         __param(0, core_1.Optional()),
         __param(0, core_1.SkipSelf()), 

@@ -7,7 +7,7 @@ import {UserService} from "../../../shared/services/user.service";
  * Created by Isaiah on 2017-02-06.
  */
 @Injectable()
-export class AdminParkingService {
+export class AdminUserService {
 
     private databaseRef = this.fire.database;
     private userRef = this.databaseRef.ref('/users');

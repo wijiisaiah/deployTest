@@ -8,18 +8,30 @@ export class AdminEmailService {
 
     private databaseRef = this.fire.database;
     private emailRef = this.databaseRef.ref('/emails/email information/details');
-    public emails: Email[];
 
     constructor(private fire: FirebaseConfigService) {
-        this.getEmails();
     }
 
-    getEmails(): Observable<any> {
+    getAddedEmails(): Observable<any> {
 
         return Observable.create(obs => {
-            this.emailRef.on('value', email => {
+            this.emailRef.on('child_added', email => {
                     const newEmail = email.val() as Email;
-                    this.emails.push(newEmail);
+                    obs.next(newEmail);
+                },
+
+                err => {
+                    obs.throw(err);
+                });
+        });
+
+    }
+
+    getUpdatedEmails(): Observable<any> {
+
+        return Observable.create(obs => {
+            this.emailRef.on('child_changed', email => {
+                    const newEmail = email.val() as Email;
                     obs.next(newEmail);
                 },
 
