@@ -9,7 +9,7 @@ import { BugListComponent } from './parking-list/bug-list.component'
 import { BugDetailComponent } from './parking-detail/bug-detail.component';
 
 //Service
-import { BugService } from './service/bug.service';
+import { BugService } from '../shared/service/admin.service';
 
 @NgModule ({
     imports: [
