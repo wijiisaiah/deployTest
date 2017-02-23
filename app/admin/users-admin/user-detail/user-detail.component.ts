@@ -12,7 +12,7 @@ import {User} from "../../../shared/model/user";
     templateUrl: 'user-detail.component.html',
     styleUrls: ['user-detail.component.css']
 })
-export class AdminUserComponent implements OnInit {
+export class AdminUserDetailComponent implements OnInit {
     private modalId = "bugModal";
     private parkingForm: FormGroup;
     private currentUser = new User(null, null, null, null, null, null, null);

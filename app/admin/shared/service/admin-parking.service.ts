@@ -1,60 +1,95 @@
-import { Injectable } from '@angular/core';
-
-import { Observable } from 'rxjs/Observable';
-import { Bug } from '../model/bug';
+import {Injectable} from "@angular/core";
+import {Observable} from "rxjs/Rx";
 import {FirebaseConfigService} from "../../../core/service/firebase-config.service";
-
+import {ParkingStation} from "../../../shared/model/parkingStation";
+/**
+ * Created by Isaiah on 2017-02-06.
+ */
 @Injectable()
 export class AdminParkingService {
 
-    private bugsDbRef = this.fire.database.ref('/parkingStationAdminAccess');
+    private databaseRef = this.fire.database;
+    private parkingStationsRef = this.databaseRef.ref('/parking stations');
 
-    constructor(private fire: FirebaseConfigService) { }
+    constructor(private fire: FirebaseConfigService) {
+    }
 
-    getAddedBugs(): Observable<any> {
+    getAddedParkingStations(): Observable<any> {
+
         return Observable.create(obs => {
-            this.bugsDbRef.on('child_added', bug => {
-                const newBug = bug.val() as Bug;
-                newBug.id = bug.key;
-                obs.next(newBug);
-            },
+
+            this.parkingStationsRef.on('child_added', parking => {
+                    const newParking = parking.val() as ParkingStation;
+                    obs.next(newParking);
+                },
+                err => {
+                    obs.throw(err);
+                });
+        });
+
+    }
+
+    getUpdatedParkingStations(){
+        return Observable.create(obs => {
+
+            this.parkingStationsRef.on('child_changed', parking => {
+                    const newParking = parking.val() as ParkingStation;
+                    obs.next(newParking);
+                },
                 err => {
                     obs.throw(err);
                 });
         });
     }
 
-    changedListener(): Observable<any> {
+    getRemovedParkingStations(){
         return Observable.create(obs => {
-            this.bugsDbRef.on('child_changed', bug => {
-                const updatedBug = bug.val() as Bug;
-                updatedBug.id = bug.key;
-                obs.next(updatedBug);
-            },
-            err => {
-                obs.throw(err);
-            });
+
+            this.parkingStationsRef.on('child_removed', parking => {
+                    const newParking = parking.val() as ParkingStation;
+                    obs.next(newParking);
+                },
+                err => {
+                    obs.throw(err);
+                });
         });
+
     }
 
-    addBug(bug: Bug) {
-        const newBugRef = this.bugsDbRef.push();
-        newBugRef.set({
-            title: bug.title,
-            status: bug.status,
-            severity: bug.severity,
-            description: bug.description,
-            createdBy: 'Manolis',
-            createdDate: Date.now()
+    updateParkingStation(parking: ParkingStation){
+        let updateParkingRef = this.parkingStationsRef.child(parking.id);
+        updateParkingRef.update({
+            title: parking.title,
+            address: parking.address,
+            type: parking.type,
+            lat: parking.lat,
+            lng: parking.lng,
+            size: parking.size,
+            availableSpots: parking.availableSpots,
+            availability: parking.availability,
+            rate: parking.rate,
         })
-        .catch(err => console.error("Unable to add bug to Firebase -", err));
     }
 
-    updateBug(bug: Bug) {
-        const currentBugRef = this.bugsDbRef.child(bug.id);
-        bug.id = null;
-        bug.updatedBy = "Man";
-        bug.updatedDate = Date.now();
-        currentBugRef.update(bug);
+    addParkingStation(parking: ParkingStation){
+        let newParking = this.parkingStationsRef.push();
+        newParking.set({
+            title: parking.title,
+            address: parking.address,
+            type: parking.type,
+            lat: parking.lat,
+            lng: parking.lng,
+            size: parking.size,
+            availableSpots: parking.availableSpots,
+            availability: parking.availability,
+            rate: parking.rate,
+            id: newParking.key
+        })
     }
+
+    deleteParkingStation(parking: ParkingStation){
+        let deleteThisRef = this.parkingStationsRef.child(parking.id);
+        deleteThisRef.remove();
+    }
+
 }

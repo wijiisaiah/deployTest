@@ -31,6 +31,7 @@ var auth_guard_1 = require("./shared/services/auth.guard");
 var menu_service_1 = require("./shared/services/menu.service");
 var email_service_1 = require("./shared/services/email.service");
 var payment_service_1 = require('./shared/services/payment.service');
+var admin_module_1 = require("./admin/admin.module");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -40,6 +41,7 @@ var AppModule = (function () {
                 platform_browser_1.BrowserModule,
                 app_routing_module_1.AppRoutingModule,
                 forms_1.FormsModule,
+                admin_module_1.AdminModule,
                 core_module_1.CoreModule.forRoot()
             ],
             declarations: [

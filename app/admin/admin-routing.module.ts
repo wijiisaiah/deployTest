@@ -13,4 +13,4 @@ import { BugListComponent } from './parking-list/bug-list.component';
     ],
     exports: [ RouterModule ]
 })
-export class BugRoutingModule { }
+export class AdminRoutingModule { }

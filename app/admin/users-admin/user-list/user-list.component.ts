@@ -10,7 +10,7 @@ import { User } from './../../../shared/model/user';
     templateUrl: 'user-list.component.html',
     styleUrls: ['user-list.component.css']
 })
-export class BugListComponent implements OnInit { 
+export class AdminUserListComponent implements OnInit { 
 
     private users: User[] = [];
 

@@ -1,30 +1,39 @@
-
 // Modules
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
-import { BugRoutingModule } from './bug-routing.module';
+import { AdminRoutingModule } from './admin-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
 // Component
-import { BugListComponent } from './parking-list/bug-list.component'
-import { BugDetailComponent } from './parking-detail/bug-detail.component';
+import { AdminUserListComponent } from './users-admin/user-list/user-list.component';
+import { AdminUserDetailComponent } from './users-admin/user-detail/user-detail.component';
+import { AdminEmailListComponent } from './email-admin/email-list/email-list.component';
+import { AdminEmailDetailComponent } from './email-admin/email-detail/email-detail.component';
+import { AdminParkingListComponent } from './parking-admin/parking-list/parking-list.component';
+import { AdminParkingDetailComponent } from './parking-admin/parking-detail/parking-detail.component';
 
 //Service
-import { AdminService } from './shared/service/admin.service';
+import {AdminUserService} from "./shared/service/admin-user.service";
+import {AdminParkingService} from "./shared/service/admin-parking.service";
+import {AdminEmailService} from "./shared/service/admin-email.service";
 
 @NgModule ({
     imports: [
-        SharedModule,
-        BugRoutingModule,
+        AdminRoutingModule,
         ReactiveFormsModule
      ],
     declarations: [
-        BugListComponent,
-        BugDetailComponent
+       AdminParkingDetailComponent,
+       AdminParkingListComponent,
+       AdminEmailDetailComponent,
+       AdminEmailListComponent,
+       AdminUserDetailComponent,
+       AdminUserListComponent
      ],
     exports: [ ],
     providers: [ 
-        AdminService
+        AdminParkingService,
+        AdminUserService,
+        AdminEmailService
          ]
 })
-export class BugModule { }
+export class AdminModule { }

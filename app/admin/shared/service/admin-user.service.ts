@@ -1,60 +1,80 @@
-import { Injectable } from '@angular/core';
-
-import { Observable } from 'rxjs/Observable';
-import { Bug } from '../model/bug';
+import {Injectable} from "@angular/core";
+import {Observable} from "rxjs/Rx";
 import {FirebaseConfigService} from "../../../core/service/firebase-config.service";
-
+import {User} from "../../../shared/model/User";
+import {UserService} from "../../../shared/services/user.service";
+/**
+ * Created by Isaiah on 2017-02-06.
+ */
 @Injectable()
-export class AdminUserService {
+export class AdminParkingService {
 
-    private bugsDbRef = this.fire.database.ref('/parkingStationAdminAccess');
+    private databaseRef = this.fire.database;
+    private userRef = this.databaseRef.ref('/users');
 
-    constructor(private fire: FirebaseConfigService) { }
+    constructor(private fire: FirebaseConfigService, private userService: UserService) {
+    }
 
-    getAddedBugs(): Observable<any> {
+    getAddedUsers(): Observable<any> {
+
         return Observable.create(obs => {
-            this.bugsDbRef.on('child_added', bug => {
-                const newBug = bug.val() as Bug;
-                newBug.id = bug.key;
-                obs.next(newBug);
-            },
+
+            this.userRef.on('child_added', user => {
+                    const newUser = user.val() as User;
+                    obs.next(newUser);
+                },
                 err => {
                     obs.throw(err);
                 });
         });
+
     }
 
-    changedListener(): Observable<any> {
+    getUpdatedUsers(): Observable<any> {
+
         return Observable.create(obs => {
-            this.bugsDbRef.on('child_changed', bug => {
-                const updatedBug = bug.val() as Bug;
-                updatedBug.id = bug.key;
-                obs.next(updatedBug);
-            },
-            err => {
-                obs.throw(err);
-            });
+
+            this.userRef.on('child_changed', user => {
+                    const newUser = user.val() as User;
+                    obs.next(newUser);
+                },
+                err => {
+                    obs.throw(err);
+                });
         });
+
     }
 
-    addBug(bug: Bug) {
-        const newBugRef = this.bugsDbRef.push();
-        newBugRef.set({
-            title: bug.title,
-            status: bug.status,
-            severity: bug.severity,
-            description: bug.description,
-            createdBy: 'Manolis',
-            createdDate: Date.now()
-        })
-        .catch(err => console.error("Unable to add bug to Firebase -", err));
+    getRemovedUsers(): Observable<any> {
+
+        return Observable.create(obs => {
+
+            this.userRef.on('child_removed', user => {
+                    const newUser = user.val() as User;
+                    obs.next(newUser);
+                },
+                err => {
+                    obs.throw(err);
+                });
+        });
+
     }
 
-    updateBug(bug: Bug) {
-        const currentBugRef = this.bugsDbRef.child(bug.id);
-        bug.id = null;
-        bug.updatedBy = "Man";
-        bug.updatedDate = Date.now();
-        currentBugRef.update(bug);
+    updateUser(user: User){
+       this.userService.updateUser(user);
     }
+
+    addUser(user: User, password: string){
+        //name: string, email: string, password: string
+       this.userService.register(user.name, user.email, password);
+       this.userService.addUser(user);
+    }
+
+    deleteUser(user: User){
+        this.userRef.child(user.uid).remove();
+        this.fire.auth.currentUser.delete();
+    }
+
+
+
 }
