@@ -10,10 +10,8 @@ export class AdminParkingService {
 
     private databaseRef = this.fire.database;
     private parkingStationsRef = this.databaseRef.ref('/parking stations');
-    public parkingStations: ParkingStation[];
 
     constructor(private fire: FirebaseConfigService) {
-        this.getAddedParkingStations()
     }
 
     getAddedParkingStations(): Observable<any> {
@@ -22,7 +20,33 @@ export class AdminParkingService {
 
             this.parkingStationsRef.on('child_added', parking => {
                     const newParking = parking.val() as ParkingStation;
-                    this.parkingStations.push(newParking);
+                    obs.next(newParking);
+                },
+                err => {
+                    obs.throw(err);
+                });
+        });
+
+    }
+
+    getUpdatedParkingStations(){
+        return Observable.create(obs => {
+
+            this.parkingStationsRef.on('child_changed', parking => {
+                    const newParking = parking.val() as ParkingStation;
+                    obs.next(newParking);
+                },
+                err => {
+                    obs.throw(err);
+                });
+        });
+    }
+
+    getRemovedParkingStations(){
+        return Observable.create(obs => {
+
+            this.parkingStationsRef.on('child_removed', parking => {
+                    const newParking = parking.val() as ParkingStation;
                     obs.next(newParking);
                 },
                 err => {

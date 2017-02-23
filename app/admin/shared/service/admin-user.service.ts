@@ -11,19 +11,46 @@ export class AdminParkingService {
 
     private databaseRef = this.fire.database;
     private userRef = this.databaseRef.ref('/users');
-    public users: User[];
 
     constructor(private fire: FirebaseConfigService, private userService: UserService) {
-        this.getUsers()
     }
 
-    getUsers(): Observable<any> {
+    getAddedUsers(): Observable<any> {
 
         return Observable.create(obs => {
 
-            this.userRef.on('value', user => {
+            this.userRef.on('child_added', user => {
                     const newUser = user.val() as User;
-                    this.users.push(newUser);
+                    obs.next(newUser);
+                },
+                err => {
+                    obs.throw(err);
+                });
+        });
+
+    }
+
+    getUpdatedUsers(): Observable<any> {
+
+        return Observable.create(obs => {
+
+            this.userRef.on('child_changed', user => {
+                    const newUser = user.val() as User;
+                    obs.next(newUser);
+                },
+                err => {
+                    obs.throw(err);
+                });
+        });
+
+    }
+
+    getRemovedUsers(): Observable<any> {
+
+        return Observable.create(obs => {
+
+            this.userRef.on('child_removed', user => {
+                    const newUser = user.val() as User;
                     obs.next(newUser);
                 },
                 err => {
