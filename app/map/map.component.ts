@@ -193,7 +193,7 @@ export class MapComponent implements OnInit, OnDestroy {
                     this.currentBooking = booking;
                     if (booking) {
                         for (let ps of this.parkingStations) {
-                            if (ps.title === booking.parkingStation.title) {
+                            if (ps.id === booking.parkingStation.id) {
                                 booking.parkingStation = ps;
                             }
                         }
@@ -230,7 +230,7 @@ export class MapComponent implements OnInit, OnDestroy {
     getUpdatedParkingStations() {
         let temp = this.parkingService.getUpdatedParkingStation()
             .subscribe(updatedParkingStation => {
-                    const parkingIndex = this.parkingStations.map(index => index.title).indexOf(updatedParkingStation['title']);
+                    const parkingIndex = this.parkingStations.map(index => index.id).indexOf(updatedParkingStation['id']);
                     this.parkingStations[parkingIndex] = updatedParkingStation;
                     this.updateMarker(updatedParkingStation);
 
@@ -271,10 +271,10 @@ export class MapComponent implements OnInit, OnDestroy {
         let icon = this.getProperIcon(parking, valid);
 
         for (let marker of this.markers) {
-            if (marker.title === parking.title) {
+            if (marker.id === parking.id) {
 
                 for (let infoWindow of this.infowindows) {
-                    if (infoWindow.title === marker.title) {
+                    if (infoWindow.id === marker.id) {
                         infoWindow.setContent(content);
                     }
                 }
@@ -290,7 +290,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
     /* Creates a marker to be assigned to a parking station
      * - Determines correct icon to set depending on validity and current booking
-     * - Creates a marker and sets its title/position/icon
+     * - Creates a marker and sets its id/position/icon
      * - Sets Content and addes event listeners to open and close windows on user clicks
      */
     private createMarker(parking: ParkingStation) {
@@ -302,7 +302,7 @@ export class MapComponent implements OnInit, OnDestroy {
         let marker = new google.maps.Marker({
             position: {lat: parking.lat, lng: parking.lng},
             map: this.map,
-            title: parking.title,
+            id: parking.id,
             icon: icon
         });
 
@@ -320,7 +320,7 @@ export class MapComponent implements OnInit, OnDestroy {
             backgroundColor: 'rgba(31, 138, 220, 0.8)',
             borderRadius: 0,
             hideCloseButton: true,
-            title: parking.title
+            id: parking.id
         });
 
         // Pushes the newly created Info Window to the array of info windows
@@ -427,7 +427,7 @@ export class MapComponent implements OnInit, OnDestroy {
         }
 
         if (this.currentBooking !== undefined) {
-            if (this.currentBooking.parkingStation.title === parking.title) {
+            if (this.currentBooking.parkingStation.id === parking.id) {
                 icon = MapComponent.bookedParkingIcon;
                 if (this.reserveEndTime !== null) {
                     icon = MapComponent.reservedParkingIcon;
@@ -460,7 +460,7 @@ export class MapComponent implements OnInit, OnDestroy {
         }
 
         if (this.currentBooking !== undefined) {
-            if (this.currentBooking.parkingStation.title === parking.title) {
+            if (this.currentBooking.parkingStation.id === parking.id) {
                 buttons = `<button class="btn btn-success" onclick='window.dispatchEvent(new CustomEvent("complete", {detail: "End Booking"}));'>Retrieve Bike</button>`;
                 if (this.reserveEndTime !== null) {
                     buttons = `<button class="btn btn-warning" onclick='window.dispatchEvent(new CustomEvent("parkBike", {detail: "Park Bike"}));'>Park Bike</button>

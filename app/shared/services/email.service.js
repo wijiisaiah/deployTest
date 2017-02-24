@@ -39,7 +39,7 @@ var EmailService = (function () {
             var email_2 = new email_1.Email(null, null, null, null);
             var emailRef_1 = this.databaseRef.child('email information').child('details').child(emailType);
             return new Promise(function (fulfill) {
-                emailRef_1.on('value', function (emailInfo) {
+                emailRef_1.once('value', function (emailInfo) {
                     email_2 = emailInfo.val();
                     console.log('raw data', emailInfo);
                     console.log('obs next set', email_2);

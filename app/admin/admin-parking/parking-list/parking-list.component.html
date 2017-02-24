@@ -1,37 +1,43 @@
-<!--<div class="row">-->
-    <!--<div class="col-xs-6">-->
-        <!--<h1>Logged Bugs</h1>-->
-    <!--</div>-->
-    <!--<div class="col-xs-6 text-xs-right">-->
-        <!--<button class="btn btn-success btn-lg" [attr.data-target]=" '#' + bugDetail.modalId " data-toggle="modal" (click)="bugDetail.freshForm()"><i class="fa fa-plus" aria-hidden="true"></i>Add Bug</button>-->
-    <!--</div>-->
-<!--</div>-->
-<!--<div class="row">-->
-    <!--<div class="col-xs-12">-->
-        <!--<table class="table">-->
-            <!--<thead>-->
-                <!--<tr>-->
-                    <!--<th>Title</th>-->
-                    <!--<th>Status</th>-->
-                    <!--<th>Severity</th>-->
-                    <!--<th>Description</th>-->
-                    <!--<th>Logged By</th>-->
-                    <!--<th>Date</th>-->
-                <!--</tr>-->
-            <!--</thead>-->
-            <!--<tbody>-->
-                <!--<tr *ngFor="let bug of bugs" [attr.data-target]=" '#' + bugDetail.modalId " data-toggle="modal" (click)="bugDetail.configureForm(bug)">-->
-                    <!--<td>{{ bug.title }}</td>-->
-                    <!--<td>{{ bug.status | status}}</td>-->
-                    <!--<td>{{ bug.severity | severity }}</td>-->
-                    <!--<td>{{ bug.description }}</td>-->
-                    <!--<td>{{ bug.createdBy }}</td>-->
-                    <!--<td>{{ bug.createdDate | date }}</td>-->
-                <!--</tr>-->
-            <!--</tbody>-->
-        <!--</table>-->
-    <!--</div>-->
-<!--</div>-->
-<!--<bug-detail #bugDetail></bug-detail>-->
-
-Parking List Component
+<div class="row">
+    <div class="col-xs-6">
+        <h1>Parking Setup</h1>
+    </div>
+    <div class="col-xs-6 text-xs-right">
+        <button class="btn btn-success btn-lg" [attr.data-target]=" '#' + parkingDetail.modalId " data-toggle="modal" (click)="parkingDetail.freshForm()"><i class="fa fa-plus" aria-hidden="true"></i>Add Parking Station</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Address</th>
+                <th>Type</th>
+                <th>Lat</th>
+                <th>Lng</th>
+                <th>Size</th>
+                <th>AvailableSpots</th>
+                <th>Availability</th>
+                <th>Rate</th>
+                <th>Id</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="parkingStations">
+            <tr *ngFor="let parking of parkingStations" [attr.data-target]=" '#' + parkingDetail.modalId " data-toggle="modal" (click)="parkingDetail.configureForm(parking)">
+                <td>{{ parking.title }}</td>
+                <td>{{ parking.address}}</td>
+                <td>{{ parking.type}}</td>
+                <td>{{ parking.lat}}</td>
+                <td>{{ parking.lng}}</td>
+                <td>{{ parking.size}}</td>
+                <td>{{ parking.availableSpots}}</td>
+                <td>{{ parking.availability}}</td>
+                <td>{{ parking.rate}}</td>
+                <td>{{ parking.id}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<parking-detail #parkingDetail></parking-detail>

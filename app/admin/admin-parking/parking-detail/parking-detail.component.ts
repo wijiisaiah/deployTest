@@ -13,7 +13,7 @@ import {ParkingStation} from "../../../shared/model/parkingStation";
     styleUrls: ['parking-detail.component.css']
 })
 export class AdminParkingDetailComponent implements OnInit {
-    private modalId = "bugModal";
+    private modalId = "parkingModal";
     private parkingForm: FormGroup;
     private currentParkingStation = new ParkingStation(null, null, null, null, null, null, null, null, null, null);
     constructor(private formB: FormBuilder, private aps: AdminParkingService) { }
@@ -23,15 +23,10 @@ export class AdminParkingDetailComponent implements OnInit {
     }
 
     configureForm(parkingStation?: ParkingStation) {
-        // this.bugForm = new FormGroup({
-        //     title: new FormControl(this.currentBug.title, [Validators.required, forbiddenStringValidator(/puppy/i)]),
-        //     status: new FormControl(this.currentBug.status, Validators.required),
-        //     severity: new FormControl(this.currentBug.severity, Validators.required),
-        //     description: new FormControl(this.currentBug.description, Validators.required)
-        // });
+
         if (parkingStation) {
             this.currentParkingStation = new ParkingStation(
-                parkingStation.title ,
+                parkingStation.title,
                 parkingStation.address,
                 parkingStation.type,
                 parkingStation.lat,
@@ -45,7 +40,7 @@ export class AdminParkingDetailComponent implements OnInit {
         }
 
         this.parkingForm = this.formB.group({
-            title: [this.currentParkingStation.title, [Validators.required, forbiddenStringValidator(/puppy/i)]],
+            title: [this.currentParkingStation.title, [Validators.required]],
             address: [this.currentParkingStation.address, Validators.required],
             type: [this.currentParkingStation.type, Validators.required],
             lat: [this.currentParkingStation.lat, Validators.required],
@@ -54,38 +49,59 @@ export class AdminParkingDetailComponent implements OnInit {
             availableSpots: [this.currentParkingStation.availableSpots, Validators.required],
             availability: [this.currentParkingStation.availability, Validators.required],
             rate: [this.currentParkingStation.rate, Validators.required],
-            id: [this.currentParkingStation.id, Validators.required]
+            id: [this.currentParkingStation.id]
 
         });
     }
 
-    // submitForm() {
-    //     this.currentParkingStation.title = this.bugForm.value["title"];
-    //     this.currentParkingStation.status = this.bugForm.value["status"];
-    //     this.currentParkingStation.severity = this.bugForm.value["severity"];
-    //     this.currentParkingStation.description = this.bugForm.value["description"];
-    //     if (this.currentParkingStation.id) {
-    //         this.updateBug();
-    //     } else {
-    //         this.addBug();
-    //     }
-    // }
-    //
-    // addBug() {
-    //     this.BugService.addBug(this.currentParkingStation);
-    // }
-    //
-    // updateBug() {
-    //     this.BugService.updateBug(this.currentParkingStation);
-    // }
-    //
-    // freshForm() {
-    //     this.bugForm.reset({ status: this.statuses, severity: this.severities });
-    //     this.cleanBug();
-    // }
-    //
-    // cleanBug() {
-    //     this.currentParkingStation = new Bug(null, null, this.statuses, this.severities, null, null, null, null, null);
-    // }
+    submitForm() {
+        this.currentParkingStation.title = this.parkingForm.value["title"];
+        this.currentParkingStation.address = this.parkingForm.value["address"];
+        this.currentParkingStation.type = this.parkingForm.value["type"];
+        this.currentParkingStation.lat = this.parkingForm.value["lat"];
+        this.currentParkingStation.lng = this.parkingForm.value["lng"];
+        this.currentParkingStation.size = this.parkingForm.value["size"];
+        this.currentParkingStation.availableSpots = this.parkingForm.value["availableSpots"];
+        this.currentParkingStation.availability = this.parkingForm.value["availability"];
+        this.currentParkingStation.rate = this.parkingForm.value["rate"];
+
+        if (this.currentParkingStation.id) {
+            this.updateParkingStation();
+        } else {
+            this.addParkingStation();
+        }
+    }
+
+    deleteParkingStation() {
+        this.currentParkingStation.title = this.parkingForm.value["title"];
+        this.currentParkingStation.address = this.parkingForm.value["address"];
+        this.currentParkingStation.type = this.parkingForm.value["type"];
+        this.currentParkingStation.lat = this.parkingForm.value["lat"];
+        this.currentParkingStation.lng = this.parkingForm.value["lng"];
+        this.currentParkingStation.size = this.parkingForm.value["size"];
+        this.currentParkingStation.availableSpots = this.parkingForm.value["availableSpots"];
+        this.currentParkingStation.availability = this.parkingForm.value["availability"];
+        this.currentParkingStation.rate = this.parkingForm.value["rate"];
+        this.currentParkingStation.id = this.parkingForm.value["id"];
+
+        this.aps.deleteParkingStation(this.currentParkingStation);
+    }
+
+    addParkingStation() {
+        this.aps.addParkingStation(this.currentParkingStation);
+    }
+
+    updateParkingStation() {
+        this.aps.updateParkingStation(this.currentParkingStation);
+    }
+
+    freshForm() {
+        this.parkingForm.reset({ });
+        this.cleanBug();
+    }
+
+    cleanBug() {
+        this.currentParkingStation = new ParkingStation(null, null, null, null, null, null, null, null, null, null);
+    }
 
 }

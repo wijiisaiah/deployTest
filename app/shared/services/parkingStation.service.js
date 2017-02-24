@@ -43,9 +43,9 @@ var ParkingService = (function () {
             });
         });
     };
-    ParkingService.prototype.incrementAvailability = function (title) {
+    ParkingService.prototype.incrementAvailability = function (id) {
         var availability;
-        var parkingStationsRef = this.parkingStationsRef.child(title);
+        var parkingStationsRef = this.parkingStationsRef.child(id);
         parkingStationsRef.once('value').then(function (snapshot) {
             availability = snapshot.val().availableSpots;
             availability++;
@@ -55,9 +55,9 @@ var ParkingService = (function () {
                 .catch(function (err) { return console.error("Unable to increment", err); });
         });
     };
-    ParkingService.prototype.decrementAvailability = function (title) {
+    ParkingService.prototype.decrementAvailability = function (id) {
         var availability;
-        var parkingStationsRef = this.parkingStationsRef.child(title);
+        var parkingStationsRef = this.parkingStationsRef.child(id);
         parkingStationsRef.once('value').then(function (snapshot) {
             availability = snapshot.val().availableSpots;
             availability--;

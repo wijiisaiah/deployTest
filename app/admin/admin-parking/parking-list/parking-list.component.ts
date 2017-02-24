@@ -25,6 +25,7 @@ export class AdminParkingListComponent implements OnInit {
         this.aps.getAddedParkingStations()
         .subscribe(parking => {
             this.parkingStations.push(parking);
+            console.log(this.parkingStations);
         },
         err => {
             console.error("Unable to get added parking station - ", err);

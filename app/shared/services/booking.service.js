@@ -115,13 +115,13 @@ var BookingService = (function () {
     };
     BookingService.prototype.cancelBooking = function (currentBooking) {
         this.removeBookingCode(currentBooking.code);
-        this.removeCurrentBooking(currentBooking.parkingStation.title);
+        this.removeCurrentBooking(currentBooking.parkingStation.id);
         this.emailService.createEmail(email_service_1.EmailService.BOOKING_CANCELLATION);
     };
     BookingService.prototype.completeBooking = function (currentBooking) {
         this.endCurrentBooking(currentBooking);
         this.addToUserBookings(currentBooking);
-        this.removeCurrentBooking(currentBooking.parkingStation.title);
+        this.removeCurrentBooking(currentBooking.parkingStation.id);
         this.removeBookingCode(currentBooking.code);
         this.emailService.createEmail(email_service_1.EmailService.BOOKING_COMPLETION);
         this.paymentService.chargeCustomer(currentBooking.cost);
@@ -137,7 +137,7 @@ var BookingService = (function () {
         var startTimeMs = new Date().getTime();
         var reservationRef = this.currentUserRef.child('reservation');
         var currentBookingRef = this.currentUserRef.child('reservation').child('curBooking');
-        this.parkingService.decrementAvailability(parkingStation.title);
+        this.parkingService.decrementAvailability(parkingStation.id);
         reservationRef.set({
             reserveStartTime: new Date().getTime(),
             reserveEndTime: new Date().getTime() + this.reservationTimeOut
@@ -194,10 +194,10 @@ var BookingService = (function () {
     /*
      * Deletes the current booking from the database under user -> current booking.
      */
-    BookingService.prototype.removeCurrentBooking = function (title) {
+    BookingService.prototype.removeCurrentBooking = function (id) {
         var reservationRef = this.currentUserRef.child('reservation');
         reservationRef.ref.remove();
-        this.parkingService.incrementAvailability(title);
+        this.parkingService.incrementAvailability(id);
     };
     BookingService.prototype.removeBookingCode = function (number) {
         var ref = this.databaseRef.ref('booking codes').child('codes');

@@ -133,14 +133,14 @@ export class BookingService {
 
     cancelBooking(currentBooking: Booking){
         this.removeBookingCode(currentBooking.code);
-        this.removeCurrentBooking(currentBooking.parkingStation.title);
+        this.removeCurrentBooking(currentBooking.parkingStation.id);
         this.emailService.createEmail(EmailService.BOOKING_CANCELLATION);
     }
 
     completeBooking(currentBooking: Booking) {
         this.endCurrentBooking(currentBooking);
         this.addToUserBookings(currentBooking);
-        this.removeCurrentBooking(currentBooking.parkingStation.title);
+        this.removeCurrentBooking(currentBooking.parkingStation.id);
         this.removeBookingCode(currentBooking.code);
         this.emailService.createEmail(EmailService.BOOKING_COMPLETION);
         this.paymentService.chargeCustomer(currentBooking.cost);
@@ -159,7 +159,7 @@ export class BookingService {
         const reservationRef = this.currentUserRef.child('reservation');
         const currentBookingRef = this.currentUserRef.child('reservation').child('curBooking');
 
-        this.parkingService.decrementAvailability(parkingStation.title);
+        this.parkingService.decrementAvailability(parkingStation.id);
 
         reservationRef.set({
             reserveStartTime: new Date().getTime(),
@@ -227,10 +227,10 @@ export class BookingService {
     /* 
      * Deletes the current booking from the database under user -> current booking.
      */
-    removeCurrentBooking(title: string) {
+    removeCurrentBooking(id: string) {
         const reservationRef = this.currentUserRef.child('reservation');
         reservationRef.ref.remove();
-        this.parkingService.incrementAvailability(title);
+        this.parkingService.incrementAvailability(id);
     }
 
     removeBookingCode(number: number){

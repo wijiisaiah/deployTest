@@ -141,7 +141,7 @@ var MapComponent = (function () {
             if (booking) {
                 for (var _i = 0, _a = _this.parkingStations; _i < _a.length; _i++) {
                     var ps = _a[_i];
-                    if (ps.title === booking.parkingStation.title) {
+                    if (ps.id === booking.parkingStation.id) {
                         booking.parkingStation = ps;
                     }
                 }
@@ -174,7 +174,7 @@ var MapComponent = (function () {
         var _this = this;
         var temp = this.parkingService.getUpdatedParkingStation()
             .subscribe(function (updatedParkingStation) {
-            var parkingIndex = _this.parkingStations.map(function (index) { return index.title; }).indexOf(updatedParkingStation['title']);
+            var parkingIndex = _this.parkingStations.map(function (index) { return index.id; }).indexOf(updatedParkingStation['id']);
             _this.parkingStations[parkingIndex] = updatedParkingStation;
             _this.updateMarker(updatedParkingStation);
         }, function (err) {
@@ -209,10 +209,10 @@ var MapComponent = (function () {
         var icon = this.getProperIcon(parking, valid);
         for (var _i = 0, _a = this.markers; _i < _a.length; _i++) {
             var marker = _a[_i];
-            if (marker.title === parking.title) {
+            if (marker.id === parking.id) {
                 for (var _b = 0, _c = this.infowindows; _b < _c.length; _b++) {
                     var infoWindow = _c[_b];
-                    if (infoWindow.title === marker.title) {
+                    if (infoWindow.id === marker.id) {
                         infoWindow.setContent(content);
                     }
                 }
@@ -225,7 +225,7 @@ var MapComponent = (function () {
     };
     /* Creates a marker to be assigned to a parking station
      * - Determines correct icon to set depending on validity and current booking
-     * - Creates a marker and sets its title/position/icon
+     * - Creates a marker and sets its id/position/icon
      * - Sets Content and addes event listeners to open and close windows on user clicks
      */
     MapComponent.prototype.createMarker = function (parking) {
@@ -236,7 +236,7 @@ var MapComponent = (function () {
         var marker = new google.maps.Marker({
             position: { lat: parking.lat, lng: parking.lng },
             map: this.map,
-            title: parking.title,
+            id: parking.id,
             icon: icon
         });
         var content = this.getHTMLcontent(parking, valid);
@@ -252,7 +252,7 @@ var MapComponent = (function () {
             backgroundColor: 'rgba(31, 138, 220, 0.8)',
             borderRadius: 0,
             hideCloseButton: true,
-            title: parking.title
+            id: parking.id
         });
         // Pushes the newly created Info Window to the array of info windows
         this.infowindows.push(infowindow);
@@ -347,7 +347,7 @@ var MapComponent = (function () {
             icon = MapComponent.unavailableParkingIcon;
         }
         if (this.currentBooking !== undefined) {
-            if (this.currentBooking.parkingStation.title === parking.title) {
+            if (this.currentBooking.parkingStation.id === parking.id) {
                 icon = MapComponent.bookedParkingIcon;
                 if (this.reserveEndTime !== null) {
                     icon = MapComponent.reservedParkingIcon;
@@ -375,7 +375,7 @@ var MapComponent = (function () {
             buttons = "<p>Module is Full</p>";
         }
         if (this.currentBooking !== undefined) {
-            if (this.currentBooking.parkingStation.title === parking.title) {
+            if (this.currentBooking.parkingStation.id === parking.id) {
                 buttons = "<button class=\"btn btn-success\" onclick='window.dispatchEvent(new CustomEvent(\"complete\", {detail: \"End Booking\"}));'>Retrieve Bike</button>";
                 if (this.reserveEndTime !== null) {
                     buttons = "<button class=\"btn btn-warning\" onclick='window.dispatchEvent(new CustomEvent(\"parkBike\", {detail: \"Park Bike\"}));'>Park Bike</button>\n                        <button class=\"btn btn-danger\" onclick='window.dispatchEvent(new CustomEvent(\"cancel\", {detail: \"Cancel Booking\"}));'>Cancel</button>";

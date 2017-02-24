@@ -47,7 +47,7 @@ export class EmailService {
             const emailRef = this.databaseRef.child('email information').child('details').child(emailType);
 
             return new Promise((fulfill) => {
-                emailRef.on('value', emailInfo => {
+                emailRef.once('value', emailInfo => {
                     email = emailInfo.val() as Email;
                     console.log('raw data', emailInfo);
                     console.log('obs next set', email);

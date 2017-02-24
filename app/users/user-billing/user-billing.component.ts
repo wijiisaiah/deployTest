@@ -75,7 +75,6 @@ export class UserBillingComponent implements OnInit {
     stripeTokenHandler(token) {
         // Insert the token ID into the form so it gets submitted to the server
         let form = <HTMLFormElement>document.getElementById('payment-form');
-  
         this.paymentService.createCustomer(token);
 
         // Submit the form
@@ -84,7 +83,3 @@ export class UserBillingComponent implements OnInit {
     }
 
 }
-
-
-
-

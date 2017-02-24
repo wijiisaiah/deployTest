@@ -8,6 +8,7 @@ thead th {
 th,
 td {
     font-weight: lighter;
+    text-align: center;
 }
 td {
     border-bottom: .5px solid rgba(52,6,75,.1);
