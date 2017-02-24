@@ -2,186 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="71252a38-4450-464b-9fd5-0a969905fdd3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/assets/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.editorconfig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/angular-cli.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/e2e/app.e2e-spec.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/e2e/app.po.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/e2e/tsconfig.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/protractor.conf.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin-email/email-detail/email-detail.component.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin-email/email-detail/email-detail.component.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin-email/email-list/email-list.component.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin-email/email-list/email-list.component.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin-parking/parking-detail/parking-detail.component.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin-parking/parking-detail/parking-detail.component.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin-parking/parking-list/parking-list.component.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin-parking/parking-list/parking-list.component.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin-routing.module.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin-routing.module.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin-users/user-detail/user-detail.component.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin-users/user-detail/user-detail.component.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin-users/user-list/user-list.component.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin-users/user-list/user-list.component.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin.component.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin.component.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin.module.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/admin.module.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/shared/service/admin-email.service.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/shared/service/admin-email.service.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/shared/service/admin-parking.service.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/shared/service/admin-parking.service.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/shared/service/admin-user.service.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/admin/shared/service/admin-user.service.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/environments/environment.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/environments/environment.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/environments/environment.prod.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/environments/environment.prod.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/environments/environment.prod.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/environments/environment.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/polyfills.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/polyfills.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/polyfills.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/styles.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/tsconfig.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tslint.json" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/index.html" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-email/email-detail/email-detail.component.css" afterPath="$PROJECT_DIR$/src/app/admin/admin-email/email-detail/email-detail.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-email/email-detail/email-detail.component.html" afterPath="$PROJECT_DIR$/src/app/admin/admin-email/email-detail/email-detail.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-email/email-detail/email-detail.component.ts" afterPath="$PROJECT_DIR$/src/app/admin/admin-email/email-detail/email-detail.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-email/email-list/email-list.component.css" afterPath="$PROJECT_DIR$/src/app/admin/admin-email/email-list/email-list.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-email/email-list/email-list.component.html" afterPath="$PROJECT_DIR$/src/app/admin/admin-email/email-list/email-list.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-email/email-list/email-list.component.ts" afterPath="$PROJECT_DIR$/src/app/admin/admin-email/email-list/email-list.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-parking/parking-detail/parking-detail.component.css" afterPath="$PROJECT_DIR$/src/app/admin/admin-parking/parking-detail/parking-detail.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-parking/parking-detail/parking-detail.component.html" afterPath="$PROJECT_DIR$/src/app/admin/admin-parking/parking-detail/parking-detail.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-parking/parking-detail/parking-detail.component.ts" afterPath="$PROJECT_DIR$/src/app/admin/admin-parking/parking-detail/parking-detail.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-parking/parking-list/parking-list.component.css" afterPath="$PROJECT_DIR$/src/app/admin/admin-parking/parking-list/parking-list.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-parking/parking-list/parking-list.component.html" afterPath="$PROJECT_DIR$/src/app/admin/admin-parking/parking-list/parking-list.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-parking/parking-list/parking-list.component.ts" afterPath="$PROJECT_DIR$/src/app/admin/admin-parking/parking-list/parking-list.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-routing.module.ts" afterPath="$PROJECT_DIR$/src/app/admin/admin-routing.module.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-users/user-detail/user-detail.component.css" afterPath="$PROJECT_DIR$/src/app/admin/admin-users/user-detail/user-detail.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-users/user-detail/user-detail.component.html" afterPath="$PROJECT_DIR$/src/app/admin/admin-users/user-detail/user-detail.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-users/user-detail/user-detail.component.ts" afterPath="$PROJECT_DIR$/src/app/admin/admin-users/user-detail/user-detail.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-users/user-list/user-list.component.css" afterPath="$PROJECT_DIR$/src/app/admin/admin-users/user-list/user-list.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-users/user-list/user-list.component.html" afterPath="$PROJECT_DIR$/src/app/admin/admin-users/user-list/user-list.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin-users/user-list/user-list.component.ts" afterPath="$PROJECT_DIR$/src/app/admin/admin-users/user-list/user-list.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin.component.ts" afterPath="$PROJECT_DIR$/src/app/admin/admin.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/admin.module.ts" afterPath="$PROJECT_DIR$/src/app/admin/admin.module.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/navbar/navbar.component.css" afterPath="$PROJECT_DIR$/src/app/admin/navbar/navbar.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/navbar/navbar.component.html" afterPath="$PROJECT_DIR$/src/app/admin/navbar/navbar.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/navbar/navbar.component.js" afterPath="$PROJECT_DIR$/src/app/admin/navbar/navbar.component.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/navbar/navbar.component.js.map" afterPath="$PROJECT_DIR$/src/app/admin/navbar/navbar.component.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/navbar/navbar.component.ts" afterPath="$PROJECT_DIR$/src/app/admin/navbar/navbar.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/shared/service/admin-email.service.ts" afterPath="$PROJECT_DIR$/src/app/admin/shared/service/admin-email.service.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/shared/service/admin-parking.service.ts" afterPath="$PROJECT_DIR$/src/app/admin/shared/service/admin-parking.service.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/shared/service/admin-user.service.ts" afterPath="$PROJECT_DIR$/src/app/admin/shared/service/admin-user.service.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/admin/shared/service/bug.service.js.map" afterPath="$PROJECT_DIR$/src/app/admin/shared/service/bug.service.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/app-routing.module.js" afterPath="$PROJECT_DIR$/src/app/app-routing.module.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/app-routing.module.js.map" afterPath="$PROJECT_DIR$/src/app/app-routing.module.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/app-routing.module.ts" afterPath="$PROJECT_DIR$/src/app/app-routing.module.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/app.component.js" afterPath="$PROJECT_DIR$/src/app/app.component.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/app.component.js.map" afterPath="$PROJECT_DIR$/src/app/app.component.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/app.component.ts" afterPath="$PROJECT_DIR$/src/app/app.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/app.module.js" afterPath="$PROJECT_DIR$/src/app/app.module.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/app.module.js.map" afterPath="$PROJECT_DIR$/src/app/app.module.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/app.module.ts" afterPath="$PROJECT_DIR$/src/app/app.module.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/bookings/currentBooking.component.css" afterPath="$PROJECT_DIR$/src/app/bookings/currentBooking.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/bookings/currentBooking.component.html" afterPath="$PROJECT_DIR$/src/app/bookings/currentBooking.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/bookings/currentBooking.component.js" afterPath="$PROJECT_DIR$/src/app/bookings/currentBooking.component.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/bookings/currentBooking.component.js.map" afterPath="$PROJECT_DIR$/src/app/bookings/currentBooking.component.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/bookings/currentBooking.component.ts" afterPath="$PROJECT_DIR$/src/app/bookings/currentBooking.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/bookings/my-bookings/my-bookings.component.css" afterPath="$PROJECT_DIR$/src/app/bookings/my-bookings/my-bookings.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/bookings/my-bookings/my-bookings.component.html" afterPath="$PROJECT_DIR$/src/app/bookings/my-bookings/my-bookings.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/bookings/my-bookings/my-bookings.component.js" afterPath="$PROJECT_DIR$/src/app/bookings/my-bookings/my-bookings.component.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/bookings/my-bookings/my-bookings.component.js.map" afterPath="$PROJECT_DIR$/src/app/bookings/my-bookings/my-bookings.component.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/bookings/my-bookings/my-bookings.component.ts" afterPath="$PROJECT_DIR$/src/app/bookings/my-bookings/my-bookings.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/core/constant/constants.js" afterPath="$PROJECT_DIR$/src/app/core/constant/constants.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/core/constant/constants.js.map" afterPath="$PROJECT_DIR$/src/app/core/constant/constants.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/core/constant/constants.ts" afterPath="$PROJECT_DIR$/src/app/core/constant/constants.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/core/core.module.js" afterPath="$PROJECT_DIR$/src/app/core/core.module.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/core/core.module.js.map" afterPath="$PROJECT_DIR$/src/app/core/core.module.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/core/core.module.ts" afterPath="$PROJECT_DIR$/src/app/core/core.module.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/core/service/firebase-config.service.js" afterPath="$PROJECT_DIR$/src/app/core/service/firebase-config.service.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/core/service/firebase-config.service.js.map" afterPath="$PROJECT_DIR$/src/app/core/service/firebase-config.service.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/core/service/firebase-config.service.ts" afterPath="$PROJECT_DIR$/src/app/core/service/firebase-config.service.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/main.js" afterPath="$PROJECT_DIR$/src/app/main.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/main.js.map" afterPath="$PROJECT_DIR$/src/app/main.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/main.ts" afterPath="$PROJECT_DIR$/src/app/main.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/map/map.component.js" afterPath="$PROJECT_DIR$/src/app/map/map.component.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/map/map.component.js.map" afterPath="$PROJECT_DIR$/src/app/map/map.component.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/map/map.component.ts" afterPath="$PROJECT_DIR$/src/app/map/map.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/menu/menu.component.css" afterPath="$PROJECT_DIR$/src/app/menu/menu.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/menu/menu.component.html" afterPath="$PROJECT_DIR$/src/app/menu/menu.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/menu/menu.component.js" afterPath="$PROJECT_DIR$/src/app/menu/menu.component.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/menu/menu.component.js.map" afterPath="$PROJECT_DIR$/src/app/menu/menu.component.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/menu/menu.component.ts" afterPath="$PROJECT_DIR$/src/app/menu/menu.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/model/booking.js" afterPath="$PROJECT_DIR$/src/app/shared/model/booking.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/model/booking.js.map" afterPath="$PROJECT_DIR$/src/app/shared/model/booking.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/model/booking.ts" afterPath="$PROJECT_DIR$/src/app/shared/model/booking.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/model/email.js" afterPath="$PROJECT_DIR$/src/app/shared/model/email.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/model/email.js.map" afterPath="$PROJECT_DIR$/src/app/shared/model/email.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/model/email.ts" afterPath="$PROJECT_DIR$/src/app/shared/model/email.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/model/parkingStation.js" afterPath="$PROJECT_DIR$/src/app/shared/model/parkingStation.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/model/parkingStation.js.map" afterPath="$PROJECT_DIR$/src/app/shared/model/parkingStation.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/model/parkingStation.ts" afterPath="$PROJECT_DIR$/src/app/shared/model/parkingStation.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/model/user.js" afterPath="$PROJECT_DIR$/src/app/shared/model/user.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/model/user.js.map" afterPath="$PROJECT_DIR$/src/app/shared/model/user.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/model/user.ts" afterPath="$PROJECT_DIR$/src/app/shared/model/user.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/auth.guard.js" afterPath="$PROJECT_DIR$/src/app/shared/services/auth.guard.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/auth.guard.js.map" afterPath="$PROJECT_DIR$/src/app/shared/services/auth.guard.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/auth.guard.ts" afterPath="$PROJECT_DIR$/src/app/shared/services/auth.guard.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/booking.service.js" afterPath="$PROJECT_DIR$/src/app/shared/services/booking.service.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/booking.service.js.map" afterPath="$PROJECT_DIR$/src/app/shared/services/booking.service.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/booking.service.ts" afterPath="$PROJECT_DIR$/src/app/shared/services/booking.service.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/email.service.js" afterPath="$PROJECT_DIR$/src/app/shared/services/email.service.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/email.service.js.map" afterPath="$PROJECT_DIR$/src/app/shared/services/email.service.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/email.service.ts" afterPath="$PROJECT_DIR$/src/app/shared/services/email.service.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/menu.service.js" afterPath="$PROJECT_DIR$/src/app/shared/services/menu.service.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/menu.service.js.map" afterPath="$PROJECT_DIR$/src/app/shared/services/menu.service.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/menu.service.ts" afterPath="$PROJECT_DIR$/src/app/shared/services/menu.service.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/parkingStation.service.js" afterPath="$PROJECT_DIR$/src/app/shared/services/parkingStation.service.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/parkingStation.service.js.map" afterPath="$PROJECT_DIR$/src/app/shared/services/parkingStation.service.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/parkingStation.service.ts" afterPath="$PROJECT_DIR$/src/app/shared/services/parkingStation.service.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/payment.service.js" afterPath="$PROJECT_DIR$/src/app/shared/services/payment.service.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/payment.service.js.map" afterPath="$PROJECT_DIR$/src/app/shared/services/payment.service.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/payment.service.ts" afterPath="$PROJECT_DIR$/src/app/shared/services/payment.service.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/user.service.js" afterPath="$PROJECT_DIR$/src/app/shared/services/user.service.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/user.service.js.map" afterPath="$PROJECT_DIR$/src/app/shared/services/user.service.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/services/user.service.ts" afterPath="$PROJECT_DIR$/src/app/shared/services/user.service.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/util/Time.js" afterPath="$PROJECT_DIR$/src/app/shared/util/Time.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/util/Time.js.map" afterPath="$PROJECT_DIR$/src/app/shared/util/Time.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/util/Time.ts" afterPath="$PROJECT_DIR$/src/app/shared/util/Time.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/validation/forbidden-string.validator.js" afterPath="$PROJECT_DIR$/src/app/shared/validation/forbidden-string.validator.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/validation/forbidden-string.validator.js.map" afterPath="$PROJECT_DIR$/src/app/shared/validation/forbidden-string.validator.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/shared/validation/forbidden-string.validator.ts" afterPath="$PROJECT_DIR$/src/app/shared/validation/forbidden-string.validator.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/test.spec.js.map" afterPath="$PROJECT_DIR$/src/app/test.spec.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/users/user-account/user-account.component.css" afterPath="$PROJECT_DIR$/src/app/users/user-account/user-account.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/users/user-account/user-account.component.html" afterPath="$PROJECT_DIR$/src/app/users/user-account/user-account.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/users/user-account/user-account.component.js" afterPath="$PROJECT_DIR$/src/app/users/user-account/user-account.component.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/users/user-account/user-account.component.js.map" afterPath="$PROJECT_DIR$/src/app/users/user-account/user-account.component.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/users/user-account/user-account.component.ts" afterPath="$PROJECT_DIR$/src/app/users/user-account/user-account.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/users/user-authentication/user-authentication.component.css" afterPath="$PROJECT_DIR$/src/app/users/user-authentication/user-authentication.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/users/user-authentication/user-authentication.component.html" afterPath="$PROJECT_DIR$/src/app/users/user-authentication/user-authentication.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/users/user-authentication/user-authentication.component.js" afterPath="$PROJECT_DIR$/src/app/users/user-authentication/user-authentication.component.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/users/user-authentication/user-authentication.component.js.map" afterPath="$PROJECT_DIR$/src/app/users/user-authentication/user-authentication.component.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/users/user-authentication/user-authentication.component.ts" afterPath="$PROJECT_DIR$/src/app/users/user-authentication/user-authentication.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/users/user-billing/user-billing.component.css" afterPath="$PROJECT_DIR$/src/app/users/user-billing/user-billing.component.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/users/user-billing/user-billing.component.html" afterPath="$PROJECT_DIR$/src/app/users/user-billing/user-billing.component.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/users/user-billing/user-billing.component.js" afterPath="$PROJECT_DIR$/src/app/users/user-billing/user-billing.component.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/users/user-billing/user-billing.component.js.map" afterPath="$PROJECT_DIR$/src/app/users/user-billing/user-billing.component.js.map" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/users/user-billing/user-billing.component.ts" afterPath="$PROJECT_DIR$/src/app/users/user-billing/user-billing.component.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/favicon.png" afterPath="$PROJECT_DIR$/src/favicon.ico" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/karma.conf.js" afterPath="$PROJECT_DIR$/karma.conf.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -224,8 +45,8 @@
       <file leaf-file-name="angular-cli.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/angular-cli.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
-              <caret line="23" column="8" lean-forward="false" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="8" />
+            <state relative-caret-position="530">
+              <caret line="40" column="5" lean-forward="false" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -234,8 +55,8 @@
       <file leaf-file-name="map.component.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/map/map.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="627">
-              <caret line="19" column="12" lean-forward="false" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="12" />
+            <state relative-caret-position="363">
+              <caret line="11" column="53" lean-forward="false" selection-start-line="11" selection-start-column="53" selection-end-line="11" selection-end-column="53" />
               <folding>
                 <element signature="e#0#44#0" expanded="true" />
                 <marker date="1487968761531" expanded="true" signature="1036:1110" ph="{...}" />
@@ -256,8 +77,18 @@
       <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="2" column="17" lean-forward="false" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+            <state relative-caret-position="231">
+              <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dist/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -333,9 +164,9 @@
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/src/index.html" />
-        <option value="$PROJECT_DIR$/angular-cli.json" />
         <option value="$PROJECT_DIR$/src/app/map/map.component.ts" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/angular-cli.json" />
       </list>
     </option>
   </component>
@@ -351,8 +182,8 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1237" />
-    <option name="width" value="1510" />
+    <option name="x" value="1545" />
+    <option name="width" value="1202" />
     <option name="height" value="1755" />
   </component>
   <component name="ProjectView">
@@ -492,6 +323,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Mazdis-webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Mazdis-webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dist" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -591,19 +436,19 @@
       <workItem from="1487877498550" duration="5211000" />
       <workItem from="1487899912484" duration="776000" />
       <workItem from="1487955210312" duration="1170000" />
-      <workItem from="1487957123667" duration="10265000" />
+      <workItem from="1487957123667" duration="10955000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40084000" />
+    <option name="totallyTimeSpent" value="40774000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1237" y="0" width="1510" height="1755" extended-state="0" />
+    <frame x="1545" y="0" width="1202" height="1755" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5451389" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.6183746" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980832" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -667,20 +512,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/admin/admin.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/admin/navbar/navbar.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="4" column="23" lean-forward="true" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/admin/admin-users/user-detail/user-detail.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="312">
@@ -1022,14 +853,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="41" column="13" lean-forward="false" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/environments/environment.prod.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1066,18 +889,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/dist/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/angular-cli.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="23" column="8" lean-forward="false" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="8" />
+        <state relative-caret-position="530">
+          <caret line="40" column="5" lean-forward="false" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/map/map.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="627">
-          <caret line="19" column="12" lean-forward="false" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="12" />
+        <state relative-caret-position="363">
+          <caret line="11" column="53" lean-forward="false" selection-start-line="11" selection-start-column="53" selection-end-line="11" selection-end-column="53" />
           <folding>
             <element signature="e#0#44#0" expanded="true" />
             <marker date="1487968761531" expanded="true" signature="1036:1110" ph="{...}" />
@@ -1094,10 +925,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="429">
+          <caret line="31" column="53" lean-forward="true" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/.gitkeep">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="2" column="17" lean-forward="false" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+        <state relative-caret-position="231">
+          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding />
         </state>
       </provider>
