@@ -1,1 +1,1 @@
-This is a temp README file.
+Mazdis SABPS Web Application Project
